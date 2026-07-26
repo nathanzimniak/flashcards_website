@@ -115,6 +115,30 @@
         <button class="primary-button modal-submit" value="default">Ajouter la carte</button>
       </form>
     </dialog>
+    <dialog class="study-modal" aria-labelledby="study-title">
+      <div class="study-session">
+        <header class="study-header">
+          <div>
+            <p class="section-label">SESSION DE RÉVISION</p>
+            <h2 id="study-title"></h2>
+          </div>
+          <button class="study-close" type="button" aria-label="Quitter la session de révision">×</button>
+        </header>
+        <div class="study-progress-row">
+          <span class="study-progress-text"></span>
+          <div class="study-progress" role="progressbar" aria-label="Progression de la révision" aria-valuemin="1"><span></span></div>
+        </div>
+        <button class="study-card" type="button" aria-live="polite">
+          <span class="study-side">QUESTION</span>
+          <span class="study-card-text"></span>
+          <span class="study-flip-help">Afficher la réponse</span>
+        </button>
+        <div class="study-actions">
+          <button class="study-reveal primary-button" type="button">Afficher la réponse</button>
+          <button class="study-next primary-button" type="button" hidden>Carte suivante <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </dialog>
     <div class="toast" role="status" aria-live="polite"></div>
     <script src="script.js"></script>
   </body>
