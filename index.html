@@ -25,7 +25,7 @@
         </div>
       </header>
 
-      <main>
+      <main id="library-view">
         <section class="hero" id="collections">
           <div>
             <p class="eyebrow">Bonjour, Camille <span aria-hidden="true">👋</span></p>
@@ -48,20 +48,37 @@
           </div>
 
           <div class="collection-grid">
-            <article class="collection-card">
-              <div class="card-top peach"><span class="card-emoji" aria-hidden="true">🗣️</span><button class="more" aria-label="Options pour Anglais quotidien">•••</button></div>
+            <a class="collection-card" href="#collection/anglais-quotidien" aria-label="Ouvrir la collection Anglais quotidien">
+              <div class="card-top peach"><span class="card-emoji" aria-hidden="true">🗣️</span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div>
               <div class="card-content"><span class="tag">LANGUES</span><h3>Anglais quotidien</h3><p>Les mots et expressions pour discuter avec confiance.</p><div class="card-footer"><span>32 cartes</span></div></div>
-            </article>
-            <article class="collection-card">
-              <div class="card-top sky"><span class="card-emoji" aria-hidden="true">🌍</span><button class="more" aria-label="Options pour Les capitales du monde">•••</button></div>
+            </a>
+            <a class="collection-card" href="#collection/capitales-du-monde" aria-label="Ouvrir la collection Les capitales du monde">
+              <div class="card-top sky"><span class="card-emoji" aria-hidden="true">🌍</span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div>
               <div class="card-content"><span class="tag">GÉOGRAPHIE</span><h3>Les capitales du monde</h3><p>Un tour du monde, capitale après capitale.</p><div class="card-footer"><span>48 cartes</span></div></div>
-            </article>
-            <article class="collection-card">
-              <div class="card-top lemon"><span class="card-emoji code" aria-hidden="true">&lt;/&gt;</span><button class="more" aria-label="Options pour Bases de JavaScript">•••</button></div>
+            </a>
+            <a class="collection-card" href="#collection/bases-javascript" aria-label="Ouvrir la collection Bases de JavaScript">
+              <div class="card-top lemon"><span class="card-emoji code" aria-hidden="true">&lt;/&gt;</span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div>
               <div class="card-content"><span class="tag">DÉVELOPPEMENT</span><h3>Bases de JavaScript</h3><p>Les fondamentaux pour donner vie au web.</p><div class="card-footer"><span>24 cartes</span></div></div>
-            </article>
+            </a>
             <button class="add-card" type="button" data-open-modal><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg></span><strong>Créer une collection</strong><small>Commencez un nouveau sujet</small></button>
           </div>
+        </section>
+      </main>
+
+      <main id="collection-view" class="collection-detail" hidden>
+        <a class="back-link" href="#collections"><span aria-hidden="true">←</span> Toutes les collections</a>
+        <section class="detail-header">
+          <div class="detail-icon" aria-hidden="true"></div>
+          <div>
+            <p class="section-label detail-category"></p>
+            <h1 class="detail-title"></h1>
+            <p class="detail-description"></p>
+          </div>
+          <button class="primary-button start-study" type="button">Commencer à réviser</button>
+        </section>
+        <section class="flashcards-section" aria-labelledby="cards-title">
+          <div class="section-heading"><div><p class="section-label">APERÇU</p><h2 id="cards-title">Les cartes</h2></div><span class="detail-count"></span></div>
+          <div class="flashcard-list"></div>
         </section>
       </main>
     </div>
