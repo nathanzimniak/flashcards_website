@@ -34,3 +34,10 @@
 .flashcard.flipped .flip-help{color:var(--purple)}
 @media(max-width:900px){.detail-header{grid-template-columns:90px 1fr}.detail-icon{width:90px;height:90px}.detail-header .start-study{grid-column:1/-1;width:100%}}
 @media(max-width:600px){.flashcard-list{grid-template-columns:1fr}.detail-header{display:block;padding:24px}.detail-icon{margin-bottom:22px}.detail-header .start-study{margin-top:24px}.collection-detail{padding-top:28px}}
+
+/* Card management */
+.modal textarea{width:100%;min-height:92px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:14px;font:14px "DM Sans";outline:0}
+.modal textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px #eee9fc}
+.cards-actions{display:flex;align-items:center;gap:18px}.add-flashcard-button{padding:12px 17px}.empty-cards{padding:45px 20px;border:1px dashed #ccc6da;border-radius:15px;color:var(--muted);text-align:center;background:#fff}
+.delete-card{position:absolute;right:16px;top:15px;display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:#aaa5b3;cursor:pointer;z-index:1}.delete-card:hover,.delete-card:focus-visible{background:#fce9ed;color:#c54861}.delete-card svg{width:17px;fill:none;stroke:currentColor;stroke-width:1.8}.flashcard-label{padding-right:38px}
+@media(max-width:600px){.cards-heading{align-items:flex-start}.cards-actions{flex-direction:column-reverse;align-items:flex-end;gap:10px}.add-flashcard-button{padding:11px 13px}.add-flashcard-button svg{display:none}}

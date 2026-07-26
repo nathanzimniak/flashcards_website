@@ -77,8 +77,15 @@
           <button class="primary-button start-study" type="button">Commencer à réviser</button>
         </section>
         <section class="flashcards-section" aria-labelledby="cards-title">
-          <div class="section-heading"><div><p class="section-label">APERÇU</p><h2 id="cards-title">Les cartes</h2></div><span class="detail-count"></span></div>
+          <div class="section-heading cards-heading">
+            <div><p class="section-label">APERÇU</p><h2 id="cards-title">Les cartes</h2></div>
+            <div class="cards-actions">
+              <span class="detail-count"></span>
+              <button class="primary-button add-flashcard-button" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>Ajouter une carte</button>
+            </div>
+          </div>
           <div class="flashcard-list"></div>
+          <p class="empty-cards" hidden>Cette collection est vide. Ajoutez votre première carte pour commencer.</p>
         </section>
       </main>
     </div>
@@ -95,7 +102,21 @@
         <button class="primary-button modal-submit" value="default">Créer ma collection</button>
       </form>
     </dialog>
-    <div class="toast" role="status" aria-live="polite">Collection créée avec succès ✨</div>
+    <dialog class="modal card-modal">
+      <form method="dialog" id="card-form">
+        <button class="modal-close" value="cancel" aria-label="Fermer">×</button>
+        <span class="modal-icon" aria-hidden="true">✦</span>
+        <p class="section-label">NOUVELLE CARTE</p>
+        <h2>Ajouter une carte</h2>
+        <p>Renseignez le recto et le verso de votre nouvelle carte.</p>
+        <label for="card-question">Question</label>
+        <textarea id="card-question" name="question" required maxlength="300" placeholder="Ex. Quelle est la capitale de l’Italie ?"></textarea>
+        <label for="card-answer">Réponse</label>
+        <textarea id="card-answer" name="answer" required maxlength="300" placeholder="Ex. Rome"></textarea>
+        <button class="primary-button modal-submit" value="default">Ajouter la carte</button>
+      </form>
+    </dialog>
+    <div class="toast" role="status" aria-live="polite"></div>
     <script src="script.js"></script>
   </body>
 </html>
