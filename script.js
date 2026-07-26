@@ -3,6 +3,7 @@ const form = document.querySelector('#collection-form');
 const cardModal = document.querySelector('.card-modal');
 const cardForm = document.querySelector('#card-form');
 const storageKey = 'memento-custom-cards';
+const collectionsStorageKey = 'memento-custom-collections';
 
 const collections = {
   'anglais-quotidien': {
@@ -154,10 +155,72 @@ const libraryView = document.querySelector('#library-view');
 const collectionView = document.querySelector('#collection-view');
 let activeCollectionId = null;
 
+function readStorage(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || '{}');
+  } catch {
+    return {};
+  }
+}
+
+function loadSavedCollections() {
+  const savedCollections = readStorage(collectionsStorageKey);
+  Object.entries(savedCollections).forEach(([id, collection]) => {
+    if (!collection || typeof collection.title !== 'string') return;
+    collections[id] = {
+      title: collection.title,
+      category: collection.category || 'PERSONNEL',
+      description: collection.description || 'Une collection à compléter au fil de vos apprentissages.',
+      emoji: collection.emoji || '✦',
+      color: collection.color || '#eee9fc',
+      cards: [],
+    };
+  });
+}
+
 function loadSavedCards() {
-  const savedCards = JSON.parse(localStorage.getItem(storageKey) || '{}');
+  const savedCards = readStorage(storageKey);
   Object.entries(savedCards).forEach(([collectionId, cards]) => {
     if (collections[collectionId] && Array.isArray(cards)) collections[collectionId].cards = cards;
+  });
+}
+
+function createCollectionId(title) {
+  const baseId = title
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '') || 'collection';
+  let id = baseId;
+  let suffix = 2;
+  while (collections[id]) id = `${baseId}-${suffix++}`;
+  return id;
+}
+
+function createCollectionCard(id, collection) {
+  const card = document.createElement('a');
+  card.className = 'collection-card';
+  card.href = `#collection/${id}`;
+  card.setAttribute('aria-label', `Ouvrir la collection ${collection.title}`);
+  card.innerHTML = '<div class="card-top"><span class="card-emoji" aria-hidden="true"></span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div><div class="card-content"><span class="tag"></span><h3></h3><p></p><div class="card-footer"><span></span></div></div>';
+  card.querySelector('.card-top').style.background = collection.color;
+  const emoji = card.querySelector('.card-emoji');
+  if (collection.emoji === '&lt;/&gt;') emoji.innerHTML = collection.emoji;
+  else emoji.textContent = collection.emoji;
+  card.querySelector('.tag').textContent = collection.category;
+  card.querySelector('h3').textContent = collection.title;
+  card.querySelector('.card-content p').textContent = collection.description;
+  card.querySelector('.card-footer span').textContent = `${collection.cards.length} carte${collection.cards.length > 1 ? 's' : ''}`;
+  return card;
+}
+
+function renderCollectionCards() {
+  const grid = document.querySelector('.collection-grid');
+  const addButton = grid.querySelector('.add-card');
+  grid.querySelectorAll('.collection-card').forEach((card) => card.remove());
+  Object.entries(collections).forEach(([id, collection]) => {
+    grid.insertBefore(createCollectionCard(id, collection), addButton);
   });
 }
 
@@ -242,7 +305,9 @@ function renderRoute() {
   window.scrollTo(0, 0);
 }
 
+loadSavedCollections();
 loadSavedCards();
+renderCollectionCards();
 
 window.addEventListener('hashchange', renderRoute);
 renderRoute();
@@ -282,7 +347,24 @@ form.addEventListener('submit', (event) => {
   if (submitter?.value === 'cancel') return;
   event.preventDefault();
   if (!form.reportValidity()) return;
+  const title = new FormData(form).get('name').trim();
+  const id = createCollectionId(title);
+  const collection = {
+    title,
+    category: 'PERSONNEL',
+    description: 'Une collection à compléter au fil de vos apprentissages.',
+    emoji: '✦',
+    color: '#eee9fc',
+    cards: [],
+  };
+  collections[id] = collection;
+  const savedCollections = readStorage(collectionsStorageKey);
+  savedCollections[id] = collection;
+  localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
+  saveCards();
+  renderCollectionCards();
   modal.close();
   form.reset();
   showToast('Collection créée avec succès ✨');
+  window.location.hash = `collection/${id}`;
 });
