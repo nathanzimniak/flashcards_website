@@ -447,12 +447,15 @@ form.addEventListener('submit', (event) => {
   if (submitter?.value === 'cancel') return;
   event.preventDefault();
   if (!form.reportValidity()) return;
-  const title = new FormData(form).get('name').trim();
+  const data = new FormData(form);
+  const title = data.get('name').trim();
+  const category = data.get('category');
+  const description = data.get('description').trim() || 'Une collection à compléter au fil de vos apprentissages.';
   const id = createCollectionId(title);
   const collection = {
     title,
-    category: 'PERSONNEL',
-    description: 'Une collection à compléter au fil de vos apprentissages.',
+    category,
+    description,
     emoji: '✦',
     color: '#eee9fc',
     cards: [],
