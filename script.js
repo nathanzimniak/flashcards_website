@@ -4,6 +4,7 @@ const cardModal = document.querySelector('.card-modal');
 const cardForm = document.querySelector('#card-form');
 const storageKey = 'memento-custom-cards';
 const collectionsStorageKey = 'memento-custom-collections';
+const deletedCollectionsStorageKey = 'memento-deleted-collections';
 
 const collections = {
   'anglais-quotidien': {
@@ -151,6 +152,8 @@ collections['bases-javascript'].cards.push(
   ['Quel mot-clé attend la résolution d’une promesse ?', 'await.'],
 );
 
+const builtInCollectionIds = new Set(Object.keys(collections));
+
 const libraryView = document.querySelector('#library-view');
 const collectionView = document.querySelector('#collection-view');
 let activeCollectionId = null;
@@ -176,6 +179,12 @@ function loadSavedCollections() {
       cards: [],
     };
   });
+}
+
+function loadDeletedCollections() {
+  const deletedCollections = readStorage(deletedCollectionsStorageKey);
+  if (!Array.isArray(deletedCollections)) return;
+  deletedCollections.forEach((id) => delete collections[id]);
 }
 
 function loadSavedCards() {
@@ -306,6 +315,7 @@ function renderRoute() {
 }
 
 loadSavedCollections();
+loadDeletedCollections();
 loadSavedCards();
 renderCollectionCards();
 
@@ -315,6 +325,31 @@ renderRoute();
 document.querySelector('.start-study').addEventListener('click', () => {
   document.querySelector('.flashcard')?.focus();
   document.querySelector('.flashcards-section').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.querySelector('.delete-collection-button').addEventListener('click', () => {
+  if (!activeCollectionId) return;
+  const collectionId = activeCollectionId;
+  const collection = collections[collectionId];
+  if (!window.confirm(`Supprimer la collection « ${collection.title} » et toutes ses cartes ?`)) return;
+
+  delete collections[collectionId];
+
+  const savedCollections = readStorage(collectionsStorageKey);
+  delete savedCollections[collectionId];
+  localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
+
+  if (builtInCollectionIds.has(collectionId)) {
+    const deletedCollections = readStorage(deletedCollectionsStorageKey);
+    const deletedIds = Array.isArray(deletedCollections) ? deletedCollections : [];
+    if (!deletedIds.includes(collectionId)) deletedIds.push(collectionId);
+    localStorage.setItem(deletedCollectionsStorageKey, JSON.stringify(deletedIds));
+  }
+
+  saveCards();
+  renderCollectionCards();
+  window.location.hash = 'collections';
+  showToast('Collection supprimée');
 });
 
 document.querySelector('.add-flashcard-button').addEventListener('click', () => {
