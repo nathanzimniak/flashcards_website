@@ -2,6 +2,7 @@ const modal = document.querySelector('.modal');
 const form = document.querySelector('#collection-form');
 const cardModal = document.querySelector('.card-modal');
 const cardForm = document.querySelector('#card-form');
+const studyModal = document.querySelector('.study-modal');
 const storageKey = 'memento-custom-cards';
 const collectionsStorageKey = 'memento-custom-collections';
 const deletedCollectionsStorageKey = 'memento-deleted-collections';
@@ -157,6 +158,9 @@ const builtInCollectionIds = new Set(Object.keys(collections));
 const libraryView = document.querySelector('#library-view');
 const collectionView = document.querySelector('#collection-view');
 let activeCollectionId = null;
+let studyCards = [];
+let studyIndex = 0;
+let answerIsVisible = false;
 
 function readStorage(key) {
   try {
@@ -246,6 +250,55 @@ function showToast(message) {
   showToast.timeout = setTimeout(() => toast.classList.remove('show'), 2800);
 }
 
+function shuffleCards(cards) {
+  const shuffled = cards.map((card) => [...card]);
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
+function renderStudyCard() {
+  const [question, answer] = studyCards[studyIndex];
+  const isLastCard = studyIndex === studyCards.length - 1;
+  const progress = ((studyIndex + 1) / studyCards.length) * 100;
+  document.querySelector('.study-progress-text').textContent = `Carte ${studyIndex + 1} sur ${studyCards.length}`;
+  const progressBar = document.querySelector('.study-progress');
+  progressBar.setAttribute('aria-valuemax', String(studyCards.length));
+  progressBar.setAttribute('aria-valuenow', String(studyIndex + 1));
+  progressBar.querySelector('span').style.width = `${progress}%`;
+  document.querySelector('.study-side').textContent = answerIsVisible ? 'RÉPONSE' : 'QUESTION';
+  document.querySelector('.study-card-text').textContent = answerIsVisible ? answer : question;
+  document.querySelector('.study-flip-help').textContent = answerIsVisible ? 'Revoir la question' : 'Afficher la réponse';
+  document.querySelector('.study-card').classList.toggle('answer-visible', answerIsVisible);
+  document.querySelector('.study-card').setAttribute('aria-label', answerIsVisible ? 'Afficher la question' : 'Afficher la réponse');
+  document.querySelector('.study-reveal').hidden = answerIsVisible;
+  const nextButton = document.querySelector('.study-next');
+  nextButton.hidden = !answerIsVisible;
+  nextButton.innerHTML = isLastCard ? 'Terminer la session' : 'Carte suivante <span aria-hidden="true">→</span>';
+}
+
+function toggleStudyCard() {
+  answerIsVisible = !answerIsVisible;
+  renderStudyCard();
+}
+
+function startStudySession() {
+  const collection = collections[activeCollectionId];
+  if (!collection?.cards.length) {
+    showToast('Ajoutez une carte avant de commencer');
+    return;
+  }
+  studyCards = shuffleCards(collection.cards);
+  studyIndex = 0;
+  answerIsVisible = false;
+  document.querySelector('#study-title').textContent = collection.title;
+  renderStudyCard();
+  studyModal.showModal();
+  document.querySelector('.study-card').focus();
+}
+
 function createFlashcard([question, answer], index) {
   const card = document.createElement('article');
   card.className = 'flashcard';
@@ -322,10 +375,22 @@ renderCollectionCards();
 window.addEventListener('hashchange', renderRoute);
 renderRoute();
 
-document.querySelector('.start-study').addEventListener('click', () => {
-  document.querySelector('.flashcard')?.focus();
-  document.querySelector('.flashcards-section').scrollIntoView({ behavior: 'smooth' });
+document.querySelector('.start-study').addEventListener('click', startStudySession);
+
+document.querySelector('.study-card').addEventListener('click', toggleStudyCard);
+document.querySelector('.study-reveal').addEventListener('click', toggleStudyCard);
+document.querySelector('.study-next').addEventListener('click', () => {
+  if (studyIndex === studyCards.length - 1) {
+    studyModal.close();
+    showToast('Session terminée, bravo ! ✨');
+    return;
+  }
+  studyIndex += 1;
+  answerIsVisible = false;
+  renderStudyCard();
+  document.querySelector('.study-card').focus();
 });
+document.querySelector('.study-close').addEventListener('click', () => studyModal.close());
 
 document.querySelector('.delete-collection-button').addEventListener('click', () => {
   if (!activeCollectionId) return;
