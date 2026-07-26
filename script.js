@@ -1,5 +1,8 @@
 const modal = document.querySelector('.modal');
 const form = document.querySelector('#collection-form');
+const cardModal = document.querySelector('.card-modal');
+const cardForm = document.querySelector('#card-form');
+const storageKey = 'memento-custom-cards';
 
 const collections = {
   'anglais-quotidien': {
@@ -149,14 +152,76 @@ collections['bases-javascript'].cards.push(
 
 const libraryView = document.querySelector('#library-view');
 const collectionView = document.querySelector('#collection-view');
+let activeCollectionId = null;
+
+function loadSavedCards() {
+  const savedCards = JSON.parse(localStorage.getItem(storageKey) || '{}');
+  Object.entries(savedCards).forEach(([collectionId, cards]) => {
+    if (collections[collectionId] && Array.isArray(cards)) collections[collectionId].cards = cards;
+  });
+}
+
+function saveCards() {
+  const cards = Object.fromEntries(Object.entries(collections).map(([id, collection]) => [id, collection.cards]));
+  localStorage.setItem(storageKey, JSON.stringify(cards));
+}
+
+function showToast(message) {
+  const toast = document.querySelector('.toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(showToast.timeout);
+  showToast.timeout = setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+function createFlashcard([question, answer], index) {
+  const card = document.createElement('article');
+  card.className = 'flashcard';
+  card.tabIndex = 0;
+  card.setAttribute('role', 'button');
+  card.setAttribute('aria-pressed', 'false');
+  card.setAttribute('aria-label', `Carte ${index + 1} : afficher la réponse`);
+  card.innerHTML = `<button class="delete-card" type="button" aria-label="Supprimer la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button><span class="flashcard-label">CARTE ${String(index + 1).padStart(2, '0')}</span><span class="flashcard-text flashcard-question"></span><span class="flashcard-text flashcard-answer"></span><span class="flip-help">Cliquer pour retourner</span>`;
+  card.querySelector('.flashcard-question').textContent = question;
+  card.querySelector('.flashcard-answer').textContent = answer;
+
+  const flipCard = () => {
+    const flipped = card.classList.toggle('flipped');
+    card.setAttribute('aria-pressed', String(flipped));
+    card.setAttribute('aria-label', `Carte ${index + 1} : ${flipped ? 'afficher la question' : 'afficher la réponse'}`);
+  };
+  card.addEventListener('click', flipCard);
+  card.addEventListener('keydown', (event) => {
+    if ((event.key === 'Enter' || event.key === ' ') && event.target === card) {
+      event.preventDefault();
+      flipCard();
+    }
+  });
+  card.querySelector('.delete-card').addEventListener('click', (event) => {
+    event.stopPropagation();
+    if (!window.confirm('Supprimer cette carte ?')) return;
+    collections[activeCollectionId].cards.splice(index, 1);
+    saveCards();
+    renderRoute();
+    showToast('Carte supprimée');
+  });
+  return card;
+}
 
 function renderRoute() {
   const match = window.location.hash.match(/^#collection\/(.+)$/);
   const collection = match ? collections[match[1]] : null;
+  activeCollectionId = collection ? match[1] : null;
 
   libraryView.hidden = Boolean(collection);
   collectionView.hidden = !collection;
   if (!collection) {
+    document.querySelectorAll('.collection-card').forEach((card) => {
+      const collectionId = card.hash.replace('#collection/', '');
+      const count = collections[collectionId]?.cards.length;
+      if (count === undefined) return;
+      card.querySelector('.card-footer span').textContent = `${count} carte${count > 1 ? 's' : ''}`;
+    });
     document.title = 'Memento — Mes flashcards';
     return;
   }
@@ -164,30 +229,20 @@ function renderRoute() {
   document.querySelector('.detail-title').textContent = collection.title;
   document.querySelector('.detail-category').textContent = collection.category;
   document.querySelector('.detail-description').textContent = collection.description;
-  document.querySelector('.detail-count').textContent = `${collection.count} cartes`;
+  const cardCount = collection.cards.length;
+  document.querySelector('.detail-count').textContent = `${cardCount} carte${cardCount > 1 ? 's' : ''}`;
   const icon = document.querySelector('.detail-icon');
   icon.innerHTML = collection.emoji;
   icon.style.background = collection.color;
 
-  document.querySelector('.flashcard-list').innerHTML = collection.cards.map(([question, answer], index) => `
-    <button class="flashcard" type="button" aria-pressed="false" aria-label="Carte ${index + 1} : afficher la réponse">
-      <span class="flashcard-label">CARTE ${String(index + 1).padStart(2, '0')}</span>
-      <span class="flashcard-text flashcard-question">${question}</span>
-      <span class="flashcard-text flashcard-answer">${answer}</span>
-      <span class="flip-help">Cliquer pour retourner</span>
-    </button>
-  `).join('');
-
-  document.querySelectorAll('.flashcard').forEach((card) => {
-    card.addEventListener('click', () => {
-      const flipped = card.classList.toggle('flipped');
-      card.setAttribute('aria-pressed', String(flipped));
-      card.setAttribute('aria-label', `Carte : ${flipped ? 'afficher la question' : 'afficher la réponse'}`);
-    });
-  });
+  const cardList = document.querySelector('.flashcard-list');
+  cardList.replaceChildren(...collection.cards.map(createFlashcard));
+  document.querySelector('.empty-cards').hidden = cardCount !== 0;
   document.title = `${collection.title} — Memento`;
   window.scrollTo(0, 0);
 }
+
+loadSavedCards();
 
 window.addEventListener('hashchange', renderRoute);
 renderRoute();
@@ -195,6 +250,24 @@ renderRoute();
 document.querySelector('.start-study').addEventListener('click', () => {
   document.querySelector('.flashcard')?.focus();
   document.querySelector('.flashcards-section').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.querySelector('.add-flashcard-button').addEventListener('click', () => {
+  cardModal.showModal();
+  setTimeout(() => document.querySelector('#card-question').focus(), 50);
+});
+
+cardForm.addEventListener('submit', (event) => {
+  if (event.submitter?.value === 'cancel') return;
+  event.preventDefault();
+  if (!cardForm.reportValidity() || !activeCollectionId) return;
+  const data = new FormData(cardForm);
+  collections[activeCollectionId].cards.push([data.get('question').trim(), data.get('answer').trim()]);
+  saveCards();
+  cardModal.close();
+  cardForm.reset();
+  renderRoute();
+  showToast('Carte ajoutée avec succès ✨');
 });
 
 document.querySelectorAll('[data-open-modal]').forEach((button) => {
@@ -211,7 +284,5 @@ form.addEventListener('submit', (event) => {
   if (!form.reportValidity()) return;
   modal.close();
   form.reset();
-  const toast = document.querySelector('.toast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2800);
+  showToast('Collection créée avec succès ✨');
 });
