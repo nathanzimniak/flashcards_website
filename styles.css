@@ -3,3 +3,34 @@
 @media(max-width:900px){.topbar{padding:0 24px}.desktop-nav{display:none}main{padding:45px 24px}.collection-grid{grid-template-columns:repeat(2,1fr)}.hero{align-items:flex-start;gap:30px}}
 @media(max-width:600px){.topbar{height:70px}.hero{display:block}.hero h1{font-size:38px;letter-spacing:-1.5px}.hero .primary-button{margin-top:28px;width:100%}.collection-grid{grid-template-columns:1fr}.collection-card,.add-card{min-height:310px}.add-card{height:220px;min-height:220px}.view-controls{display:none}main{padding:36px 18px}.hero-copy{line-height:1.5}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* Collection navigation and detail pages */
+.collection-card{display:block;color:inherit;text-decoration:none}
+.collection-card:hover,.collection-card:focus-visible{transform:translateY(-5px);box-shadow:var(--shadow)}
+.collection-card:focus-visible{outline:3px solid #cfc2fa;outline-offset:3px}
+.open-hint{position:absolute;right:13px;top:12px;padding:6px 10px;background:rgba(255,255,255,.78);border-radius:20px;color:#625d6c;font-size:10px;font-weight:700;opacity:0;transform:translateX(-4px);transition:.2s}
+.collection-card:hover .open-hint,.collection-card:focus-visible .open-hint{opacity:1;transform:none}
+.collection-detail{padding-top:44px}
+.back-link{display:inline-flex;align-items:center;gap:9px;margin-bottom:34px;color:var(--muted);font-size:13px;font-weight:700;text-decoration:none}
+.back-link:hover{color:var(--purple)}
+.detail-header{display:grid;grid-template-columns:112px 1fr auto;align-items:center;gap:30px;padding:32px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 35px rgba(48,40,76,.05)}
+.detail-icon{display:grid;place-items:center;width:112px;height:112px;border-radius:16px;font-size:44px}
+.detail-header h1{font:800 clamp(30px,4vw,44px)/1.15 Manrope;margin:0;letter-spacing:-1.5px}
+.detail-header .section-label{margin-bottom:7px}
+.detail-description{color:var(--muted);margin:12px 0 0}
+.flashcards-section{margin-top:48px}
+.detail-count{color:var(--muted);font-size:13px}
+.flashcard-list{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.flashcard{position:relative;min-height:174px;padding:26px;border:1px solid var(--line);border-radius:15px;background:#fff;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit;transition:.2s}
+.flashcard:hover{border-color:#cfc5ef;box-shadow:0 10px 25px rgba(48,40,76,.07)}
+.flashcard:focus-visible{outline:3px solid #cfc2fa}
+.flashcard-label{display:block;color:var(--purple);font-size:9px;font-weight:800;letter-spacing:1.2px;margin-bottom:18px}
+.flashcard-text{font:700 18px/1.45 Manrope}
+.flashcard-answer{display:none}
+.flashcard.flipped{background:#f3efff;border-color:#cfc2fa}
+.flashcard.flipped .flashcard-question{display:none}
+.flashcard.flipped .flashcard-answer{display:block}
+.flip-help{position:absolute;right:20px;bottom:16px;color:#aaa5b3;font-size:10px;font-weight:600}
+.flashcard.flipped .flip-help{color:var(--purple)}
+@media(max-width:900px){.detail-header{grid-template-columns:90px 1fr}.detail-icon{width:90px;height:90px}.detail-header .start-study{grid-column:1/-1;width:100%}}
+@media(max-width:600px){.flashcard-list{grid-template-columns:1fr}.detail-header{display:block;padding:24px}.detail-icon{margin-bottom:22px}.detail-header .start-study{margin-top:24px}.collection-detail{padding-top:28px}}
