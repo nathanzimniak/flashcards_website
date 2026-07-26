@@ -449,11 +449,12 @@ form.addEventListener('submit', (event) => {
   if (!form.reportValidity()) return;
   const data = new FormData(form);
   const title = data.get('name').trim();
+  const category = data.get('category');
   const description = data.get('description').trim() || 'Une collection à compléter au fil de vos apprentissages.';
   const id = createCollectionId(title);
   const collection = {
     title,
-    category: 'PERSONNEL',
+    category,
     description,
     emoji: '✦',
     color: '#eee9fc',
