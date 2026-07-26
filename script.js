@@ -6,6 +6,7 @@ const studyModal = document.querySelector('.study-modal');
 const storageKey = 'memento-custom-cards';
 const collectionsStorageKey = 'memento-custom-collections';
 const deletedCollectionsStorageKey = 'memento-deleted-collections';
+const collectionViewStorageKey = 'memento-collection-view';
 
 const collections = {
   'anglais-quotidien': {
@@ -237,6 +238,17 @@ function renderCollectionCards() {
   });
 }
 
+function setCollectionView(view) {
+  const selectedView = view === 'list' ? 'list' : 'grid';
+  document.querySelector('.collection-grid').classList.toggle('list-view', selectedView === 'list');
+  document.querySelectorAll('.view-controls button').forEach((button) => {
+    const isSelected = button.dataset.view === selectedView;
+    button.classList.toggle('selected', isSelected);
+    button.setAttribute('aria-pressed', String(isSelected));
+  });
+  localStorage.setItem(collectionViewStorageKey, selectedView);
+}
+
 function saveCards() {
   const cards = Object.fromEntries(Object.entries(collections).map(([id, collection]) => [id, collection.cards]));
   localStorage.setItem(storageKey, JSON.stringify(cards));
@@ -371,6 +383,11 @@ loadSavedCollections();
 loadDeletedCollections();
 loadSavedCards();
 renderCollectionCards();
+setCollectionView(localStorage.getItem(collectionViewStorageKey));
+
+document.querySelectorAll('.view-controls button').forEach((button) => {
+  button.addEventListener('click', () => setCollectionView(button.dataset.view));
+});
 
 window.addEventListener('hashchange', renderRoute);
 renderRoute();
