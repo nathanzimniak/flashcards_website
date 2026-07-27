@@ -37,7 +37,7 @@
 .flashcard:hover{border-color:#cfc5ef;box-shadow:0 10px 25px rgba(48,40,76,.07)}
 .flashcard:focus-visible{outline:3px solid #cfc2fa}
 .flashcard-meta{display:flex;align-items:center;gap:10px;margin:0 38px 18px 0}.difficulty-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.2px}.difficulty-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.difficulty-badge.difficulty-hard{background:#fff0f2;color:#c83e57}.difficulty-badge.difficulty-medium{background:#fff6e6;color:#b8750b}.difficulty-badge.difficulty-easy{background:#eaf9f1;color:#31895e}.difficulty-badge.difficulty-unrated{background:#f0eef4;color:#777387}
-.flashcard-text{display:block;width:100%;font:700 18px/1.45 Manrope;text-align:center}
+.flashcard-text{position:absolute;top:50%;left:26px;width:calc(100% - 52px);font:700 18px/1.45 Manrope;text-align:center;transform:translateY(-50%)}
 .flashcard-answer{display:none}
 .flashcard.flipped{background:#f3efff;border-color:#cfc2fa}
 .flashcard.flipped .flashcard-question{display:none}
