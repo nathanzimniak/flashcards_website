@@ -9,6 +9,7 @@ const deletedCollectionsStorageKey = 'memento-deleted-collections';
 const collectionViewStorageKey = 'memento-collection-view';
 const difficultyStorageKey = 'memento-card-difficulties';
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
+const difficultyLabels = { hard: 'Difficile', medium: 'Moyen', easy: 'Facile' };
 
 const collections = {
   'anglais-quotidien': {
@@ -288,6 +289,18 @@ function saveDifficulty(cardKey, difficulty) {
   localStorage.setItem(difficultyStorageKey, JSON.stringify(difficulties));
 }
 
+function setDifficultyBadge(badge, difficulty) {
+  const savedDifficulty = difficultyLabels[difficulty] ? difficulty : 'unrated';
+  badge.className = `difficulty-badge difficulty-${savedDifficulty}`;
+  badge.textContent = difficultyLabels[savedDifficulty] || 'À évaluer';
+}
+
+function updateDifficultyBadges(cardKey, difficulty) {
+  document.querySelectorAll('.flashcard').forEach((card) => {
+    if (card.dataset.cardKey === cardKey) setDifficultyBadge(card.querySelector('.difficulty-badge'), difficulty);
+  });
+}
+
 function renderStudyCard() {
   const [question, answer] = studyCards[studyIndex].card;
   const progress = ((studyIndex + 1) / studyCards.length) * 100;
@@ -332,15 +345,19 @@ function startStudySession() {
 }
 
 function createFlashcard([question, answer], index) {
+  const cardKey = getCardKey([question, answer]);
+  const difficulty = getDifficulties()[activeCollectionId]?.[cardKey];
   const card = document.createElement('article');
   card.className = 'flashcard';
+  card.dataset.cardKey = cardKey;
   card.tabIndex = 0;
   card.setAttribute('role', 'button');
   card.setAttribute('aria-pressed', 'false');
   card.setAttribute('aria-label', `Carte ${index + 1} : afficher la réponse`);
-  card.innerHTML = `<button class="delete-card" type="button" aria-label="Supprimer la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button><span class="flashcard-label">CARTE ${String(index + 1).padStart(2, '0')}</span><span class="flashcard-text flashcard-question"></span><span class="flashcard-text flashcard-answer"></span><span class="flip-help">Cliquer pour retourner</span>`;
+  card.innerHTML = `<button class="delete-card" type="button" aria-label="Supprimer la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button><span class="flashcard-meta"><span class="flashcard-label">CARTE ${String(index + 1).padStart(2, '0')}</span><span class="difficulty-badge"></span></span><span class="flashcard-text flashcard-question"></span><span class="flashcard-text flashcard-answer"></span><span class="flip-help">Cliquer pour retourner</span>`;
   card.querySelector('.flashcard-question').textContent = question;
   card.querySelector('.flashcard-answer').textContent = answer;
+  setDifficultyBadge(card.querySelector('.difficulty-badge'), difficulty);
 
   const flipCard = () => {
     const flipped = card.classList.toggle('flipped');
@@ -420,6 +437,7 @@ document.querySelectorAll('.difficulty-button').forEach((button) => button.addEv
   const currentCard = studyCards[studyIndex];
   const difficulty = button.dataset.difficulty;
   saveDifficulty(currentCard.key, difficulty);
+  updateDifficultyBadges(currentCard.key, difficulty);
 
   const appearances = studyCards.filter(({ key }) => key === currentCard.key).length;
   const requestedAppearances = difficultyWeights[difficulty];
