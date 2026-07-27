@@ -559,7 +559,6 @@ svg {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2px 0;
 }
 .detail-header h1 {
   font: 800 clamp(30px, 2.0vw, 40px)/1.15 Manrope;
