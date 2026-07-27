@@ -6,7 +6,6 @@ const studyModal = document.querySelector(".study-modal");
 const storageKey = "memento-custom-cards";
 const collectionsStorageKey = "memento-custom-collections";
 const deletedCollectionsStorageKey = "memento-deleted-collections";
-const collectionViewStorageKey = "memento-collection-view";
 const difficultyStorageKey = "memento-card-difficulties";
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { hard: 0, medium: 1, easy: 2, unrated: 3 };
@@ -354,17 +353,6 @@ function renderCollectionCards() {
   });
 }
 
-function setCollectionView(view) {
-  const selectedView = view === "list" ? "list" : "grid";
-  collectionGrid.classList.toggle("list-view", selectedView === "list");
-  document.querySelectorAll(".view-controls button").forEach((button) => {
-    const isSelected = button.dataset.view === selectedView;
-    button.classList.toggle("selected", isSelected);
-    button.setAttribute("aria-pressed", String(isSelected));
-  });
-  localStorage.setItem(collectionViewStorageKey, selectedView);
-}
-
 function saveCards() {
   const cards = Object.fromEntries(
     Object.entries(collections).map(([id, collection]) => [
@@ -596,14 +584,6 @@ loadSavedCollections();
 loadDeletedCollections();
 loadSavedCards();
 renderCollectionCards();
-setCollectionView(localStorage.getItem(collectionViewStorageKey));
-
-document.querySelectorAll(".view-controls button").forEach((button) => {
-  button.addEventListener("click", () =>
-    setCollectionView(button.dataset.view),
-  );
-});
-
 window.addEventListener("hashchange", renderRoute);
 renderRoute();
 
