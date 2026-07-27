@@ -593,7 +593,7 @@ svg {
 .detail-actions {
   display: flex;
   align-self: stretch;
-  aspect-ratio: 1;
+  width: var(--detail-header-height, 176px);
 }
 .start-study {
   width: 100%;
@@ -740,7 +740,6 @@ svg {
     justify-self: center;
     width: 64px;
     height: 64px;
-    aspect-ratio: auto;
     margin-bottom: 24px;
   }
   .start-study {
