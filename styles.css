@@ -561,7 +561,10 @@ svg {
   justify-content: center;
 }
 .detail-header h1 {
-  font: 800 clamp(30px, 2.0vw, 40px)/1.15 Manrope;
+  font-family: Manrope, sans-serif;
+  font-size: clamp(30px, 2vw, 40px);
+  font-weight: 800;
+  line-height: 1.15;
   margin: 0;
   letter-spacing: -1.5px;
 }
