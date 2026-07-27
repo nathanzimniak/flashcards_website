@@ -306,7 +306,10 @@ function getCardsSortedByDifficulty(collection) {
 
 function renderFlashcards(collection) {
   const sortedCards = getCardsSortedByDifficulty(collection);
-  document.querySelector('.flashcard-list').replaceChildren(
+  const flashcardList = document.querySelector('.flashcard-list');
+  const addFlashcardButton = flashcardList.querySelector('.add-flashcard-button');
+  flashcardList.replaceChildren(
+    addFlashcardButton,
     ...sortedCards.map(({ card, index }) => createFlashcard(card, index)),
   );
 }
