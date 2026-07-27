@@ -34,7 +34,7 @@
 .flashcard{position:relative;min-height:174px;padding:26px;border:1px solid var(--line);border-radius:15px;background:#fff;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit;transition:.2s}
 .flashcard:hover{border-color:#cfc5ef;box-shadow:0 10px 25px rgba(48,40,76,.07)}
 .flashcard:focus-visible{outline:3px solid #cfc2fa}
-.flashcard-label{display:block;color:var(--purple);font-size:9px;font-weight:800;letter-spacing:1.2px;margin-bottom:18px}
+.flashcard-meta{display:flex;align-items:center;gap:10px;margin:0 38px 18px 0}.flashcard-label{display:block;color:var(--purple);font-size:9px;font-weight:800;letter-spacing:1.2px}.difficulty-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.2px}.difficulty-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.difficulty-badge.difficulty-hard{background:#fff0f2;color:#c83e57}.difficulty-badge.difficulty-medium{background:#fff6e6;color:#b8750b}.difficulty-badge.difficulty-easy{background:#eaf9f1;color:#31895e}.difficulty-badge.difficulty-unrated{background:#f0eef4;color:#777387}
 .flashcard-text{font:700 18px/1.45 Manrope}
 .flashcard-answer{display:none}
 .flashcard.flipped{background:#f3efff;border-color:#cfc2fa}
@@ -50,7 +50,7 @@
 .modal textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px #eee9fc}
 .optional-label{color:var(--muted);font-weight:500}
 .cards-actions{display:flex;align-items:center;gap:18px}.add-flashcard-button{padding:12px 17px}.empty-cards{padding:45px 20px;border:1px dashed #ccc6da;border-radius:15px;color:var(--muted);text-align:center;background:#fff}
-.delete-card{position:absolute;right:16px;top:15px;display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:#aaa5b3;cursor:pointer;z-index:1}.delete-card:hover,.delete-card:focus-visible{background:#fce9ed;color:#c54861}.delete-card svg{width:17px;fill:none;stroke:currentColor;stroke-width:1.8}.flashcard-label{padding-right:38px}
+.delete-card{position:absolute;right:16px;top:15px;display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:#aaa5b3;cursor:pointer;z-index:1}.delete-card:hover,.delete-card:focus-visible{background:#fce9ed;color:#c54861}.delete-card svg{width:17px;fill:none;stroke:currentColor;stroke-width:1.8}
 @media(max-width:600px){.cards-heading{align-items:flex-start}.cards-actions{flex-direction:column-reverse;align-items:flex-end;gap:10px}.add-flashcard-button{padding:11px 13px}.add-flashcard-button svg{display:none}}
 
 /* Focused study session */
