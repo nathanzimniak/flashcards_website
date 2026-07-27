@@ -231,10 +231,9 @@ function createCollectionCard(id, collection) {
 
 function renderCollectionCards() {
   const grid = document.querySelector('.collection-grid');
-  const addButton = grid.querySelector('.add-card');
   grid.querySelectorAll('.collection-card').forEach((card) => card.remove());
   Object.entries(collections).forEach(([id, collection]) => {
-    grid.insertBefore(createCollectionCard(id, collection), addButton);
+    grid.append(createCollectionCard(id, collection));
   });
 }
 
