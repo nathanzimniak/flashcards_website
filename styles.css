@@ -514,42 +514,6 @@ svg {
     margin: 6px 0 0;
   }
 }
-.collection-actions {
-  position: absolute;
-  right: 13px;
-  top: 12px;
-  display: flex;
-  gap: 3px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-4px);
-  transition:
-    opacity 0.2s,
-    transform 0.2s,
-    visibility 0.2s;
-}
-.collection-card:hover .collection-actions,
-.collection-card:focus-within .collection-actions {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-}
-.collection-actions .edit-card,
-.collection-actions .delete-card {
-  position: static;
-  background: rgba(255, 255, 255, 0.82);
-}
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
 .collection-detail {
   padding-top: 44px;
 }

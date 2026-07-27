@@ -262,7 +262,7 @@ function createCollectionCard(id, collection) {
   card.setAttribute("role", "link");
   card.setAttribute("aria-label", `Ouvrir la collection ${collection.title}`);
   card.innerHTML =
-    '<div class="card-top"><span class="card-emoji" aria-hidden="true"></span><span class="collection-actions"><button class="edit-card edit-collection" type="button"><span class="sr-only">Modifier la collection</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 20 4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"></path><path d="m14.8 6.4 3 3"></path></svg></button><button class="delete-card delete-collection" type="button"><span class="sr-only">Supprimer la collection</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button></span></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
+    '<div class="card-top"><span class="card-emoji" aria-hidden="true"></span></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".card-top").style.background = collection.color;
   const emoji = card.querySelector(".card-emoji");
   if (collection.emoji === "&lt;/&gt;") emoji.innerHTML = collection.emoji;
@@ -272,24 +272,6 @@ function createCollectionCard(id, collection) {
   card.querySelector(".card-footer span").textContent = formatCardCount(
     collection.cards.length,
   );
-  card.querySelector(".edit-collection").setAttribute(
-    "aria-label",
-    `Modifier la collection ${collection.title}`,
-  );
-  card.querySelector(".delete-collection").setAttribute(
-    "aria-label",
-    `Supprimer la collection ${collection.title}`,
-  );
-  card.querySelector(".edit-collection").addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    openCollectionModal(id);
-  });
-  card.querySelector(".delete-collection").addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    deleteCollection(id);
-  });
   card.addEventListener("click", () => {
     window.location.hash = `collection/${id}`;
   });
