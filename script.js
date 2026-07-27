@@ -457,31 +457,6 @@ document.querySelectorAll('.difficulty-button').forEach((button) => button.addEv
 }));
 document.querySelector('.study-close').addEventListener('click', () => studyModal.close());
 
-document.querySelector('.delete-collection-button').addEventListener('click', () => {
-  if (!activeCollectionId) return;
-  const collectionId = activeCollectionId;
-  const collection = collections[collectionId];
-  if (!window.confirm(`Supprimer la collection « ${collection.title} » et toutes ses cartes ?`)) return;
-
-  delete collections[collectionId];
-
-  const savedCollections = readStorage(collectionsStorageKey);
-  delete savedCollections[collectionId];
-  localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
-
-  if (builtInCollectionIds.has(collectionId)) {
-    const deletedCollections = readStorage(deletedCollectionsStorageKey);
-    const deletedIds = Array.isArray(deletedCollections) ? deletedCollections : [];
-    if (!deletedIds.includes(collectionId)) deletedIds.push(collectionId);
-    localStorage.setItem(deletedCollectionsStorageKey, JSON.stringify(deletedIds));
-  }
-
-  saveCards();
-  renderCollectionCards();
-  window.location.hash = 'collections';
-  showToast('Collection supprimée');
-});
-
 document.querySelector('.add-flashcard-button').addEventListener('click', () => {
   cardModal.showModal();
   setTimeout(() => document.querySelector('#card-question').focus(), 50);
