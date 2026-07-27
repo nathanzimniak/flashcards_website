@@ -418,6 +418,7 @@ svg {
 .collection-card {
   display: block;
   color: inherit;
+  cursor: pointer;
   text-decoration: none;
 }
 .collection-card:hover,
@@ -503,24 +504,41 @@ svg {
     margin: 6px 0 0;
   }
 }
-.open-hint {
+.collection-actions {
   position: absolute;
   right: 13px;
   top: 12px;
-  padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.78);
-  border-radius: 20px;
-  color: #625d6c;
-  font-size: 10px;
-  font-weight: 700;
+  display: flex;
+  gap: 3px;
   opacity: 0;
+  visibility: hidden;
   transform: translateX(-4px);
-  transition: 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    visibility 0.2s;
 }
-.collection-card:hover .open-hint,
-.collection-card:focus-visible .open-hint {
+.collection-card:hover .collection-actions,
+.collection-card:focus-within .collection-actions {
   opacity: 1;
+  visibility: visible;
   transform: none;
+}
+.collection-actions .edit-card,
+.collection-actions .delete-card {
+  position: static;
+  background: rgba(255, 255, 255, 0.82);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 .collection-detail {
   padding-top: 44px;
