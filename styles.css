@@ -562,11 +562,11 @@ svg {
 }
 .detail-header h1 {
   font-family: Manrope, sans-serif;
-  font-size: clamp(30px, 2vw, 40px);
+  font-size: 25px;
   font-weight: 800;
   line-height: 1.15;
   margin: 0;
-  letter-spacing: -1.5px;
+  letter-spacing: -1.2px;
 }
 .detail-header .section-label {
   margin-bottom: 4px;
@@ -575,7 +575,7 @@ svg {
   display: flex;
   align-self: stretch;
   width: var(--detail-header-height, 176px);
-  padding: 22px;
+  padding: 26px;
   box-sizing: border-box;
 }
 .start-study {
@@ -607,7 +607,7 @@ svg {
 }
 .detail-collection-actions {
   display: flex;
-  gap: 4px;
+  gap: 8px;
   margin-top: 6px;
 }
 .detail-collection-actions .edit-card,
