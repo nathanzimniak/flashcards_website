@@ -190,8 +190,13 @@ main {
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
-  min-height: 250px;
-  transition: 0.22s;
+  min-height: 300px;
+  transition:
+    transform 0.22s,
+    box-shadow 0.22s,
+    border-color 0.22s,
+    background-color 0.22s,
+    color 0.22s;
 }
 .card-top {
   height: 112px;
@@ -414,10 +419,6 @@ svg {
   display: block;
   color: inherit;
   text-decoration: none;
-}
-.collection-grid:not(.list-view) .collection-card,
-.collection-grid:not(.list-view) .add-card {
-  min-height: 300px;
 }
 .collection-card:hover,
 .collection-card:focus-visible {
