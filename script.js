@@ -17,7 +17,6 @@ const collections = {
   'anglais-quotidien': {
     title: 'Anglais quotidien',
     category: 'LANGUES',
-    description: 'Les mots et expressions pour discuter avec confiance.',
     emoji: '🗣️',
     color: '#feece7',
     count: 32,
@@ -33,7 +32,6 @@ const collections = {
   'capitales-du-monde': {
     title: 'Les capitales du monde',
     category: 'GÉOGRAPHIE',
-    description: 'Un tour du monde, capitale après capitale.',
     emoji: '🌍',
     color: '#e7f3fb',
     count: 48,
@@ -49,7 +47,6 @@ const collections = {
   'bases-javascript': {
     title: 'Bases de JavaScript',
     category: 'DÉVELOPPEMENT',
-    description: 'Les fondamentaux pour donner vie au web.',
     emoji: '&lt;/&gt;',
     color: '#fff5d9',
     count: 24,
@@ -183,7 +180,6 @@ function loadSavedCollections() {
     collections[id] = {
       title: collection.title,
       category: collection.category || 'PERSONNEL',
-      description: collection.description || 'Une collection à compléter au fil de vos apprentissages.',
       emoji: collection.emoji || '✦',
       color: collection.color || '#eee9fc',
       cards: [],
@@ -222,14 +218,13 @@ function createCollectionCard(id, collection) {
   card.className = 'collection-card';
   card.href = `#collection/${id}`;
   card.setAttribute('aria-label', `Ouvrir la collection ${collection.title}`);
-  card.innerHTML = '<div class="card-top"><span class="card-emoji" aria-hidden="true"></span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div><div class="card-content"><span class="tag"></span><h3></h3><p></p><div class="card-footer"><span></span></div></div>';
+  card.innerHTML = '<div class="card-top"><span class="card-emoji" aria-hidden="true"></span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector('.card-top').style.background = collection.color;
   const emoji = card.querySelector('.card-emoji');
   if (collection.emoji === '&lt;/&gt;') emoji.innerHTML = collection.emoji;
   else emoji.textContent = collection.emoji;
   card.querySelector('.tag').textContent = collection.category;
   card.querySelector('h3').textContent = collection.title;
-  card.querySelector('.card-content p').textContent = collection.description;
   card.querySelector('.card-footer span').textContent = `${collection.cards.length} carte${collection.cards.length > 1 ? 's' : ''}`;
   return card;
 }
@@ -430,7 +425,6 @@ function renderRoute() {
 
   document.querySelector('.detail-title').textContent = collection.title;
   document.querySelector('.detail-category').textContent = collection.category;
-  document.querySelector('.detail-description').textContent = collection.description;
   const cardCount = collection.cards.length;
   document.querySelector('.detail-count').textContent = `${cardCount} carte${cardCount > 1 ? 's' : ''}`;
   const icon = document.querySelector('.detail-icon');
@@ -539,12 +533,10 @@ form.addEventListener('submit', (event) => {
   const data = new FormData(form);
   const title = data.get('name').trim();
   const category = data.get('category');
-  const description = data.get('description').trim() || 'Une collection à compléter au fil de vos apprentissages.';
   const id = createCollectionId(title);
   const collection = {
     title,
     category,
-    description,
     emoji: '✦',
     color: '#eee9fc',
     cards: [],
