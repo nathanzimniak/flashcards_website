@@ -106,14 +106,14 @@
       <form method="dialog" id="card-form">
         <button class="modal-close" value="cancel" aria-label="Fermer" formnovalidate>×</button>
         <span class="modal-icon" aria-hidden="true">✦</span>
-        <p class="section-label">NOUVELLE CARTE</p>
-        <h2>Ajouter une carte</h2>
-        <p>Renseignez le recto et le verso de votre nouvelle carte.</p>
+        <p class="section-label card-modal-label">NOUVELLE CARTE</p>
+        <h2 class="card-modal-title">Ajouter une carte</h2>
+        <p class="card-modal-description">Renseignez le recto et le verso de votre nouvelle carte.</p>
         <label for="card-question">Question</label>
         <textarea id="card-question" name="question" required maxlength="300" placeholder="Ex. Quelle est la capitale de l’Italie ?"></textarea>
         <label for="card-answer">Réponse</label>
         <textarea id="card-answer" name="answer" required maxlength="300" placeholder="Ex. Rome"></textarea>
-        <button class="primary-button modal-submit" value="default">Ajouter la carte</button>
+        <button class="primary-button modal-submit card-modal-submit" value="default">Ajouter la carte</button>
       </form>
     </dialog>
     <dialog class="study-modal" aria-labelledby="study-title">
