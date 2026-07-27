@@ -199,7 +199,7 @@ main {
     color 0.22s;
 }
 .card-top {
-  height: 112px;
+  height: 140px;
   position: relative;
   display: grid;
   place-items: center;
