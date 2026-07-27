@@ -588,7 +588,6 @@ function renderRoute() {
   icon.innerHTML = '<img class="collection-image" src="img/0.png" alt="">';
 
   renderFlashcards(collection);
-  document.querySelector(".empty-cards").hidden = cardCount !== 0;
   document.title = `${collection.title} — Memento`;
   window.scrollTo(0, 0);
 }
