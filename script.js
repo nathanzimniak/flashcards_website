@@ -347,7 +347,7 @@ function deleteCollection(id) {
     !collection ||
     !window.confirm(`Supprimer la collection « ${collection.title} » ?`)
   )
-    return;
+    return false;
   delete collections[id];
   const savedCollections = readStorage(collectionsStorageKey);
   delete savedCollections[id];
@@ -364,6 +364,7 @@ function deleteCollection(id) {
   localStorage.setItem(deletedCollectionsStorageKey, JSON.stringify(deletedIds));
   renderCollectionCards();
   showToast("Collection supprimée");
+  return true;
 }
 
 function renderCollectionCards() {
@@ -596,6 +597,12 @@ function renderRoute() {
 
   document.querySelector(".detail-title").textContent = collection.title;
   document.querySelector(".detail-category").textContent = collection.category;
+  document
+    .querySelector(".edit-detail-collection")
+    .setAttribute("aria-label", `Modifier la collection ${collection.title}`);
+  document
+    .querySelector(".delete-detail-collection")
+    .setAttribute("aria-label", `Supprimer la collection ${collection.title}`);
   const cardCount = collection.cards.length;
   document.querySelector(".detail-count").textContent =
     formatCardCount(cardCount);
@@ -682,6 +689,19 @@ document
     setTimeout(() => document.querySelector("#card-question").focus(), 50);
   });
 
+document
+  .querySelector(".edit-detail-collection")
+  .addEventListener("click", () => {
+    if (activeCollectionId) openCollectionModal(activeCollectionId);
+  });
+
+document
+  .querySelector(".delete-detail-collection")
+  .addEventListener("click", () => {
+    if (activeCollectionId && deleteCollection(activeCollectionId))
+      window.location.hash = "collections";
+  });
+
 cardForm.addEventListener("submit", (event) => {
   if (event.submitter?.value === "cancel") return;
   event.preventDefault();
@@ -747,6 +767,7 @@ form.addEventListener("submit", (event) => {
   saveCollectionMetadata(id);
   saveCards();
   renderCollectionCards();
+  renderRoute();
   modal.close();
   form.reset();
   editedCollectionId = null;

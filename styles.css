@@ -611,6 +611,17 @@ svg {
   font-size: 13px;
   font-weight: 600;
 }
+.detail-collection-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 14px;
+}
+.detail-collection-actions .edit-card,
+.detail-collection-actions .delete-card {
+  position: static;
+  border: 1px solid var(--line);
+  background: #fff;
+}
 .flashcard-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
