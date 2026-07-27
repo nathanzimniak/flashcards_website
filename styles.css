@@ -605,8 +605,8 @@ svg {
   box-shadow: none;
 }
 .start-study svg {
-  width: 128px;
-  height: 128px;
+  width: 100px;
+  height: 100px;
   fill: currentColor;
   stroke: none;
 }
