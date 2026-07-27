@@ -9,6 +9,7 @@ const deletedCollectionsStorageKey = 'memento-deleted-collections';
 const collectionViewStorageKey = 'memento-collection-view';
 const difficultyStorageKey = 'memento-card-difficulties';
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
+const difficultySortOrder = { hard: 0, medium: 1, easy: 2, unrated: 3 };
 const difficultyLabels = { hard: 'Difficile', medium: 'Moyen', easy: 'Facile' };
 let editedCardIndex = null;
 
@@ -296,10 +297,24 @@ function setDifficultyBadge(badge, difficulty) {
   badge.textContent = difficultyLabels[savedDifficulty] || 'À évaluer';
 }
 
-function updateDifficultyBadges(cardKey, difficulty) {
-  document.querySelectorAll('.flashcard').forEach((card) => {
-    if (card.dataset.cardKey === cardKey) setDifficultyBadge(card.querySelector('.difficulty-badge'), difficulty);
-  });
+function getCardsSortedByDifficulty(collection) {
+  const savedDifficulties = getDifficulties()[activeCollectionId] || {};
+  return collection.cards
+    .map((card, index) => ({
+      card,
+      index,
+      difficulty: difficultyLabels[savedDifficulties[getCardKey(card)]]
+        ? savedDifficulties[getCardKey(card)]
+        : 'unrated',
+    }))
+    .sort((first, second) => difficultySortOrder[first.difficulty] - difficultySortOrder[second.difficulty]);
+}
+
+function renderFlashcards(collection) {
+  const sortedCards = getCardsSortedByDifficulty(collection);
+  document.querySelector('.flashcard-list').replaceChildren(
+    ...sortedCards.map(({ card, index }) => createFlashcard(card, index)),
+  );
 }
 
 function renderStudyCard() {
@@ -422,8 +437,7 @@ function renderRoute() {
   icon.innerHTML = collection.emoji;
   icon.style.background = collection.color;
 
-  const cardList = document.querySelector('.flashcard-list');
-  cardList.replaceChildren(...collection.cards.map(createFlashcard));
+  renderFlashcards(collection);
   document.querySelector('.empty-cards').hidden = cardCount !== 0;
   document.title = `${collection.title} — Memento`;
   window.scrollTo(0, 0);
@@ -450,7 +464,7 @@ document.querySelectorAll('.difficulty-button').forEach((button) => button.addEv
   const currentCard = studyCards[studyIndex];
   const difficulty = button.dataset.difficulty;
   saveDifficulty(currentCard.key, difficulty);
-  updateDifficultyBadges(currentCard.key, difficulty);
+  renderFlashcards(collections[activeCollectionId]);
 
   const appearances = studyCards.filter(({ key }) => key === currentCard.key).length;
   const requestedAppearances = difficultyWeights[difficulty];
