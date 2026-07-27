@@ -167,20 +167,10 @@ main {
 }
 .card-top {
   height: 140px;
-  min-height: 140px;
   flex-shrink: 0;
   position: relative;
   display: grid;
   place-items: center;
-}
-.peach {
-  background: #feece7;
-}
-.sky {
-  background: #e7f3fb;
-}
-.lemon {
-  background: #fff5d9;
 }
 .collection-image {
   width: 100%;
@@ -212,9 +202,9 @@ main {
   color: #898493;
   font-size: 11px;
   margin-top: auto;
-  padding-top: 0px;
 }
-.add-card {
+.add-card,
+.add-flashcard-button {
   border: 1.5px dashed #ccc6da;
   background: transparent;
   display: flex;
@@ -224,12 +214,15 @@ main {
   color: var(--muted);
   cursor: pointer;
 }
-.add-card:hover {
+.add-card:hover,
+.add-flashcard-button:hover,
+.add-flashcard-button:focus-visible {
   border-color: var(--purple);
   background: #f7f4ff;
   color: var(--purple);
 }
-.add-card span {
+.add-card span,
+.add-flashcard-button span {
   display: grid;
   place-items: center;
   width: 43px;
@@ -239,17 +232,20 @@ main {
   color: var(--purple);
   margin-bottom: 15px;
 }
-.add-card svg {
+.add-card svg,
+.add-flashcard-button svg {
   width: 20px;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
 }
-.add-card strong {
+.add-card strong,
+.add-flashcard-button strong {
   font: 700 14px Manrope;
   color: var(--ink);
 }
-.add-card small {
+.add-card small,
+.add-flashcard-button small {
   font-size: 11px;
   margin-top: 6px;
 }
@@ -304,7 +300,8 @@ main {
   margin: 25px 0 8px;
 }
 .modal input,
-.modal select {
+.modal select,
+.modal textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -315,7 +312,8 @@ main {
   color: var(--ink);
 }
 .modal input:focus,
-.modal select:focus {
+.modal select:focus,
+.modal textarea:focus {
   border-color: var(--purple);
   box-shadow: 0 0 0 3px #eee9fc;
 }
@@ -639,72 +637,16 @@ svg {
 
 /* Card management */
 .modal textarea {
-  width: 100%;
   min-height: 92px;
   resize: vertical;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 14px;
-  font: 14px "DM Sans";
-  outline: 0;
-}
-.modal textarea:focus {
-  border-color: var(--purple);
-  box-shadow: 0 0 0 3px #eee9fc;
 }
 .add-flashcard-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px dashed #ccc6da;
-  background: transparent;
-  color: var(--muted);
   font-family: inherit;
-  cursor: pointer;
   transition: 0.2s;
-}
-.add-flashcard-button:hover,
-.add-flashcard-button:focus-visible {
-  border-color: var(--purple);
-  background: #f7f4ff;
-  color: var(--purple);
 }
 .add-flashcard-button:focus-visible {
   outline: 3px solid #cfc2fa;
   outline-offset: 3px;
-}
-.add-flashcard-button span {
-  display: grid;
-  place-items: center;
-  width: 43px;
-  height: 43px;
-  margin-bottom: 15px;
-  border-radius: 50%;
-  background: #ede8fb;
-  color: var(--purple);
-}
-.add-flashcard-button svg {
-  width: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-}
-.add-flashcard-button strong {
-  font: 700 14px Manrope;
-  color: var(--ink);
-}
-.add-flashcard-button small {
-  margin-top: 6px;
-  font-size: 11px;
-}
-.empty-cards {
-  padding: 45px 20px;
-  border: 1px dashed #ccc6da;
-  border-radius: 15px;
-  color: var(--muted);
-  text-align: center;
-  background: #fff;
 }
 .delete-card,
 .edit-card {
