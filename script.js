@@ -15,6 +15,7 @@ const collectionGrid = document.querySelector(".collection-grid");
 const toast = document.querySelector(".toast");
 const studyCard = document.querySelector(".study-card");
 let editedCardIndex = null;
+let editedCollectionId = null;
 
 const collections = {
   "anglais-quotidien": {
@@ -216,7 +217,7 @@ function loadSavedCollections() {
       category: collection.category || "PERSONNEL",
       emoji: collection.emoji || "✦",
       color: collection.color || "#eee9fc",
-      cards: [],
+      cards: collections[id]?.cards || [],
     };
   });
 }
@@ -254,12 +255,14 @@ function formatCardCount(count) {
 }
 
 function createCollectionCard(id, collection) {
-  const card = document.createElement("a");
+  const card = document.createElement("article");
   card.className = "collection-card";
-  card.href = `#collection/${id}`;
+  card.dataset.collectionId = id;
+  card.tabIndex = 0;
+  card.setAttribute("role", "link");
   card.setAttribute("aria-label", `Ouvrir la collection ${collection.title}`);
   card.innerHTML =
-    '<div class="card-top"><span class="card-emoji" aria-hidden="true"></span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
+    '<div class="card-top"><span class="card-emoji" aria-hidden="true"></span><span class="collection-actions"><button class="edit-card edit-collection" type="button"><span class="sr-only">Modifier la collection</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 20 4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"></path><path d="m14.8 6.4 3 3"></path></svg></button><button class="delete-card delete-collection" type="button"><span class="sr-only">Supprimer la collection</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button></span></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".card-top").style.background = collection.color;
   const emoji = card.querySelector(".card-emoji");
   if (collection.emoji === "&lt;/&gt;") emoji.innerHTML = collection.emoji;
@@ -269,7 +272,98 @@ function createCollectionCard(id, collection) {
   card.querySelector(".card-footer span").textContent = formatCardCount(
     collection.cards.length,
   );
+  card.querySelector(".edit-collection").setAttribute(
+    "aria-label",
+    `Modifier la collection ${collection.title}`,
+  );
+  card.querySelector(".delete-collection").setAttribute(
+    "aria-label",
+    `Supprimer la collection ${collection.title}`,
+  );
+  card.querySelector(".edit-collection").addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    openCollectionModal(id);
+  });
+  card.querySelector(".delete-collection").addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    deleteCollection(id);
+  });
+  card.addEventListener("click", () => {
+    window.location.hash = `collection/${id}`;
+  });
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && event.target === card)
+      window.location.hash = `collection/${id}`;
+  });
   return card;
+}
+
+function saveCollectionMetadata(id) {
+  const savedCollections = readStorage(collectionsStorageKey);
+  const { title, category, emoji, color } = collections[id];
+  savedCollections[id] = { title, category, emoji, color };
+  localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
+  const deletedCollections = readStorage(deletedCollectionsStorageKey);
+  if (Array.isArray(deletedCollections) && deletedCollections.includes(id)) {
+    localStorage.setItem(
+      deletedCollectionsStorageKey,
+      JSON.stringify(
+        deletedCollections.filter((deletedId) => deletedId !== id),
+      ),
+    );
+  }
+}
+
+function openCollectionModal(id = null) {
+  editedCollectionId = id;
+  form.reset();
+  const isEditing = Boolean(id && collections[id]);
+  document.querySelector(".collection-modal-label").textContent = isEditing
+    ? "MODIFICATION"
+    : "NOUVEAU DÉPART";
+  document.querySelector(".collection-modal-title").textContent = isEditing
+    ? "Modifier la collection"
+    : "Créer une collection";
+  document.querySelector(".collection-modal-description").textContent =
+    isEditing
+      ? "Modifiez le nom et la catégorie de cette collection."
+      : "Donnez un nom au prochain sujet que vous allez maîtriser.";
+  document.querySelector(".collection-modal-submit").textContent = isEditing
+    ? "Enregistrer les modifications"
+    : "Créer ma collection";
+  if (isEditing) {
+    form.elements.name.value = collections[id].title;
+    form.elements.category.value = collections[id].category;
+  }
+  modal.showModal();
+  setTimeout(() => form.elements.name.focus(), 50);
+}
+
+function deleteCollection(id) {
+  const collection = collections[id];
+  if (
+    !collection ||
+    !window.confirm(`Supprimer la collection « ${collection.title} » ?`)
+  )
+    return;
+  delete collections[id];
+  const savedCollections = readStorage(collectionsStorageKey);
+  delete savedCollections[id];
+  localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
+  const savedCards = readStorage(storageKey);
+  delete savedCards[id];
+  localStorage.setItem(storageKey, JSON.stringify(savedCards));
+  const difficulties = readStorage(difficultyStorageKey);
+  delete difficulties[id];
+  localStorage.setItem(difficultyStorageKey, JSON.stringify(difficulties));
+  const deletedCollections = readStorage(deletedCollectionsStorageKey);
+  const deletedIds = Array.isArray(deletedCollections) ? deletedCollections : [];
+  if (!deletedIds.includes(id)) deletedIds.push(id);
+  localStorage.setItem(deletedCollectionsStorageKey, JSON.stringify(deletedIds));
+  renderCollectionCards();
+  showToast("Collection supprimée");
 }
 
 function renderCollectionCards() {
@@ -490,7 +584,7 @@ function renderRoute() {
   collectionView.hidden = !collection;
   if (!collection) {
     document.querySelectorAll(".collection-card").forEach((card) => {
-      const collectionId = card.hash.replace("#collection/", "");
+      const collectionId = card.dataset.collectionId;
       const count = collections[collectionId]?.cards.length;
       if (count === undefined) return;
       card.querySelector(".card-footer span").textContent =
@@ -624,8 +718,7 @@ cardForm.addEventListener("submit", (event) => {
 
 document.querySelectorAll("[data-open-modal]").forEach((button) => {
   button.addEventListener("click", () => {
-    modal.showModal();
-    setTimeout(() => document.querySelector("#collection-name").focus(), 50);
+    openCollectionModal();
   });
 });
 
@@ -637,22 +730,30 @@ form.addEventListener("submit", (event) => {
   const data = new FormData(form);
   const title = data.get("name").trim();
   const category = data.get("category");
-  const id = createCollectionId(title);
-  const collection = {
-    title,
-    category,
-    emoji: "✦",
-    color: "#eee9fc",
-    cards: [],
-  };
-  collections[id] = collection;
-  const savedCollections = readStorage(collectionsStorageKey);
-  savedCollections[id] = collection;
-  localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
+  const isEditing = Boolean(editedCollectionId);
+  const id = isEditing ? editedCollectionId : createCollectionId(title);
+  if (isEditing) {
+    collections[id].title = title;
+    collections[id].category = category;
+  } else {
+    collections[id] = {
+      title,
+      category,
+      emoji: "✦",
+      color: "#eee9fc",
+      cards: [],
+    };
+  }
+  saveCollectionMetadata(id);
   saveCards();
   renderCollectionCards();
   modal.close();
   form.reset();
-  showToast("Collection créée avec succès ✨");
-  window.location.hash = `collection/${id}`;
+  editedCollectionId = null;
+  showToast(
+    isEditing
+      ? "Collection modifiée avec succès ✨"
+      : "Collection créée avec succès ✨",
+  );
+  if (!isEditing) window.location.hash = `collection/${id}`;
 });

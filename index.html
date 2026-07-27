@@ -85,10 +85,7 @@
               aria-label="Ouvrir la collection Anglais quotidien"
             >
               <div class="card-top peach">
-                <span class="card-emoji" aria-hidden="true">🗣️</span
-                ><span class="open-hint"
-                  >Ouvrir <span aria-hidden="true">→</span></span
-                >
+                <span class="card-emoji" aria-hidden="true">🗣️</span>
               </div>
               <div class="card-content">
                 <span class="tag">LANGUES</span>
@@ -102,10 +99,7 @@
               aria-label="Ouvrir la collection Les capitales du monde"
             >
               <div class="card-top sky">
-                <span class="card-emoji" aria-hidden="true">🌍</span
-                ><span class="open-hint"
-                  >Ouvrir <span aria-hidden="true">→</span></span
-                >
+                <span class="card-emoji" aria-hidden="true">🌍</span>
               </div>
               <div class="card-content">
                 <span class="tag">GÉOGRAPHIE</span>
@@ -119,10 +113,7 @@
               aria-label="Ouvrir la collection Bases de JavaScript"
             >
               <div class="card-top lemon">
-                <span class="card-emoji code" aria-hidden="true">&lt;/&gt;</span
-                ><span class="open-hint"
-                  >Ouvrir <span aria-hidden="true">→</span></span
-                >
+                <span class="card-emoji code" aria-hidden="true">&lt;/&gt;</span>
               </div>
               <div class="card-content">
                 <span class="tag">DÉVELOPPEMENT</span>
@@ -182,9 +173,11 @@
           ×
         </button>
         <span class="modal-icon" aria-hidden="true">✦</span>
-        <p class="section-label">NOUVEAU DÉPART</p>
-        <h2>Créer une collection</h2>
-        <p>Donnez un nom au prochain sujet que vous allez maîtriser.</p>
+        <p class="section-label collection-modal-label">NOUVEAU DÉPART</p>
+        <h2 class="collection-modal-title">Créer une collection</h2>
+        <p class="collection-modal-description">
+          Donnez un nom au prochain sujet que vous allez maîtriser.
+        </p>
         <label for="collection-name">Nom de la collection</label>
         <input
           id="collection-name"
@@ -202,7 +195,10 @@
           <option value="SCIENCES">Sciences</option>
           <option value="DÉVELOPPEMENT">Développement</option>
         </select>
-        <button class="primary-button modal-submit" value="default">
+        <button
+          class="primary-button modal-submit collection-modal-submit"
+          value="default"
+        >
           Créer ma collection
         </button>
       </form>
