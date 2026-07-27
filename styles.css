@@ -592,11 +592,15 @@ svg {
 }
 .detail-actions {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .start-study {
-  width: 100%;
-  min-height: 176px;
-  border-radius: 0 19px 19px 0;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  padding: 0;
+  border-radius: 16px;
   font-size: 15px;
   box-shadow: none;
 }
@@ -732,10 +736,7 @@ svg {
   }
   .detail-actions {
     grid-column: 1/-1;
-  }
-  .start-study {
-    min-height: 64px;
-    border-radius: 0 0 19px 19px;
+    padding-bottom: 24px;
   }
 }
 @media (max-width: 600px) {
@@ -754,9 +755,6 @@ svg {
   }
   .detail-actions {
     margin-top: 24px;
-  }
-  .start-study {
-    min-height: 64px;
   }
   .collection-detail {
     padding-top: 28px;
