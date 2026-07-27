@@ -7,6 +7,8 @@ const storageKey = 'memento-custom-cards';
 const collectionsStorageKey = 'memento-custom-collections';
 const deletedCollectionsStorageKey = 'memento-deleted-collections';
 const collectionViewStorageKey = 'memento-collection-view';
+const difficultyStorageKey = 'memento-card-difficulties';
+const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 
 const collections = {
   'anglais-quotidien': {
@@ -263,7 +265,7 @@ function showToast(message) {
 }
 
 function shuffleCards(cards) {
-  const shuffled = cards.map((card) => [...card]);
+  const shuffled = cards.map((card) => ({ card, key: getCardKey(card) }));
   for (let index = shuffled.length - 1; index > 0; index -= 1) {
     const randomIndex = Math.floor(Math.random() * (index + 1));
     [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
@@ -271,9 +273,23 @@ function shuffleCards(cards) {
   return shuffled;
 }
 
+function getCardKey([question, answer]) {
+  return `${question}\u0000${answer}`;
+}
+
+function getDifficulties() {
+  return readStorage(difficultyStorageKey);
+}
+
+function saveDifficulty(cardKey, difficulty) {
+  const difficulties = getDifficulties();
+  difficulties[activeCollectionId] ||= {};
+  difficulties[activeCollectionId][cardKey] = difficulty;
+  localStorage.setItem(difficultyStorageKey, JSON.stringify(difficulties));
+}
+
 function renderStudyCard() {
-  const [question, answer] = studyCards[studyIndex];
-  const isLastCard = studyIndex === studyCards.length - 1;
+  const [question, answer] = studyCards[studyIndex].card;
   const progress = ((studyIndex + 1) / studyCards.length) * 100;
   document.querySelector('.study-progress-text').textContent = `Carte ${studyIndex + 1} sur ${studyCards.length}`;
   const progressBar = document.querySelector('.study-progress');
@@ -286,9 +302,7 @@ function renderStudyCard() {
   document.querySelector('.study-card').classList.toggle('answer-visible', answerIsVisible);
   document.querySelector('.study-card').setAttribute('aria-label', answerIsVisible ? 'Afficher la question' : 'Afficher la réponse');
   document.querySelector('.study-reveal').hidden = answerIsVisible;
-  const nextButton = document.querySelector('.study-next');
-  nextButton.hidden = !answerIsVisible;
-  nextButton.innerHTML = isLastCard ? 'Terminer la session' : 'Carte suivante <span aria-hidden="true">→</span>';
+  document.querySelector('.study-rating').hidden = !answerIsVisible;
 }
 
 function toggleStudyCard() {
@@ -303,6 +317,12 @@ function startStudySession() {
     return;
   }
   studyCards = shuffleCards(collection.cards);
+  const savedDifficulties = getDifficulties()[activeCollectionId] || {};
+  studyCards.forEach(({ card, key }) => {
+    const weight = difficultyWeights[savedDifficulties[key]] || 1;
+    for (let appearance = 1; appearance < weight; appearance += 1) studyCards.push({ card, key });
+  });
+  studyCards = shuffleCards(studyCards.map(({ card }) => card));
   studyIndex = 0;
   answerIsVisible = false;
   document.querySelector('#study-title').textContent = collection.title;
@@ -396,7 +416,17 @@ document.querySelector('.start-study').addEventListener('click', startStudySessi
 
 document.querySelector('.study-card').addEventListener('click', toggleStudyCard);
 document.querySelector('.study-reveal').addEventListener('click', toggleStudyCard);
-document.querySelector('.study-next').addEventListener('click', () => {
+document.querySelectorAll('.difficulty-button').forEach((button) => button.addEventListener('click', () => {
+  const currentCard = studyCards[studyIndex];
+  const difficulty = button.dataset.difficulty;
+  saveDifficulty(currentCard.key, difficulty);
+
+  const appearances = studyCards.filter(({ key }) => key === currentCard.key).length;
+  const requestedAppearances = difficultyWeights[difficulty];
+  for (let appearance = appearances; appearance < requestedAppearances; appearance += 1) {
+    studyCards.push({ ...currentCard });
+  }
+
   if (studyIndex === studyCards.length - 1) {
     studyModal.close();
     showToast('Session terminée, bravo ! ✨');
@@ -406,7 +436,7 @@ document.querySelector('.study-next').addEventListener('click', () => {
   answerIsVisible = false;
   renderStudyCard();
   document.querySelector('.study-card').focus();
-});
+}));
 document.querySelector('.study-close').addEventListener('click', () => studyModal.close());
 
 document.querySelector('.delete-collection-button').addEventListener('click', () => {
