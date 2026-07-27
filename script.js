@@ -254,11 +254,10 @@ function formatCardCount(count) {
 }
 
 function createCollectionCard(id, collection) {
-  const card = document.createElement("article");
+  const card = document.createElement("a");
   card.className = "collection-card";
   card.dataset.collectionId = id;
-  card.tabIndex = 0;
-  card.setAttribute("role", "link");
+  card.href = `#collection/${id}`;
   card.setAttribute("aria-label", `Ouvrir la collection ${collection.title}`);
   card.innerHTML =
     '<div class="card-top"><img class="collection-image" src="img/0.png" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
@@ -267,13 +266,6 @@ function createCollectionCard(id, collection) {
   card.querySelector(".card-footer span").textContent = formatCardCount(
     collection.cards.length,
   );
-  card.addEventListener("click", () => {
-    window.location.hash = `collection/${id}`;
-  });
-  card.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" && event.target === card)
-      window.location.hash = `collection/${id}`;
-  });
   return card;
 }
 
