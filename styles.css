@@ -571,10 +571,8 @@ svg {
   align-self: stretch;
   display: grid;
   place-items: center;
-  width: 112px;
+  width: 140px;
   height: auto;
-  margin-left: 32px;
-  border-radius: 16px;
   font-size: 44px;
 }
 .detail-content {
