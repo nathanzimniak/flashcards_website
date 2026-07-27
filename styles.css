@@ -29,6 +29,7 @@
 .detail-description{color:var(--muted);margin:12px 0 0}
 .detail-actions{display:flex;min-width:260px;flex-direction:column;align-items:center;gap:13px}.start-study{width:100%;min-height:54px;font-size:15px}.delete-collection-button{display:flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:8px;background:transparent;color:#9b96a5;padding:6px 10px;font:500 11px "DM Sans";cursor:pointer;transition:.2s}.delete-collection-button:hover,.delete-collection-button:focus-visible{background:#fdf0f2;color:#a9344d}.delete-collection-button svg{width:14px;fill:none;stroke:currentColor;stroke-width:1.8}
 .flashcards-section{margin-top:48px}
+.cards-heading{justify-content:flex-end}
 .detail-count{margin:8px 0 0;color:var(--muted);font-size:13px;font-weight:600}
 .flashcard-list{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
 .flashcard{position:relative;min-height:174px;padding:26px;border:1px solid var(--line);border-radius:15px;background:#fff;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit;transition:.2s}
