@@ -3,58 +3,141 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Memento, l'application de flashcards simple et efficace." />
+    <meta
+      name="description"
+      content="Memento, l'application de flashcards simple et efficace."
+    />
     <title>Memento — Mes flashcards</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="app-shell">
       <header class="topbar">
         <a class="brand" href="#" aria-label="Accueil Memento">
-          <span class="brand-mark" aria-hidden="true"><span></span><span></span></span>
+          <span class="brand-mark" aria-hidden="true"
+            ><span></span><span></span
+          ></span>
           <span>Memento</span>
         </a>
         <nav class="desktop-nav" aria-label="Navigation principale">
           <a class="active" href="#collections">Mes collections</a>
           <a href="#stats">Mes stats</a>
         </nav>
-        <div class="header-actions">
-          <button class="avatar" type="button" aria-label="Ouvrir le profil">CM</button>
-        </div>
+        <button class="avatar" type="button" aria-label="Ouvrir le profil">
+          CM
+        </button>
       </header>
 
       <main id="library-view">
-        <section class="collection-section" id="collections" aria-label="Collections">
+        <section
+          class="collection-section"
+          id="collections"
+          aria-label="Collections"
+        >
           <div class="collection-toolbar">
             <div class="view-controls" aria-label="Affichage">
-              <button class="selected" type="button" data-view="grid" aria-label="Vue en grille" aria-pressed="true"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"></rect><rect x="14" y="4" width="6" height="6" rx="1"></rect><rect x="4" y="14" width="6" height="6" rx="1"></rect><rect x="14" y="14" width="6" height="6" rx="1"></rect></svg></button>
-              <button type="button" data-view="list" aria-label="Vue en liste" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg></button>
+              <button
+                class="selected"
+                type="button"
+                data-view="grid"
+                aria-label="Vue en grille"
+                aria-pressed="true"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <rect x="4" y="4" width="6" height="6" rx="1"></rect>
+                  <rect x="14" y="4" width="6" height="6" rx="1"></rect>
+                  <rect x="4" y="14" width="6" height="6" rx="1"></rect>
+                  <rect x="14" y="14" width="6" height="6" rx="1"></rect>
+                </svg>
+              </button>
+              <button
+                type="button"
+                data-view="list"
+                aria-label="Vue en liste"
+                aria-pressed="false"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path
+                    d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"
+                  ></path>
+                </svg>
+              </button>
             </div>
           </div>
 
           <div class="collection-grid">
-            <button class="add-card" type="button" data-open-modal><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg></span><strong>Créer une collection</strong><small>Commencez un nouveau sujet</small></button>
-            <a class="collection-card" href="#collection/anglais-quotidien" aria-label="Ouvrir la collection Anglais quotidien">
-              <div class="card-top peach"><span class="card-emoji" aria-hidden="true">🗣️</span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div>
-              <div class="card-content"><span class="tag">LANGUES</span><h3>Anglais quotidien</h3><div class="card-footer"><span>32 cartes</span></div></div>
+            <button class="add-card" type="button" data-open-modal>
+              <span
+                ><svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M12 5v14M5 12h14"></path></svg></span
+              ><strong>Créer une collection</strong
+              ><small>Commencez un nouveau sujet</small>
+            </button>
+            <a
+              class="collection-card"
+              href="#collection/anglais-quotidien"
+              aria-label="Ouvrir la collection Anglais quotidien"
+            >
+              <div class="card-top peach">
+                <span class="card-emoji" aria-hidden="true">🗣️</span
+                ><span class="open-hint"
+                  >Ouvrir <span aria-hidden="true">→</span></span
+                >
+              </div>
+              <div class="card-content">
+                <span class="tag">LANGUES</span>
+                <h3>Anglais quotidien</h3>
+                <div class="card-footer"><span>32 cartes</span></div>
+              </div>
             </a>
-            <a class="collection-card" href="#collection/capitales-du-monde" aria-label="Ouvrir la collection Les capitales du monde">
-              <div class="card-top sky"><span class="card-emoji" aria-hidden="true">🌍</span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div>
-              <div class="card-content"><span class="tag">GÉOGRAPHIE</span><h3>Les capitales du monde</h3><div class="card-footer"><span>48 cartes</span></div></div>
+            <a
+              class="collection-card"
+              href="#collection/capitales-du-monde"
+              aria-label="Ouvrir la collection Les capitales du monde"
+            >
+              <div class="card-top sky">
+                <span class="card-emoji" aria-hidden="true">🌍</span
+                ><span class="open-hint"
+                  >Ouvrir <span aria-hidden="true">→</span></span
+                >
+              </div>
+              <div class="card-content">
+                <span class="tag">GÉOGRAPHIE</span>
+                <h3>Les capitales du monde</h3>
+                <div class="card-footer"><span>48 cartes</span></div>
+              </div>
             </a>
-            <a class="collection-card" href="#collection/bases-javascript" aria-label="Ouvrir la collection Bases de JavaScript">
-              <div class="card-top lemon"><span class="card-emoji code" aria-hidden="true">&lt;/&gt;</span><span class="open-hint">Ouvrir <span aria-hidden="true">→</span></span></div>
-              <div class="card-content"><span class="tag">DÉVELOPPEMENT</span><h3>Bases de JavaScript</h3><div class="card-footer"><span>24 cartes</span></div></div>
+            <a
+              class="collection-card"
+              href="#collection/bases-javascript"
+              aria-label="Ouvrir la collection Bases de JavaScript"
+            >
+              <div class="card-top lemon">
+                <span class="card-emoji code" aria-hidden="true">&lt;/&gt;</span
+                ><span class="open-hint"
+                  >Ouvrir <span aria-hidden="true">→</span></span
+                >
+              </div>
+              <div class="card-content">
+                <span class="tag">DÉVELOPPEMENT</span>
+                <h3>Bases de JavaScript</h3>
+                <div class="card-footer"><span>24 cartes</span></div>
+              </div>
             </a>
           </div>
         </section>
       </main>
 
       <main id="collection-view" class="collection-detail" hidden>
-        <a class="back-link" href="#collections"><span aria-hidden="true">←</span> Toutes les collections</a>
+        <a class="back-link" href="#collections"
+          ><span aria-hidden="true">←</span> Toutes les collections</a
+        >
         <section class="detail-header">
           <div class="detail-icon" aria-hidden="true"></div>
           <div class="detail-content">
@@ -63,27 +146,53 @@
             <p class="detail-count"></p>
           </div>
           <div class="detail-actions">
-            <button class="primary-button start-study" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 7 8 5-8 5V7Z"></path></svg>Commencer à réviser</button>
+            <button class="primary-button start-study" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="m9 7 8 5-8 5V7Z"></path></svg
+              >Commencer à réviser
+            </button>
           </div>
         </section>
         <section class="flashcards-section" aria-label="Cartes">
           <div class="flashcard-list">
-            <button class="add-flashcard-button" type="button"><span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg></span><strong>Ajouter une carte</strong><small>Créez une nouvelle question</small></button>
+            <button class="add-flashcard-button" type="button">
+              <span
+                ><svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M12 5v14M5 12h14"></path></svg></span
+              ><strong>Ajouter une carte</strong
+              ><small>Créez une nouvelle question</small>
+            </button>
           </div>
-          <p class="empty-cards" hidden>Cette collection est vide. Ajoutez votre première carte pour commencer.</p>
+          <p class="empty-cards" hidden>
+            Cette collection est vide. Ajoutez votre première carte pour
+            commencer.
+          </p>
         </section>
       </main>
     </div>
 
     <dialog class="modal">
       <form method="dialog" id="collection-form">
-        <button class="modal-close" value="cancel" aria-label="Fermer" formnovalidate>×</button>
-        <span class="modal-icon">✦</span>
+        <button
+          class="modal-close"
+          value="cancel"
+          aria-label="Fermer"
+          formnovalidate
+        >
+          ×
+        </button>
+        <span class="modal-icon" aria-hidden="true">✦</span>
         <p class="section-label">NOUVEAU DÉPART</p>
         <h2>Créer une collection</h2>
         <p>Donnez un nom au prochain sujet que vous allez maîtriser.</p>
         <label for="collection-name">Nom de la collection</label>
-        <input id="collection-name" name="name" required maxlength="50" placeholder="Ex. Histoire de l'art" />
+        <input
+          id="collection-name"
+          name="name"
+          required
+          maxlength="50"
+          placeholder="Ex. Histoire de l'art"
+        />
         <label for="collection-category">Catégorie</label>
         <select id="collection-category" name="category">
           <option value="PERSONNEL">Personnel</option>
@@ -93,21 +202,49 @@
           <option value="SCIENCES">Sciences</option>
           <option value="DÉVELOPPEMENT">Développement</option>
         </select>
-        <button class="primary-button modal-submit" value="default">Créer ma collection</button>
+        <button class="primary-button modal-submit" value="default">
+          Créer ma collection
+        </button>
       </form>
     </dialog>
     <dialog class="modal card-modal">
       <form method="dialog" id="card-form">
-        <button class="modal-close" value="cancel" aria-label="Fermer" formnovalidate>×</button>
+        <button
+          class="modal-close"
+          value="cancel"
+          aria-label="Fermer"
+          formnovalidate
+        >
+          ×
+        </button>
         <span class="modal-icon" aria-hidden="true">✦</span>
         <p class="section-label card-modal-label">NOUVELLE CARTE</p>
         <h2 class="card-modal-title">Ajouter une carte</h2>
-        <p class="card-modal-description">Renseignez le recto et le verso de votre nouvelle carte.</p>
+        <p class="card-modal-description">
+          Renseignez le recto et le verso de votre nouvelle carte.
+        </p>
         <label for="card-question">Question</label>
-        <textarea id="card-question" name="question" required maxlength="300" placeholder="Ex. Quelle est la capitale de l’Italie ?"></textarea>
+        <textarea
+          id="card-question"
+          name="question"
+          required
+          maxlength="300"
+          placeholder="Ex. Quelle est la capitale de l’Italie ?"
+        ></textarea>
         <label for="card-answer">Réponse</label>
-        <textarea id="card-answer" name="answer" required maxlength="300" placeholder="Ex. Rome"></textarea>
-        <button class="primary-button modal-submit card-modal-submit" value="default">Ajouter la carte</button>
+        <textarea
+          id="card-answer"
+          name="answer"
+          required
+          maxlength="300"
+          placeholder="Ex. Rome"
+        ></textarea>
+        <button
+          class="primary-button modal-submit card-modal-submit"
+          value="default"
+        >
+          Ajouter la carte
+        </button>
       </form>
     </dialog>
     <dialog class="study-modal" aria-labelledby="study-title">
@@ -117,11 +254,24 @@
             <p class="section-label">SESSION DE RÉVISION</p>
             <h2 id="study-title"></h2>
           </div>
-          <button class="study-close" type="button" aria-label="Quitter la session de révision">×</button>
+          <button
+            class="study-close"
+            type="button"
+            aria-label="Quitter la session de révision"
+          >
+            ×
+          </button>
         </header>
         <div class="study-progress-row">
           <span class="study-progress-text"></span>
-          <div class="study-progress" role="progressbar" aria-label="Progression de la révision" aria-valuemin="1"><span></span></div>
+          <div
+            class="study-progress"
+            role="progressbar"
+            aria-label="Progression de la révision"
+            aria-valuemin="1"
+          >
+            <span></span>
+          </div>
         </div>
         <button class="study-card" type="button" aria-live="polite">
           <span class="study-side">QUESTION</span>
@@ -129,14 +279,34 @@
           <span class="study-flip-help">Afficher la réponse</span>
         </button>
         <div class="study-actions">
-          <button class="study-reveal primary-button" type="button">Afficher la réponse</button>
+          <button class="study-reveal primary-button" type="button">
+            Afficher la réponse
+          </button>
           <fieldset class="study-rating" hidden>
             <legend>Comment avez-vous trouvé cette carte ?</legend>
             <p>Votre note détermine sa fréquence d’apparition.</p>
             <div class="study-rating-buttons">
-              <button class="difficulty-button difficulty-hard" type="button" data-difficulty="hard"><span aria-hidden="true">●</span> Difficile</button>
-              <button class="difficulty-button difficulty-medium" type="button" data-difficulty="medium"><span aria-hidden="true">●</span> Moyen</button>
-              <button class="difficulty-button difficulty-easy" type="button" data-difficulty="easy"><span aria-hidden="true">●</span> Facile</button>
+              <button
+                class="difficulty-button difficulty-hard"
+                type="button"
+                data-difficulty="hard"
+              >
+                <span aria-hidden="true">●</span> Difficile
+              </button>
+              <button
+                class="difficulty-button difficulty-medium"
+                type="button"
+                data-difficulty="medium"
+              >
+                <span aria-hidden="true">●</span> Moyen
+              </button>
+              <button
+                class="difficulty-button difficulty-easy"
+                type="button"
+                data-difficulty="easy"
+              >
+                <span aria-hidden="true">●</span> Facile
+              </button>
             </div>
           </fieldset>
         </div>
