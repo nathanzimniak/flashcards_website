@@ -200,6 +200,8 @@ main {
 }
 .card-top {
   height: 140px;
+  min-height: 140px;
+  flex-shrink: 0;
   position: relative;
   display: grid;
   place-items: center;
@@ -213,14 +215,16 @@ main {
 .lemon {
   background: #fff5d9;
 }
-.card-emoji {
-  font-size: 42px;
-  filter: drop-shadow(0 5px 5px rgba(50, 40, 40, 0.08));
+.collection-image {
+  width: 100%;
+  display: block;
+  object-fit: cover;
 }
-.card-emoji.code {
-  font: 800 28px Manrope;
-  color: #66551f;
-  filter: none;
+.card-top .collection-image {
+  height: 140px;
+}
+.detail-icon .collection-image {
+  height: 100%;
 }
 .card-content {
   display: flex;
@@ -444,8 +448,8 @@ svg {
   min-height: 132px;
 }
 .collection-grid.list-view .card-top {
-  height: 100%;
-  min-height: 132px;
+  height: 140px;
+  min-height: 140px;
 }
 .collection-grid.list-view .card-content {
   display: grid;
@@ -487,8 +491,8 @@ svg {
     min-height: 250px;
   }
   .collection-grid.list-view .card-top {
-    height: 112px;
-    min-height: 0;
+    height: 140px;
+    min-height: 140px;
   }
   .collection-grid.list-view .card-content {
     display: flex;
@@ -548,6 +552,7 @@ svg {
   width: 140px;
   height: auto;
   font-size: 44px;
+  overflow: hidden;
 }
 .detail-content {
   align-self: stretch;

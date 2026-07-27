@@ -262,11 +262,7 @@ function createCollectionCard(id, collection) {
   card.setAttribute("role", "link");
   card.setAttribute("aria-label", `Ouvrir la collection ${collection.title}`);
   card.innerHTML =
-    '<div class="card-top"><span class="card-emoji" aria-hidden="true"></span></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
-  card.querySelector(".card-top").style.background = collection.color;
-  const emoji = card.querySelector(".card-emoji");
-  if (collection.emoji === "&lt;/&gt;") emoji.innerHTML = collection.emoji;
-  else emoji.textContent = collection.emoji;
+    '<div class="card-top"><img class="collection-image" src="img/0.png" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".tag").textContent = collection.category;
   card.querySelector("h3").textContent = collection.title;
   card.querySelector(".card-footer span").textContent = formatCardCount(
@@ -589,8 +585,7 @@ function renderRoute() {
   document.querySelector(".detail-count").textContent =
     formatCardCount(cardCount);
   const icon = document.querySelector(".detail-icon");
-  icon.innerHTML = collection.emoji;
-  icon.style.background = collection.color;
+  icon.innerHTML = '<img class="collection-image" src="img/0.png" alt="">';
 
   renderFlashcards(collection);
   document.querySelector(".empty-cards").hidden = cardCount !== 0;
