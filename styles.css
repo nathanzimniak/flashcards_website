@@ -30,10 +30,9 @@
 .detail-header .section-label{margin-bottom:7px}
 .detail-actions{display:flex}.start-study{width:100%;min-height:176px;border-radius:0 19px 19px 0;font-size:15px;box-shadow:none}.start-study:hover{transform:none}
 .flashcards-section{margin-top:48px}
-.cards-heading{justify-content:flex-end}.cards-heading .cards-actions,.cards-heading .add-flashcard-button{width:100%}
 .detail-count{margin:8px 0 0;color:var(--muted);font-size:13px;font-weight:600}
 .flashcard-list{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-.flashcard{position:relative;min-height:174px;padding:26px;border:1px solid var(--line);border-radius:15px;background:#fff;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit;transition:.2s}
+.flashcard,.add-flashcard-button{min-height:174px;border-radius:15px}.flashcard{position:relative;padding:26px;border:1px solid var(--line);background:#fff;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit;transition:.2s}
 .flashcard:hover{border-color:#cfc5ef;box-shadow:0 10px 25px rgba(48,40,76,.07)}
 .flashcard:focus-visible{outline:3px solid #cfc2fa}
 .flashcard-meta{display:flex;align-items:center;gap:10px;margin:0 38px 18px 0}.difficulty-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:800;letter-spacing:.2px}.difficulty-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.difficulty-badge.difficulty-hard{background:#fff0f2;color:#c83e57}.difficulty-badge.difficulty-medium{background:#fff6e6;color:#b8750b}.difficulty-badge.difficulty-easy{background:#eaf9f1;color:#31895e}.difficulty-badge.difficulty-unrated{background:#f0eef4;color:#777387}
@@ -48,9 +47,8 @@
 /* Card management */
 .modal textarea{width:100%;min-height:92px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:14px;font:14px "DM Sans";outline:0}
 .modal textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px #eee9fc}
-.cards-actions{display:flex;align-items:center;gap:18px}.add-flashcard-button{padding:12px 17px}.empty-cards{padding:45px 20px;border:1px dashed #ccc6da;border-radius:15px;color:var(--muted);text-align:center;background:#fff}
+.add-flashcard-button{display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px dashed #ccc6da;background:transparent;color:var(--muted);font-family:inherit;cursor:pointer;transition:.2s}.add-flashcard-button:hover,.add-flashcard-button:focus-visible{border-color:var(--purple);background:#f7f4ff;color:var(--purple)}.add-flashcard-button:focus-visible{outline:3px solid #cfc2fa;outline-offset:3px}.add-flashcard-button span{display:grid;place-items:center;width:43px;height:43px;margin-bottom:15px;border-radius:50%;background:#ede8fb;color:var(--purple)}.add-flashcard-button svg{width:20px;fill:none;stroke:currentColor;stroke-width:2}.add-flashcard-button strong{font:700 14px Manrope;color:var(--ink)}.add-flashcard-button small{margin-top:6px;font-size:11px}.empty-cards{padding:45px 20px;border:1px dashed #ccc6da;border-radius:15px;color:var(--muted);text-align:center;background:#fff}
 .delete-card,.edit-card{position:absolute;top:15px;display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:#aaa5b3;cursor:pointer;z-index:1}.delete-card{right:16px}.edit-card{right:54px}.delete-card:hover,.delete-card:focus-visible{background:#fce9ed;color:#c54861}.edit-card:hover,.edit-card:focus-visible{background:#eee9fc;color:var(--purple)}.delete-card svg,.edit-card svg{width:17px;fill:none;stroke:currentColor;stroke-width:1.8}
-@media(max-width:600px){.cards-heading{align-items:flex-start}.cards-actions{flex-direction:column-reverse;align-items:flex-end;gap:10px}.add-flashcard-button{padding:11px 13px}.add-flashcard-button svg{display:none}}
 
 /* Focused study session */
 .study-modal{width:min(760px,calc(100% - 32px));border:0;border-radius:24px;padding:0;background:#faf9fc;box-shadow:0 30px 90px rgba(30,25,50,.3)}
