@@ -580,6 +580,7 @@ svg {
   border-radius: 0 19px 19px 0;
   font-size: 15px;
   box-shadow: none;
+  margin: 10px;
 }
 .start-study svg {
   width: 100px;
