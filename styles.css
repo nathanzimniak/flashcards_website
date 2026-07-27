@@ -568,17 +568,20 @@ svg {
   box-shadow: 0 12px 35px rgba(48, 40, 76, 0.05);
 }
 .detail-icon {
-  align-self: center;
+  align-self: stretch;
   display: grid;
   place-items: center;
   width: 112px;
-  height: 112px;
+  height: auto;
   margin-left: 32px;
   border-radius: 16px;
   font-size: 44px;
 }
 .detail-content {
-  align-self: center;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 32px 0;
 }
 .detail-header h1 {
@@ -718,7 +721,7 @@ svg {
   }
   .detail-icon {
     width: 90px;
-    height: 90px;
+    height: auto;
   }
   .detail-content {
     padding: 32px 32px 32px 0;
@@ -739,6 +742,7 @@ svg {
     display: block;
   }
   .detail-icon {
+    height: 90px;
     margin: 24px 24px 22px;
   }
   .detail-content {
