@@ -27,7 +27,7 @@
 .detail-header h1{font:800 clamp(30px,4vw,44px)/1.15 Manrope;margin:0;letter-spacing:-1.5px}
 .detail-header .section-label{margin-bottom:7px}
 .detail-description{color:var(--muted);margin:12px 0 0}
-.detail-actions{display:flex;flex-direction:column;align-items:stretch;gap:10px}.delete-collection-button{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #efcbd2;border-radius:12px;background:#fff;color:#b83b55;padding:12px 17px;font:700 13px "DM Sans";cursor:pointer;transition:.2s}.delete-collection-button:hover,.delete-collection-button:focus-visible{border-color:#d86579;background:#fdf0f2;color:#9f2942}.delete-collection-button svg{width:17px;fill:none;stroke:currentColor;stroke-width:1.8}
+.detail-actions{display:flex;min-width:260px;flex-direction:column;align-items:center;gap:13px}.start-study{width:100%;min-height:54px;font-size:15px}.delete-collection-button{display:flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:8px;background:transparent;color:#9b96a5;padding:6px 10px;font:500 11px "DM Sans";cursor:pointer;transition:.2s}.delete-collection-button:hover,.delete-collection-button:focus-visible{background:#fdf0f2;color:#a9344d}.delete-collection-button svg{width:14px;fill:none;stroke:currentColor;stroke-width:1.8}
 .flashcards-section{margin-top:48px}
 .detail-count{color:var(--muted);font-size:13px}
 .flashcard-list{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
@@ -42,8 +42,8 @@
 .flashcard.flipped .flashcard-answer{display:block}
 .flip-help{position:absolute;right:20px;bottom:16px;color:#aaa5b3;font-size:10px;font-weight:600}
 .flashcard.flipped .flip-help{color:var(--purple)}
-@media(max-width:900px){.detail-header{grid-template-columns:90px 1fr}.detail-icon{width:90px;height:90px}.detail-actions{grid-column:1/-1;flex-direction:row-reverse}.detail-actions>*{flex:1}}
-@media(max-width:600px){.flashcard-list{grid-template-columns:1fr}.detail-header{display:block;padding:24px}.detail-icon{margin-bottom:22px}.detail-actions{margin-top:24px;flex-direction:column-reverse}.collection-detail{padding-top:28px}}
+@media(max-width:900px){.detail-header{grid-template-columns:90px 1fr}.detail-icon{width:90px;height:90px}.detail-actions{grid-column:1/-1;width:100%;min-width:0}.start-study{max-width:420px}.delete-collection-button{align-self:center}}
+@media(max-width:600px){.flashcard-list{grid-template-columns:1fr}.detail-header{display:block;padding:24px}.detail-icon{margin-bottom:22px}.detail-actions{margin-top:24px}.start-study{max-width:none}.collection-detail{padding-top:28px}}
 
 /* Card management */
 .modal textarea{width:100%;min-height:92px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:14px;font:14px "DM Sans";outline:0}
