@@ -10,6 +10,7 @@ const collectionViewStorageKey = 'memento-collection-view';
 const difficultyStorageKey = 'memento-card-difficulties';
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultyLabels = { hard: 'Difficile', medium: 'Moyen', easy: 'Facile' };
+let editedCardIndex = null;
 
 const collections = {
   'anglais-quotidien': {
@@ -354,7 +355,7 @@ function createFlashcard([question, answer], index) {
   card.setAttribute('role', 'button');
   card.setAttribute('aria-pressed', 'false');
   card.setAttribute('aria-label', `Carte ${index + 1} : afficher la réponse`);
-  card.innerHTML = `<button class="delete-card" type="button" aria-label="Supprimer la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button><span class="flashcard-meta"><span class="difficulty-badge"></span></span><span class="flashcard-text flashcard-question"></span><span class="flashcard-text flashcard-answer"></span>`;
+  card.innerHTML = `<button class="edit-card" type="button" aria-label="Modifier la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 20 4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"></path><path d="m14.8 6.4 3 3"></path></svg></button><button class="delete-card" type="button" aria-label="Supprimer la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button><span class="flashcard-meta"><span class="difficulty-badge"></span></span><span class="flashcard-text flashcard-question"></span><span class="flashcard-text flashcard-answer"></span>`;
   card.querySelector('.flashcard-question').textContent = question;
   card.querySelector('.flashcard-answer').textContent = answer;
   setDifficultyBadge(card.querySelector('.difficulty-badge'), difficulty);
@@ -378,6 +379,18 @@ function createFlashcard([question, answer], index) {
     saveCards();
     renderRoute();
     showToast('Carte supprimée');
+  });
+  card.querySelector('.edit-card').addEventListener('click', (event) => {
+    event.stopPropagation();
+    editedCardIndex = index;
+    cardForm.elements.question.value = question;
+    cardForm.elements.answer.value = answer;
+    document.querySelector('.card-modal-label').textContent = 'MODIFICATION';
+    document.querySelector('.card-modal-title').textContent = 'Modifier la carte';
+    document.querySelector('.card-modal-description').textContent = 'Modifiez la question et la réponse de cette carte.';
+    document.querySelector('.card-modal-submit').textContent = 'Enregistrer les modifications';
+    cardModal.showModal();
+    setTimeout(() => cardForm.elements.question.focus(), 50);
   });
   return card;
 }
@@ -458,6 +471,12 @@ document.querySelectorAll('.difficulty-button').forEach((button) => button.addEv
 document.querySelector('.study-close').addEventListener('click', () => studyModal.close());
 
 document.querySelector('.add-flashcard-button').addEventListener('click', () => {
+  editedCardIndex = null;
+  cardForm.reset();
+  document.querySelector('.card-modal-label').textContent = 'NOUVELLE CARTE';
+  document.querySelector('.card-modal-title').textContent = 'Ajouter une carte';
+  document.querySelector('.card-modal-description').textContent = 'Renseignez le recto et le verso de votre nouvelle carte.';
+  document.querySelector('.card-modal-submit').textContent = 'Ajouter la carte';
   cardModal.showModal();
   setTimeout(() => document.querySelector('#card-question').focus(), 50);
 });
@@ -467,12 +486,28 @@ cardForm.addEventListener('submit', (event) => {
   event.preventDefault();
   if (!cardForm.reportValidity() || !activeCollectionId) return;
   const data = new FormData(cardForm);
-  collections[activeCollectionId].cards.push([data.get('question').trim(), data.get('answer').trim()]);
+  const updatedCard = [data.get('question').trim(), data.get('answer').trim()];
+  const isEditing = editedCardIndex !== null;
+  if (isEditing) {
+    const previousCard = collections[activeCollectionId].cards[editedCardIndex];
+    const difficulties = getDifficulties();
+    const collectionDifficulties = difficulties[activeCollectionId];
+    const previousKey = getCardKey(previousCard);
+    if (collectionDifficulties?.[previousKey]) {
+      collectionDifficulties[getCardKey(updatedCard)] = collectionDifficulties[previousKey];
+      delete collectionDifficulties[previousKey];
+      localStorage.setItem(difficultyStorageKey, JSON.stringify(difficulties));
+    }
+    collections[activeCollectionId].cards[editedCardIndex] = updatedCard;
+  } else {
+    collections[activeCollectionId].cards.push(updatedCard);
+  }
   saveCards();
   cardModal.close();
   cardForm.reset();
+  editedCardIndex = null;
   renderRoute();
-  showToast('Carte ajoutée avec succès ✨');
+  showToast(isEditing ? 'Carte modifiée avec succès ✨' : 'Carte ajoutée avec succès ✨');
 });
 
 document.querySelectorAll('[data-open-modal]').forEach((button) => {
