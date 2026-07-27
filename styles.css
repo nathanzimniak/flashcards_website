@@ -223,6 +223,9 @@ main {
   filter: none;
 }
 .card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: 21px;
 }
 .tag {
@@ -238,7 +241,8 @@ main {
 .card-footer {
   color: #898493;
   font-size: 11px;
-  margin-top: 24px;
+  margin-top: auto;
+  padding-top: 24px;
 }
 .add-card {
   border: 1.5px dashed #ccc6da;
@@ -416,7 +420,8 @@ svg {
 
 /* Collection navigation and detail pages */
 .collection-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   color: inherit;
   cursor: pointer;
   text-decoration: none;
@@ -454,6 +459,9 @@ svg {
   margin: 0;
   height: auto;
 }
+.collection-grid.list-view .card-footer {
+  padding-top: 0;
+}
 .collection-grid.list-view .add-card {
   min-height: 100px;
   flex-direction: row;
@@ -475,7 +483,7 @@ svg {
 }
 @media (max-width: 600px) {
   .collection-grid.list-view .collection-card {
-    display: block;
+    display: flex;
     min-height: 250px;
   }
   .collection-grid.list-view .card-top {
@@ -483,14 +491,16 @@ svg {
     min-height: 0;
   }
   .collection-grid.list-view .card-content {
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: 21px;
   }
   .collection-grid.list-view .card-content h3 {
     margin: 8px 0;
   }
   .collection-grid.list-view .card-footer {
-    margin-top: 24px;
+    margin-top: auto;
+    padding-top: 24px;
   }
   .collection-grid.list-view .add-card {
     min-height: 220px;
