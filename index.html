@@ -138,7 +138,15 @@
         </button>
         <div class="study-actions">
           <button class="study-reveal primary-button" type="button">Afficher la réponse</button>
-          <button class="study-next primary-button" type="button" hidden>Carte suivante <span aria-hidden="true">→</span></button>
+          <fieldset class="study-rating" hidden>
+            <legend>Comment avez-vous trouvé cette carte ?</legend>
+            <p>Votre note détermine sa fréquence d’apparition.</p>
+            <div class="study-rating-buttons">
+              <button class="difficulty-button difficulty-hard" type="button" data-difficulty="hard"><span aria-hidden="true">●</span> Difficile</button>
+              <button class="difficulty-button difficulty-medium" type="button" data-difficulty="medium"><span aria-hidden="true">●</span> Moyen</button>
+              <button class="difficulty-button difficulty-easy" type="button" data-difficulty="easy"><span aria-hidden="true">●</span> Facile</button>
+            </div>
+          </fieldset>
         </div>
       </div>
     </dialog>
