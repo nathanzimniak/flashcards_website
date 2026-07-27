@@ -6,6 +6,7 @@
 
 /* Collection navigation and detail pages */
 .collection-card{display:block;color:inherit;text-decoration:none}
+.collection-grid:not(.list-view) .collection-card{width:80%;min-height:300px;justify-self:center}
 .collection-card:hover,.collection-card:focus-visible{transform:translateY(-5px);box-shadow:var(--shadow)}
 .collection-card:focus-visible{outline:3px solid #cfc2fa;outline-offset:3px}
 .collection-grid.list-view{grid-template-columns:1fr}
