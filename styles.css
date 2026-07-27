@@ -558,7 +558,7 @@ svg {
 }
 .detail-header {
   display: grid;
-  grid-template-columns: 144px 1fr 260px;
+  grid-template-columns: 144px 1fr 88px;
   align-items: stretch;
   column-gap: 30px;
   overflow: hidden;
@@ -599,6 +599,12 @@ svg {
   border-radius: 0 19px 19px 0;
   font-size: 15px;
   box-shadow: none;
+}
+.start-study svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+  stroke: none;
 }
 .start-study:hover {
   transform: none;
