@@ -538,7 +538,7 @@ svg {
   display: grid;
   grid-template-columns: 144px 1fr auto;
   align-items: stretch;
-  column-gap: 30px;
+  column-gap: 20px;
   overflow: hidden;
   background: #fff;
   border: 1px solid var(--line);
