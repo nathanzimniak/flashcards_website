@@ -778,3 +778,16 @@ form.addEventListener("submit", (event) => {
   );
   if (!isEditing) window.location.hash = `collection/${id}`;
 });
+
+const detailHeader = document.querySelector(".detail-header");
+
+if (detailHeader && "ResizeObserver" in window) {
+  const detailHeaderObserver = new ResizeObserver(([entry]) => {
+    detailHeader.style.setProperty(
+      "--detail-header-height",
+      `${entry.contentRect.height}px`,
+    );
+  });
+
+  detailHeaderObserver.observe(detailHeader);
+}
