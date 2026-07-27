@@ -239,14 +239,14 @@ main {
   letter-spacing: 1.2px;
 }
 .card-content h3 {
-  font: 800 17px Manrope;
+  font: 800 16px Manrope;
   margin: 8px 0;
 }
 .card-footer {
   color: #898493;
   font-size: 11px;
   margin-top: auto;
-  padding-top: 8px;
+  padding-top: 0px;
 }
 .add-card {
   border: 1.5px dashed #ccc6da;
