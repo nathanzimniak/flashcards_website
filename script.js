@@ -354,7 +354,7 @@ function createFlashcard([question, answer], index) {
   card.setAttribute('role', 'button');
   card.setAttribute('aria-pressed', 'false');
   card.setAttribute('aria-label', `Carte ${index + 1} : afficher la réponse`);
-  card.innerHTML = `<button class="delete-card" type="button" aria-label="Supprimer la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button><span class="flashcard-meta"><span class="flashcard-label">CARTE ${String(index + 1).padStart(2, '0')}</span><span class="difficulty-badge"></span></span><span class="flashcard-text flashcard-question"></span><span class="flashcard-text flashcard-answer"></span><span class="flip-help">Cliquer pour retourner</span>`;
+  card.innerHTML = `<button class="delete-card" type="button" aria-label="Supprimer la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button><span class="flashcard-meta"><span class="difficulty-badge"></span></span><span class="flashcard-text flashcard-question"></span><span class="flashcard-text flashcard-answer"></span>`;
   card.querySelector('.flashcard-question').textContent = question;
   card.querySelector('.flashcard-answer').textContent = answer;
   setDifficultyBadge(card.querySelector('.difficulty-badge'), difficulty);
