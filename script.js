@@ -10,6 +10,7 @@ const difficultyStorageKey = "memento-card-difficulties";
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { hard: 0, medium: 1, easy: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
+const availableCollectionImages = ["img/0.png", "img/1.png"];
 const collectionGrid = document.querySelector(".collection-grid");
 const toast = document.querySelector(".toast");
 const studyCard = document.querySelector(".study-card");
@@ -216,6 +217,9 @@ function loadSavedCollections() {
       category: collection.category || "PERSONNEL",
       emoji: collection.emoji || "✦",
       color: collection.color || "#eee9fc",
+      image: availableCollectionImages.includes(collection.image)
+        ? collection.image
+        : "img/0.png",
       cards: collections[id]?.cards || [],
     };
   });
@@ -262,6 +266,8 @@ function createCollectionCard(id, collection) {
   card.innerHTML =
     '<div class="card-top"><img class="collection-image" src="img/0.png" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".tag").textContent = collection.category;
+  card.querySelector(".collection-image").src =
+    collection.image || "img/0.png";
   card.querySelector("h3").textContent = collection.title;
   card.querySelector(".card-footer span").textContent = formatCardCount(
     collection.cards.length,
@@ -271,8 +277,8 @@ function createCollectionCard(id, collection) {
 
 function saveCollectionMetadata(id) {
   const savedCollections = readStorage(collectionsStorageKey);
-  const { title, category, emoji, color } = collections[id];
-  savedCollections[id] = { title, category, emoji, color };
+  const { title, category, emoji, color, image } = collections[id];
+  savedCollections[id] = { title, category, emoji, color, image };
   localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
   const deletedCollections = readStorage(deletedCollectionsStorageKey);
   if (Array.isArray(deletedCollections) && deletedCollections.includes(id)) {
@@ -305,6 +311,7 @@ function openCollectionModal(id = null) {
   if (isEditing) {
     form.elements.name.value = collections[id].title;
     form.elements.category.value = collections[id].category;
+    form.elements.image.value = collections[id].image || "img/0.png";
   }
   modal.showModal();
   setTimeout(() => form.elements.name.focus(), 50);
@@ -565,7 +572,9 @@ function renderRoute() {
   document.querySelector(".detail-count").textContent =
     formatCardCount(cardCount);
   const icon = document.querySelector(".detail-icon");
-  icon.innerHTML = '<img class="collection-image" src="img/0.png" alt="">';
+  icon.innerHTML = '<img class="collection-image" alt="">';
+  icon.querySelector(".collection-image").src =
+    collection.image || "img/0.png";
 
   renderFlashcards(collection);
   document.title = `${collection.title} — Memento`;
@@ -698,17 +707,23 @@ form.addEventListener("submit", (event) => {
   const data = new FormData(form);
   const title = data.get("name").trim();
   const category = data.get("category");
+  const requestedImage = data.get("image");
+  const image = availableCollectionImages.includes(requestedImage)
+    ? requestedImage
+    : "img/0.png";
   const isEditing = Boolean(editedCollectionId);
   const id = isEditing ? editedCollectionId : createCollectionId(title);
   if (isEditing) {
     collections[id].title = title;
     collections[id].category = category;
+    collections[id].image = image;
   } else {
     collections[id] = {
       title,
       category,
       emoji: "✦",
       color: "#eee9fc",
+      image,
       cards: [],
     };
   }
