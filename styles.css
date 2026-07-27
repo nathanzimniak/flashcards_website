@@ -572,7 +572,7 @@ svg {
   display: flex;
   align-self: stretch;
   width: var(--detail-header-height, 176px);
-  padding: 10px;
+  padding: 22px;
   box-sizing: border-box;
 }
 .start-study {
