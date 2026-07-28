@@ -963,7 +963,11 @@ svg {
   color: var(--ink);
   font: 800 13px "DM Sans";
   cursor: pointer;
-  transition: 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 .study-rating:disabled {
   opacity: 0.45;
@@ -971,6 +975,7 @@ svg {
 .study-rating:disabled .difficulty-button {
   cursor: not-allowed;
 }
+.difficulty-button:not(:disabled):hover,
 .difficulty-button:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(48, 40, 76, 0.1);
@@ -978,11 +983,26 @@ svg {
 .difficulty-hard span {
   color: #d94b62;
 }
+.difficulty-hard:not(:disabled):hover,
+.difficulty-hard:focus-visible {
+  border-color: #e9a6b1;
+  background: #fff5f6;
+}
 .difficulty-medium span {
   color: #e59b22;
 }
+.difficulty-medium:not(:disabled):hover,
+.difficulty-medium:focus-visible {
+  border-color: #edc37e;
+  background: #fffaf0;
+}
 .difficulty-easy span {
   color: #42a775;
+}
+.difficulty-easy:not(:disabled):hover,
+.difficulty-easy:focus-visible {
+  border-color: #95d1b3;
+  background: #f3fcf7;
 }
 @media (max-width: 600px) {
   .study-session {
