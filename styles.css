@@ -912,9 +912,6 @@ svg {
   justify-content: center;
   margin-top: 22px;
 }
-.study-actions .primary-button {
-  min-width: 210px;
-}
 .study-actions [hidden] {
   display: none;
 }
@@ -981,9 +978,6 @@ svg {
     align-items: flex-start;
     flex-direction: column;
     gap: 9px;
-  }
-  .study-actions .primary-button {
-    width: 100%;
   }
   .study-rating-buttons {
     grid-template-columns: 1fr;
