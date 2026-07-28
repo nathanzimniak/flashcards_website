@@ -4,7 +4,6 @@ const cardModal = document.querySelector(".card-modal");
 const cardForm = document.querySelector("#card-form");
 const studyModal = document.querySelector(".study-modal");
 const collectionGrid = document.querySelector(".collection-grid");
-const collectionModalLabel = document.querySelector(".collection-modal-label");
 const collectionModalTitle = document.querySelector(".collection-modal-title");
 const collectionModalDescription = document.querySelector(
   ".collection-modal-description",
@@ -319,9 +318,6 @@ function openCollectionModal(id = null) {
   editedCollectionId = id;
   form.reset();
   const isEditing = Boolean(id && collections[id]);
-  collectionModalLabel.textContent = isEditing
-    ? "MODIFICATION"
-    : "NOUVEAU DÉPART";
   collectionModalTitle.textContent = isEditing
     ? "Modifier la collection"
     : "Créer une collection";
