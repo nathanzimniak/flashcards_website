@@ -433,9 +433,7 @@ svg {
   outline: 3px solid #cfc2fa;
   outline-offset: 3px;
 }
-.collection-detail {
-  padding-top: 44px;
-}
+
 .back-link {
   display: inline-flex;
   align-items: center;
