@@ -3,6 +3,28 @@ const form = document.querySelector("#collection-form");
 const cardModal = document.querySelector(".card-modal");
 const cardForm = document.querySelector("#card-form");
 const studyModal = document.querySelector(".study-modal");
+const collectionGrid = document.querySelector(".collection-grid");
+const collectionModalLabel = document.querySelector(".collection-modal-label");
+const collectionModalTitle = document.querySelector(".collection-modal-title");
+const collectionModalDescription = document.querySelector(
+  ".collection-modal-description",
+);
+const collectionModalSubmit = document.querySelector(
+  ".collection-modal-submit",
+);
+const cardModalTitle = document.querySelector(".card-modal-title");
+const cardModalDescription = document.querySelector(".card-modal-description");
+const cardModalSubmit = document.querySelector(".card-modal-submit");
+const flashcardList = document.querySelector(".flashcard-list");
+const toast = document.querySelector(".toast");
+const studyCard = document.querySelector(".study-card");
+const studyProgressText = document.querySelector(".study-progress-text");
+const studyProgress = document.querySelector(".study-progress");
+const studySide = document.querySelector(".study-side");
+const studyCardText = document.querySelector(".study-card-text");
+const studyFlipHelp = document.querySelector(".study-flip-help");
+const studyReveal = document.querySelector(".study-reveal");
+const studyRating = document.querySelector(".study-rating");
 const storageKey = "memento-custom-cards";
 const collectionsStorageKey = "memento-custom-collections";
 const deletedCollectionsStorageKey = "memento-deleted-collections";
@@ -11,9 +33,6 @@ const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
 const availableCollectionImages = ["img/0.png", "img/1.png", "img/2.png"];
-const collectionGrid = document.querySelector(".collection-grid");
-const toast = document.querySelector(".toast");
-const studyCard = document.querySelector(".study-card");
 let editedCardIndex = null;
 let editedCollectionId = null;
 
@@ -21,8 +40,6 @@ const collections = {
   "anglais-quotidien": {
     title: "Anglais quotidien",
     category: "LANGUES",
-    emoji: "🗣️",
-    color: "#feece7",
     cards: [
       ["Comment dit-on « enchanté » ?", "Nice to meet you."],
       ["Que signifie « How are you doing? »", "Comment vas-tu ?"],
@@ -35,8 +52,6 @@ const collections = {
   "capitales-du-monde": {
     title: "Les capitales du monde",
     category: "GÉOGRAPHIE",
-    emoji: "🌍",
-    color: "#e7f3fb",
     cards: [
       ["Quelle est la capitale du Japon ?", "Tokyo"],
       ["Quelle est la capitale du Canada ?", "Ottawa"],
@@ -49,8 +64,6 @@ const collections = {
   "bases-javascript": {
     title: "Bases de JavaScript",
     category: "DÉVELOPPEMENT",
-    emoji: "&lt;/&gt;",
-    color: "#fff5d9",
     cards: [
       ["Comment déclarer une constante ?", "Avec le mot-clé const."],
       ["Que retourne typeof true ?", "La chaîne « boolean »."],
@@ -193,7 +206,7 @@ collections["bases-javascript"].cards.push(
   ["Quel mot-clé attend la résolution d’une promesse ?", "await."],
 );
 
-const libraryView = document.querySelector("#library-view");
+const libraryView = document.querySelector("#collections");
 const collectionView = document.querySelector("#collection-view");
 let activeCollectionId = null;
 let studyCards = [];
@@ -208,6 +221,10 @@ function readStorage(key) {
   }
 }
 
+function writeStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
 function loadSavedCollections() {
   const savedCollections = readStorage(collectionsStorageKey);
   Object.entries(savedCollections).forEach(([id, collection]) => {
@@ -215,8 +232,6 @@ function loadSavedCollections() {
     collections[id] = {
       title: collection.title,
       category: collection.category || "PERSONNEL",
-      emoji: collection.emoji || "✦",
-      color: collection.color || "#eee9fc",
       image: availableCollectionImages.includes(collection.image)
         ? collection.image
         : "img/0.png",
@@ -277,16 +292,14 @@ function createCollectionCard(id, collection) {
 
 function saveCollectionMetadata(id) {
   const savedCollections = readStorage(collectionsStorageKey);
-  const { title, category, emoji, color, image } = collections[id];
-  savedCollections[id] = { title, category, emoji, color, image };
-  localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
+  const { title, category, image } = collections[id];
+  savedCollections[id] = { title, category, image };
+  writeStorage(collectionsStorageKey, savedCollections);
   const deletedCollections = readStorage(deletedCollectionsStorageKey);
   if (Array.isArray(deletedCollections) && deletedCollections.includes(id)) {
-    localStorage.setItem(
+    writeStorage(
       deletedCollectionsStorageKey,
-      JSON.stringify(
-        deletedCollections.filter((deletedId) => deletedId !== id),
-      ),
+      deletedCollections.filter((deletedId) => deletedId !== id),
     );
   }
 }
@@ -295,17 +308,16 @@ function openCollectionModal(id = null) {
   editedCollectionId = id;
   form.reset();
   const isEditing = Boolean(id && collections[id]);
-  document.querySelector(".collection-modal-label").textContent = isEditing
+  collectionModalLabel.textContent = isEditing
     ? "MODIFICATION"
     : "NOUVEAU DÉPART";
-  document.querySelector(".collection-modal-title").textContent = isEditing
+  collectionModalTitle.textContent = isEditing
     ? "Modifier la collection"
     : "Créer une collection";
-  document.querySelector(".collection-modal-description").textContent =
-    isEditing
-      ? "Modifiez le nom et la catégorie de cette collection."
-      : "Donnez un nom au prochain sujet que vous allez maîtriser.";
-  document.querySelector(".collection-modal-submit").textContent = isEditing
+  collectionModalDescription.textContent = isEditing
+    ? "Modifiez le nom et la catégorie de cette collection."
+    : "Donnez un nom au prochain sujet que vous allez maîtriser.";
+  collectionModalSubmit.textContent = isEditing
     ? "Enregistrer les modifications"
     : "Créer ma collection";
   if (isEditing) {
@@ -327,17 +339,17 @@ function deleteCollection(id) {
   delete collections[id];
   const savedCollections = readStorage(collectionsStorageKey);
   delete savedCollections[id];
-  localStorage.setItem(collectionsStorageKey, JSON.stringify(savedCollections));
+  writeStorage(collectionsStorageKey, savedCollections);
   const savedCards = readStorage(storageKey);
   delete savedCards[id];
-  localStorage.setItem(storageKey, JSON.stringify(savedCards));
+  writeStorage(storageKey, savedCards);
   const difficulties = readStorage(difficultyStorageKey);
   delete difficulties[id];
-  localStorage.setItem(difficultyStorageKey, JSON.stringify(difficulties));
+  writeStorage(difficultyStorageKey, difficulties);
   const deletedCollections = readStorage(deletedCollectionsStorageKey);
   const deletedIds = Array.isArray(deletedCollections) ? deletedCollections : [];
   if (!deletedIds.includes(id)) deletedIds.push(id);
-  localStorage.setItem(deletedCollectionsStorageKey, JSON.stringify(deletedIds));
+  writeStorage(deletedCollectionsStorageKey, deletedIds);
   renderCollectionCards();
   showToast("Collection supprimée");
   return true;
@@ -359,7 +371,7 @@ function saveCards() {
       collection.cards,
     ]),
   );
-  localStorage.setItem(storageKey, JSON.stringify(cards));
+  writeStorage(storageKey, cards);
 }
 
 function showToast(message) {
@@ -393,7 +405,7 @@ function saveDifficulty(cardKey, difficulty) {
   const difficulties = getDifficulties();
   difficulties[activeCollectionId] ||= {};
   difficulties[activeCollectionId][cardKey] = difficulty;
-  localStorage.setItem(difficultyStorageKey, JSON.stringify(difficulties));
+  writeStorage(difficultyStorageKey, difficulties);
 }
 
 function setDifficultyBadge(badge, difficulty) {
@@ -421,7 +433,6 @@ function getCardsSortedByDifficulty(collection) {
 
 function renderFlashcards(collection) {
   const sortedCards = getCardsSortedByDifficulty(collection);
-  const flashcardList = document.querySelector(".flashcard-list");
   const addFlashcardButton = flashcardList.querySelector(
     ".add-flashcard-button",
   );
@@ -434,19 +445,18 @@ function renderFlashcards(collection) {
 function renderStudyCard() {
   const [question, answer] = studyCards[studyIndex].card;
   const progress = ((studyIndex + 1) / studyCards.length) * 100;
-  document.querySelector(".study-progress-text").textContent =
+  studyProgressText.textContent =
     `Carte ${studyIndex + 1} sur ${studyCards.length}`;
-  const progressBar = document.querySelector(".study-progress");
-  progressBar.setAttribute("aria-valuemax", String(studyCards.length));
-  progressBar.setAttribute("aria-valuenow", String(studyIndex + 1));
-  progressBar.querySelector("span").style.width = `${progress}%`;
-  document.querySelector(".study-side").textContent = answerIsVisible
+  studyProgress.setAttribute("aria-valuemax", String(studyCards.length));
+  studyProgress.setAttribute("aria-valuenow", String(studyIndex + 1));
+  studyProgress.querySelector("span").style.width = `${progress}%`;
+  studySide.textContent = answerIsVisible
     ? "RÉPONSE"
     : "QUESTION";
-  document.querySelector(".study-card-text").textContent = answerIsVisible
+  studyCardText.textContent = answerIsVisible
     ? answer
     : question;
-  document.querySelector(".study-flip-help").textContent = answerIsVisible
+  studyFlipHelp.textContent = answerIsVisible
     ? "Revoir la question"
     : "Afficher la réponse";
   studyCard.classList.toggle("answer-visible", answerIsVisible);
@@ -454,8 +464,8 @@ function renderStudyCard() {
     "aria-label",
     answerIsVisible ? "Afficher la question" : "Afficher la réponse",
   );
-  document.querySelector(".study-reveal").hidden = answerIsVisible;
-  document.querySelector(".study-rating").hidden = !answerIsVisible;
+  studyReveal.hidden = answerIsVisible;
+  studyRating.hidden = !answerIsVisible;
 }
 
 function toggleStudyCard() {
@@ -528,12 +538,10 @@ function createFlashcard([question, answer], index) {
     editedCardIndex = index;
     cardForm.elements.question.value = question;
     cardForm.elements.answer.value = answer;
-    document.querySelector(".card-modal-title").textContent =
-      "Modifier la carte";
-    document.querySelector(".card-modal-description").textContent =
+    cardModalTitle.textContent = "Modifier la carte";
+    cardModalDescription.textContent =
       "Modifiez la question et la réponse de cette carte.";
-    document.querySelector(".card-modal-submit").textContent =
-      "Enregistrer les modifications";
+    cardModalSubmit.textContent = "Enregistrer les modifications";
     cardModal.showModal();
     setTimeout(() => cardForm.elements.question.focus(), 50);
   });
@@ -592,9 +600,7 @@ document
   .addEventListener("click", startStudySession);
 
 studyCard.addEventListener("click", toggleStudyCard);
-document
-  .querySelector(".study-reveal")
-  .addEventListener("click", toggleStudyCard);
+studyReveal.addEventListener("click", toggleStudyCard);
 document.querySelectorAll(".difficulty-button").forEach((button) =>
   button.addEventListener("click", () => {
     const currentCard = studyCards[studyIndex];
@@ -634,12 +640,10 @@ document
   .addEventListener("click", () => {
     editedCardIndex = null;
     cardForm.reset();
-    document.querySelector(".card-modal-title").textContent =
-      "Ajouter une carte";
-    document.querySelector(".card-modal-description").textContent =
+    cardModalTitle.textContent = "Ajouter une carte";
+    cardModalDescription.textContent =
       "Renseignez le recto et le verso de votre nouvelle carte.";
-    document.querySelector(".card-modal-submit").textContent =
-      "Ajouter la carte";
+    cardModalSubmit.textContent = "Ajouter la carte";
     cardModal.showModal();
     setTimeout(() => document.querySelector("#card-question").focus(), 50);
   });
@@ -673,7 +677,7 @@ cardForm.addEventListener("submit", (event) => {
       collectionDifficulties[getCardKey(updatedCard)] =
         collectionDifficulties[previousKey];
       delete collectionDifficulties[previousKey];
-      localStorage.setItem(difficultyStorageKey, JSON.stringify(difficulties));
+      writeStorage(difficultyStorageKey, difficulties);
     }
     collections[activeCollectionId].cards[editedCardIndex] = updatedCard;
   } else {
@@ -691,11 +695,9 @@ cardForm.addEventListener("submit", (event) => {
   );
 });
 
-document.querySelectorAll("[data-open-modal]").forEach((button) => {
-  button.addEventListener("click", () => {
-    openCollectionModal();
-  });
-});
+document
+  .querySelector("[data-open-modal]")
+  .addEventListener("click", () => openCollectionModal());
 
 form.addEventListener("submit", (event) => {
   const submitter = event.submitter;
@@ -719,8 +721,6 @@ form.addEventListener("submit", (event) => {
     collections[id] = {
       title,
       category,
-      emoji: "✦",
-      color: "#eee9fc",
       image,
       cards: [],
     };
