@@ -1,11 +1,39 @@
 :root {
   --ink: #27243d;
   --muted: #777387;
-  --purple: #7357d9;
-  --purple-dark: #5f43c7;
+  --accent: #171717;
+  --accent-strong: #000;
+  --accent-soft: #e8e8e8;
+  --accent-surface: #f4f4f4;
+  --accent-border: #b8b8b8;
+  --accent-shadow: rgba(23, 23, 23, 0.22);
   --line: #e8e5ee;
   --bg: #faf9fc;
   --shadow: 0 16px 45px rgba(48, 40, 76, 0.09);
+}
+body[data-accent="blue"] {
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: #dbeafe;
+  --accent-surface: #eff6ff;
+  --accent-border: #93c5fd;
+  --accent-shadow: rgba(37, 99, 235, 0.24);
+}
+body[data-accent="green"] {
+  --accent: #16803c;
+  --accent-strong: #116530;
+  --accent-soft: #dcfce7;
+  --accent-surface: #f0fdf4;
+  --accent-border: #86d69f;
+  --accent-shadow: rgba(22, 128, 60, 0.24);
+}
+body[data-accent="red"] {
+  --accent: #dc2626;
+  --accent-strong: #b91c1c;
+  --accent-soft: #fee2e2;
+  --accent-surface: #fef2f2;
+  --accent-border: #fca5a5;
+  --accent-shadow: rgba(220, 38, 38, 0.24);
 }
 * {
   box-sizing: border-box;
@@ -52,13 +80,13 @@ body {
   width: 22px;
   height: 26px;
   border-radius: 6px;
-  background: #8267e7;
+  background: var(--accent);
   transform: rotate(-9deg);
   left: 2px;
   top: 1px;
 }
 .brand-mark span:last-child {
-  background: #b8a7f2;
+  background: var(--accent-border);
   transform: rotate(8deg);
   left: 9px;
   top: 2px;
@@ -84,7 +112,7 @@ body {
 .desktop-nav a.active:after {
   content: "";
   height: 3px;
-  background: var(--purple);
+  background: var(--accent);
   border-radius: 3px 3px 0 0;
   position: absolute;
   bottom: 0;
@@ -94,8 +122,8 @@ body {
 .avatar {
   margin-left: auto;
   border: 0;
-  background: #e5ddfa;
-  color: #5c46b6;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -108,7 +136,7 @@ main {
   padding: 64px 0 80px;
 }
 .section-label {
-  color: var(--purple);
+  color: var(--accent);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 1.5px;
@@ -122,16 +150,16 @@ main {
   justify-content: center;
   border: 0;
   border-radius: 12px;
-  background: var(--purple);
+  background: var(--accent);
   color: #fff;
   padding: 15px 22px;
   font: 700 14px "DM Sans";
-  box-shadow: 0 8px 20px rgba(115, 87, 217, 0.25);
+  box-shadow: 0 8px 20px var(--accent-shadow);
   cursor: pointer;
   transition: 0.2s;
 }
 .primary-button:hover {
-  background: var(--purple-dark);
+  background: var(--accent-strong);
   transform: translateY(-2px);
 }
 .primary-button svg {
@@ -189,7 +217,7 @@ main {
   flex-direction: column;
 }
 .tag {
-  color: var(--purple);
+  color: var(--accent);
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 1.2px;
@@ -217,9 +245,9 @@ main {
 .add-card:hover,
 .add-flashcard-button:hover,
 .add-flashcard-button:focus-visible {
-  border-color: var(--purple);
-  background: #f7f4ff;
-  color: var(--purple);
+  border-color: var(--accent);
+  background: var(--accent-surface);
+  color: var(--accent);
 }
 .add-card span,
 .add-flashcard-button span {
@@ -228,8 +256,8 @@ main {
   width: 43px;
   height: 43px;
   border-radius: 50%;
-  background: #ede8fb;
-  color: var(--purple);
+  background: var(--accent-soft);
+  color: var(--accent);
   margin-bottom: 15px;
 }
 .add-card svg,
@@ -325,8 +353,8 @@ main {
   cursor: pointer;
 }
 .image-option:has(input:checked) {
-  border-color: var(--purple);
-  box-shadow: 0 0 0 3px #eee9fc;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 .image-option input {
   position: absolute;
@@ -341,14 +369,14 @@ main {
   object-fit: cover;
 }
 .image-option:focus-within {
-  outline: 3px solid #cfc2fa;
+  outline: 3px solid var(--accent-border);
   outline-offset: 2px;
 }
 .modal input:focus,
 .modal select:focus,
 .modal textarea:focus {
-  border-color: var(--purple);
-  box-shadow: 0 0 0 3px #eee9fc;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 .modal-submit {
   width: 100%;
@@ -430,7 +458,7 @@ svg {
   box-shadow: var(--shadow);
 }
 .collection-card:focus-visible {
-  outline: 3px solid #cfc2fa;
+  outline: 3px solid var(--accent-border);
   outline-offset: 3px;
 }
 
@@ -445,7 +473,7 @@ svg {
   text-decoration: none;
 }
 .back-link:hover {
-  color: var(--purple);
+  color: var(--accent);
 }
 .detail-header {
   display: grid;
@@ -551,11 +579,11 @@ svg {
   transition: 0.2s;
 }
 .flashcard:hover {
-  border-color: #cfc5ef;
+  border-color: var(--accent-border);
   box-shadow: 0 10px 25px rgba(48, 40, 76, 0.07);
 }
 .flashcard:focus-visible {
-  outline: 3px solid #cfc2fa;
+  outline: 3px solid var(--accent-border);
 }
 .flashcard-meta {
   display: flex;
@@ -614,8 +642,8 @@ svg {
   display: none;
 }
 .flashcard.flipped {
-  background: #f3efff;
-  border-color: #cfc2fa;
+  background: var(--accent-surface);
+  border-color: var(--accent-border);
 }
 .flashcard.flipped .flashcard-question {
   display: none;
@@ -681,7 +709,7 @@ svg {
   transition: 0.2s;
 }
 .add-flashcard-button:focus-visible {
-  outline: 3px solid #cfc2fa;
+  outline: 3px solid var(--accent-border);
   outline-offset: 3px;
 }
 .delete-card,
@@ -724,8 +752,8 @@ svg {
 }
 .edit-card:hover,
 .edit-card:focus-visible {
-  background: #eee9fc;
-  color: var(--purple);
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 .delete-card svg,
 .edit-card svg {
@@ -778,8 +806,8 @@ svg {
 }
 .study-close:hover,
 .study-close:focus-visible {
-  background: #e3dcf6;
-  color: var(--purple);
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 .study-progress-row {
   display: flex;
@@ -804,7 +832,7 @@ svg {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--purple);
+  background: var(--accent);
   transition: width 0.3s ease;
 }
 .study-card {
@@ -825,19 +853,19 @@ svg {
   transition: 0.2s;
 }
 .study-card:hover {
-  border-color: #cfc5ef;
+  border-color: var(--accent-border);
   transform: translateY(-2px);
 }
 .study-card:focus-visible {
-  outline: 3px solid #cfc2fa;
+  outline: 3px solid var(--accent-border);
   outline-offset: 3px;
 }
 .study-card.answer-visible {
-  background: #f3efff;
-  border-color: #cfc2fa;
+  background: var(--accent-surface);
+  border-color: var(--accent-border);
 }
 .study-side {
-  color: var(--purple);
+  color: var(--accent);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 1.5px;
