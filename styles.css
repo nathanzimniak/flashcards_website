@@ -975,11 +975,6 @@ svg {
 .study-rating:disabled .difficulty-button {
   cursor: not-allowed;
 }
-.difficulty-button:not(:disabled):hover,
-.difficulty-button:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(48, 40, 76, 0.1);
-}
 .difficulty-hard span {
   color: #d94b62;
 }
