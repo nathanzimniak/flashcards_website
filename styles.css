@@ -953,7 +953,7 @@ svg {
   padding: 6px 8px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--difficulty-background);
+  background: #fff;
   color: var(--ink);
   font: 800 13px "DM Sans";
   cursor: pointer;
