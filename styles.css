@@ -951,10 +951,10 @@ svg {
   justify-content: center;
   gap: 6px;
   padding: 6px 8px;
-  border: 1px solid transparent;
+  border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--difficulty-background);
-  color: var(--difficulty-color);
+  color: var(--ink);
   font: 800 13px "DM Sans";
   cursor: pointer;
 }
@@ -965,7 +965,8 @@ svg {
   cursor: not-allowed;
 }
 .study-rating:not(:disabled) .difficulty-button:hover {
-  border-color: currentColor;
+  border-color: var(--accent-border);
+  color: var(--difficulty-color);
 }
 .difficulty-button:focus-visible {
   outline: 3px solid currentColor;
