@@ -923,12 +923,6 @@ svg {
   border: 0;
   text-align: center;
 }
-.study-rating legend {
-  width: 100%;
-  padding: 0;
-  font: 700 14px Manrope;
-  margin-bottom: 8px;
-}
 .study-rating p {
   margin: 5px 0 14px;
   color: var(--muted);
