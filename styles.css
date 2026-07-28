@@ -501,7 +501,7 @@ svg {
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 20px;
-  box-shadow: 0 12px 35px rgba(48, 40, 76, 0.05);
+  box-shadow: var(--shadow);
 }
 .detail-icon {
   align-self: stretch;
