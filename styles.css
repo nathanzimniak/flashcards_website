@@ -498,7 +498,7 @@ svg {
   place-items: center;
   width: 20px;
   height: 20px;
-  color: var(--ink);
+  color: var(--muted);
   transition:
     color 180ms ease,
     transform 180ms ease;
