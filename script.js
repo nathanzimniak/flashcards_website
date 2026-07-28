@@ -499,12 +499,24 @@ function startStudySession() {
   studyCard.focus();
 }
 
+function setFlashcardFlipped(card, cardNumber, flipped) {
+  card.classList.toggle("flipped", flipped);
+  card.setAttribute("aria-pressed", String(flipped));
+  card.setAttribute(
+    "aria-label",
+    `Carte ${cardNumber} : ${
+      flipped ? "afficher la question" : "afficher la réponse"
+    }`,
+  );
+}
+
 function createFlashcard([question, answer], index) {
   const cardKey = getCardKey([question, answer]);
   const difficulty = getDifficulties()[activeCollectionId]?.[cardKey];
   const card = document.createElement("article");
   card.className = "flashcard";
   card.dataset.cardKey = cardKey;
+  card.dataset.cardIndex = String(index);
   card.tabIndex = 0;
   card.setAttribute("role", "button");
   card.setAttribute("aria-pressed", "false");
@@ -515,12 +527,18 @@ function createFlashcard([question, answer], index) {
   setDifficultyBadge(card.querySelector(".difficulty-badge"), difficulty);
 
   const flipCard = () => {
-    const flipped = card.classList.toggle("flipped");
-    card.setAttribute("aria-pressed", String(flipped));
-    card.setAttribute(
-      "aria-label",
-      `Carte ${index + 1} : ${flipped ? "afficher la question" : "afficher la réponse"}`,
-    );
+    const flipped = !card.classList.contains("flipped");
+    if (flipped) {
+      flashcardList
+        .querySelectorAll(".flashcard.flipped")
+        .forEach((otherCard) => {
+          if (otherCard !== card) {
+            const otherCardNumber = Number(otherCard.dataset.cardIndex) + 1;
+            setFlashcardFlipped(otherCard, otherCardNumber, false);
+          }
+        });
+    }
+    setFlashcardFlipped(card, index + 1, flipped);
   };
   card.addEventListener("click", flipCard);
   card.addEventListener("keydown", (event) => {
