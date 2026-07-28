@@ -549,7 +549,7 @@ svg {
 }
 .flashcard,
 .add-flashcard-button {
-  min-height: 174px;
+  min-height: 260px;
   border-radius: 15px;
 }
 .flashcard {
