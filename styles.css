@@ -7,8 +7,8 @@
   --accent-surface: #f4f4f4;
   --accent-border: #b8b8b8;
   --accent-shadow: rgba(23, 23, 23, 0.22);
-  --difficulty-background: #dbeafe;
-  --difficulty-color: #1d4ed8;
+  --difficulty-background: var(--accent-soft);
+  --difficulty-color: var(--accent-strong);
   --line: #e8e5ee;
   --bg: #faf9fc;
   --shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
