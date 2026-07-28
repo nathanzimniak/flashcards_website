@@ -878,7 +878,8 @@ svg {
   isolation: isolate;
 }
 .study-card-stack::before,
-.study-card-stack::after {
+.study-card-stack::after,
+.study-card-decoration {
   content: "";
   position: absolute;
   inset: 0;
@@ -896,6 +897,21 @@ svg {
   transform: translate(13px, 13px) rotate(1.5deg);
   border-color: #e4e0e9;
   background: #f7f5f9;
+}
+.study-card-decoration {
+  display: block;
+}
+.decoration-third {
+  z-index: -3;
+  transform: translate(19px, 19px) rotate(2.2deg);
+  border-color: #e0dce6;
+  background: #f3f1f6;
+}
+.decoration-fourth {
+  z-index: -4;
+  transform: translate(25px, 25px) rotate(2.9deg);
+  border-color: #dcd7e3;
+  background: #efedf2;
 }
 .study-card {
   position: relative;
