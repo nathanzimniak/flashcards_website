@@ -713,6 +713,18 @@ svg {
 .edit-card {
   right: 54px;
 }
+.flashcard .edit-card,
+.flashcard .delete-card {
+  top: auto;
+  bottom: 15px;
+}
+.flashcard .edit-card {
+  right: calc(50% + 4px);
+}
+.flashcard .delete-card {
+  right: auto;
+  left: calc(50% + 4px);
+}
 .delete-card:hover,
 .delete-card:focus-visible {
   background: #fce9ed;
