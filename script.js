@@ -272,6 +272,17 @@ function formatCardCount(count) {
   return `${count} carte${count > 1 ? "s" : ""}`;
 }
 
+function getCollectionAccent(category) {
+  const normalizedCategory = category
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase();
+  if (normalizedCategory.startsWith("LANGUE")) return "blue";
+  if (normalizedCategory === "GEOGRAPHIE") return "green";
+  if (normalizedCategory === "DEVELOPPEMENT") return "red";
+  return "blue";
+}
+
 function createCollectionCard(id, collection) {
   const card = document.createElement("a");
   card.className = "collection-card";
@@ -552,6 +563,9 @@ function renderRoute() {
   const match = window.location.hash.match(/^#collection\/(.+)$/);
   const collection = match ? collections[match[1]] : null;
   activeCollectionId = collection ? match[1] : null;
+  document.body.dataset.accent = collection
+    ? getCollectionAccent(collection.category)
+    : "black";
 
   libraryView.hidden = Boolean(collection);
   collectionView.hidden = !collection;
