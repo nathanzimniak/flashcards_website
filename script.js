@@ -10,12 +10,95 @@ const difficultyStorageKey = "memento-card-difficulties";
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { hard: 0, medium: 1, easy: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
-const availableCollectionImages = ["img/0.png", "img/1.png"];
+let availableCollectionImages = [];
 const collectionGrid = document.querySelector(".collection-grid");
 const toast = document.querySelector(".toast");
 const studyCard = document.querySelector(".study-card");
 let editedCardIndex = null;
 let editedCollectionId = null;
+
+async function discoverCollectionImages() {
+  if (window.location.hostname.endsWith(".github.io")) {
+    return discoverGitHubPagesImages();
+  }
+
+  const response = await fetch("img/");
+  if (!response.ok) throw new Error("Le dossier img est inaccessible.");
+
+  const directory = document.implementation.createHTMLDocument();
+  directory.documentElement.innerHTML = await response.text();
+  const supportedExtensions = /\.(?:avif|gif|jpe?g|png|svg|webp)$/i;
+  const imageDirectory = new URL(".", response.url).pathname;
+  const imageUrls = [...directory.querySelectorAll("a[href]")]
+    .map((link) => new URL(link.getAttribute("href"), response.url))
+    .filter(
+      (url) =>
+        url.pathname.slice(0, url.pathname.lastIndexOf("/") + 1) ===
+          imageDirectory &&
+        supportedExtensions.test(url.pathname),
+    )
+    .map((url) => `img/${decodeURIComponent(url.pathname.split("/").pop())}`);
+
+  return [...new Set(imageUrls)].sort((first, second) =>
+    first.localeCompare(second, "fr", { numeric: true }),
+  );
+}
+
+async function discoverGitHubPagesImages() {
+  const owner = window.location.hostname.slice(0, -".github.io".length);
+  const [projectName] = window.location.pathname.split("/").filter(Boolean);
+  const repository = projectName || `${owner}.github.io`;
+  const response = await fetch(
+    `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repository)}/contents/img`,
+    { headers: { Accept: "application/vnd.github+json" } },
+  );
+  if (!response.ok)
+    throw new Error("La liste des illustrations est inaccessible.");
+
+  const files = await response.json();
+  const supportedExtensions = /\.(?:avif|gif|jpe?g|png|svg|webp)$/i;
+  return files
+    .filter(
+      (file) =>
+        file.type === "file" && supportedExtensions.test(file.name),
+    )
+    .map((file) => `img/${file.name}`)
+    .sort((first, second) =>
+      first.localeCompare(second, "fr", { numeric: true }),
+    );
+}
+
+function renderImageOptions() {
+  const options = document.querySelector(".image-options");
+  if (!availableCollectionImages.length) {
+    const message = document.createElement("p");
+    message.className = "image-options-error";
+    message.textContent = "Aucune illustration disponible.";
+    options.replaceChildren(message);
+    return;
+  }
+  options.replaceChildren(
+    ...availableCollectionImages.map((image, index) => {
+      const label = document.createElement("label");
+      label.className = "image-option";
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "image";
+      input.value = image;
+      input.required = true;
+      input.checked = index === 0;
+      const preview = document.createElement("img");
+      preview.src = image;
+      preview.alt = `Illustration ${index + 1}`;
+      label.append(input, preview);
+      return label;
+    }),
+  );
+}
+
+function defaultCollectionImage() {
+  return availableCollectionImages[0] || "";
+}
 
 const collections = {
   "anglais-quotidien": {
@@ -219,7 +302,7 @@ function loadSavedCollections() {
       color: collection.color || "#eee9fc",
       image: availableCollectionImages.includes(collection.image)
         ? collection.image
-        : "img/0.png",
+        : defaultCollectionImage(),
       cards: collections[id]?.cards || [],
     };
   });
@@ -264,10 +347,10 @@ function createCollectionCard(id, collection) {
   card.href = `#collection/${id}`;
   card.setAttribute("aria-label", `Ouvrir la collection ${collection.title}`);
   card.innerHTML =
-    '<div class="card-top"><img class="collection-image" src="img/0.png" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
+    '<div class="card-top"><img class="collection-image" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".tag").textContent = collection.category;
   card.querySelector(".collection-image").src =
-    collection.image || "img/0.png";
+    collection.image || defaultCollectionImage();
   card.querySelector("h3").textContent = collection.title;
   card.querySelector(".card-footer span").textContent = formatCardCount(
     collection.cards.length,
@@ -311,7 +394,9 @@ function openCollectionModal(id = null) {
   if (isEditing) {
     form.elements.name.value = collections[id].title;
     form.elements.category.value = collections[id].category;
-    form.elements.image.value = collections[id].image || "img/0.png";
+    const imageField = form.elements.namedItem("image");
+    if (imageField)
+      imageField.value = collections[id].image || defaultCollectionImage();
   }
   modal.showModal();
   setTimeout(() => form.elements.name.focus(), 50);
@@ -574,19 +659,29 @@ function renderRoute() {
   const icon = document.querySelector(".detail-icon");
   icon.innerHTML = '<img class="collection-image" alt="">';
   icon.querySelector(".collection-image").src =
-    collection.image || "img/0.png";
+    collection.image || defaultCollectionImage();
 
   renderFlashcards(collection);
   document.title = `${collection.title} — Memento`;
   window.scrollTo(0, 0);
 }
 
-loadSavedCollections();
-loadDeletedCollections();
-loadSavedCards();
-renderCollectionCards();
-window.addEventListener("hashchange", renderRoute);
-renderRoute();
+async function initializeApplication() {
+  try {
+    availableCollectionImages = await discoverCollectionImages();
+  } catch (error) {
+    console.error("Impossible de charger les illustrations.", error);
+  }
+  renderImageOptions();
+  loadSavedCollections();
+  loadDeletedCollections();
+  loadSavedCards();
+  renderCollectionCards();
+  window.addEventListener("hashchange", renderRoute);
+  renderRoute();
+}
+
+initializeApplication();
 
 document
   .querySelector(".start-study")
@@ -710,7 +805,7 @@ form.addEventListener("submit", (event) => {
   const requestedImage = data.get("image");
   const image = availableCollectionImages.includes(requestedImage)
     ? requestedImage
-    : "img/0.png";
+    : defaultCollectionImage();
   const isEditing = Boolean(editedCollectionId);
   const id = isEditing ? editedCollectionId : createCollectionId(title);
   if (isEditing) {

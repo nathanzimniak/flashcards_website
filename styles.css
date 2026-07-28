@@ -326,6 +326,12 @@ main {
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
+.image-options-error {
+  grid-column: 1 / -1;
+  margin: 4px 0 0;
+  color: #a33a3a;
+  font-size: 13px;
+}
 .modal .image-option {
   position: relative;
   display: block;
