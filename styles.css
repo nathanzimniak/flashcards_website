@@ -960,7 +960,6 @@ svg {
   cursor: pointer;
   transition: 0.2s;
 }
-.difficulty-button:hover,
 .difficulty-button:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(48, 40, 76, 0.1);
@@ -968,23 +967,11 @@ svg {
 .difficulty-hard span {
   color: #d94b62;
 }
-.difficulty-hard:hover {
-  border-color: #e9a6b1;
-  background: #fff5f6;
-}
 .difficulty-medium span {
   color: #e59b22;
 }
-.difficulty-medium:hover {
-  border-color: #edc37e;
-  background: #fffaf0;
-}
 .difficulty-easy span {
   color: #42a775;
-}
-.difficulty-easy:hover {
-  border-color: #95d1b3;
-  background: #f3fcf7;
 }
 @media (max-width: 600px) {
   .study-session {
