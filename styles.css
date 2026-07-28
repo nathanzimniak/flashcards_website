@@ -952,7 +952,7 @@ svg {
   display: flex;
   width: min(100%, 400px);
   justify-content: center;
-  margin: 22px auto 0;
+  margin: 40px auto 0;
 }
 .study-rating {
   width: 100%;
@@ -976,7 +976,7 @@ svg {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 6px;
+  padding: 8px;
   border: 1px solid var(--line);
   border-radius: 11px;
   background: #fff;
