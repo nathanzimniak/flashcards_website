@@ -822,12 +822,20 @@ svg {
   place-items: center;
   width: 40px;
   height: 40px;
+  padding: 0;
   border: 0;
   border-radius: 50%;
   background: #eeeaf4;
   color: #716c7e;
-  font-size: 27px;
   cursor: pointer;
+}
+.study-close svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 2;
 }
 .study-close:hover,
 .study-close:focus-visible {
