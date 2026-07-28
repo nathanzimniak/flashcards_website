@@ -948,7 +948,7 @@ svg {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 13px 18px;
+  padding: 6px;
   border: 1px solid var(--line);
   border-radius: 11px;
   background: #fff;
