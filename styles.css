@@ -526,7 +526,7 @@ svg {
 }
 .detail-header {
   display: grid;
-  grid-template-columns: 144px 1fr auto;
+  grid-template-columns: 144px 1fr;
   align-items: stretch;
   column-gap: 20px;
   overflow: hidden;
@@ -561,24 +561,6 @@ svg {
 .detail-header .section-label {
   margin-bottom: 4px;
 }
-.collection-study-button {
-  align-self: stretch;
-  width: 124px;
-  margin: 26px;
-  padding: 0;
-  border-radius: 200px;
-  font-size: 15px;
-  box-shadow: none;
-}
-.collection-study-button svg {
-  width: 100px;
-  height: 100px;
-  fill: currentColor;
-  stroke: none;
-}
-.collection-study-button:hover {
-  transform: none;
-}
 .flashcards-section {
   margin-top: 48px;
 }
@@ -593,11 +575,41 @@ svg {
   gap: 8px;
   margin-top: 6px;
 }
-.detail-collection-actions .edit-card,
-.detail-collection-actions .delete-card {
-  position: static;
+.detail-action-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
   border: 1px solid var(--line);
+  border-radius: 9px;
   background: #fff;
+  color: #aaa5b3;
+  cursor: pointer;
+}
+.detail-action-button svg {
+  width: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+.collection-study-button svg {
+  fill: currentColor;
+  stroke: none;
+}
+.collection-study-button:hover,
+.collection-study-button:focus-visible {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.edit-detail-collection:hover,
+.edit-detail-collection:focus-visible {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.delete-detail-collection:hover,
+.delete-detail-collection:focus-visible {
+  background: #fce9ed;
+  color: #c54861;
 }
 .flashcard-list {
   display: grid;
@@ -699,16 +711,6 @@ svg {
   .detail-content {
     padding: 32px 32px 32px 0;
   }
-  .collection-study-button {
-    grid-column: 1/-1;
-    align-self: auto;
-    justify-self: center;
-    width: 64px;
-    height: 64px;
-    margin: 0 0 24px;
-    min-height: 64px;
-    border-radius: 16px;
-  }
 }
 @media (max-width: 600px) {
   .flashcard-list {
@@ -723,9 +725,6 @@ svg {
   }
   .detail-content {
     padding: 0 24px;
-  }
-  .collection-study-button {
-    margin: 24px auto;
   }
   .collection-detail {
     padding-top: 28px;
