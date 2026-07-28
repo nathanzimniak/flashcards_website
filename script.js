@@ -467,7 +467,7 @@ function renderStudyCard() {
     "aria-label",
     answerIsVisible ? "Afficher la question" : "Afficher la réponse",
   );
-  studyRating.hidden = !answerIsVisible;
+  studyRating.disabled = !answerIsVisible;
 }
 
 function toggleStudyCard() {

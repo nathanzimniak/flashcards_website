@@ -916,11 +916,6 @@ svg {
   justify-content: center;
   margin: 22px auto 0;
 }
-.study-actions [hidden] {
-  display: block;
-  visibility: hidden;
-  pointer-events: none;
-}
 .study-rating {
   width: 100%;
   margin: 0;
@@ -957,6 +952,12 @@ svg {
   font: 700 13px "DM Sans";
   cursor: pointer;
   transition: 0.2s;
+}
+.study-rating:disabled {
+  opacity: 0.45;
+}
+.study-rating:disabled .difficulty-button {
+  cursor: not-allowed;
 }
 .difficulty-button:focus-visible {
   transform: translateY(-2px);
