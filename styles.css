@@ -499,9 +499,6 @@ svg {
   width: 20px;
   height: 20px;
   color: var(--muted);
-  transition:
-    color 180ms ease,
-    transform 180ms ease;
 }
 .back-link-icon svg {
   width: 17px;
@@ -514,10 +511,6 @@ svg {
 }
 .back-link:hover {
   color: var(--accent);
-}
-.back-link:hover .back-link-icon {
-  color: var(--accent-strong);
-  transform: translateX(-3px);
 }
 .back-link:focus-visible {
   outline: 2px solid var(--accent-border);
