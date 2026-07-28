@@ -635,7 +635,6 @@ document
   .addEventListener("click", () => {
     editedCardIndex = null;
     cardForm.reset();
-    document.querySelector(".card-modal-label").textContent = "NOUVELLE CARTE";
     document.querySelector(".card-modal-title").textContent =
       "Ajouter une carte";
     document.querySelector(".card-modal-description").textContent =
