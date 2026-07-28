@@ -484,18 +484,11 @@ svg {
 .back-link-icon {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   color: var(--ink);
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(48, 40, 76, 0.08);
   transition:
     color 180ms ease,
-    background-color 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease,
     transform 180ms ease;
 }
 .back-link-icon svg {
@@ -512,17 +505,12 @@ svg {
 }
 .back-link:hover .back-link-icon {
   color: var(--accent-strong);
-  background: var(--accent-surface);
-  border-color: var(--accent-border);
-  box-shadow: 0 6px 16px var(--accent-shadow);
   transform: translateX(-3px);
 }
 .back-link:focus-visible {
-  outline: none;
-}
-.back-link:focus-visible .back-link-icon {
-  outline: 3px solid var(--accent-border);
+  outline: 2px solid var(--accent-border);
   outline-offset: 3px;
+  border-radius: 3px;
 }
 .detail-header {
   display: grid;
