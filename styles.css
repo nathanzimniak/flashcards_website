@@ -51,6 +51,8 @@ body {
   min-height: 100vh;
 }
 .topbar {
+  width: 100%;
+  max-width: 1000px;
   height: 82px;
   border-bottom: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.85);
