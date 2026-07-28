@@ -449,7 +449,7 @@ function renderStudyCard() {
   const [question, answer] = studyCards[studyIndex].card;
   const progress = ((studyIndex + 1) / studyCards.length) * 100;
   studyProgressText.textContent =
-    `Carte ${studyIndex + 1} sur ${studyCards.length}`;
+    `Carte ${studyIndex + 1} / ${studyCards.length}`;
   studyProgress.setAttribute("aria-valuemax", String(studyCards.length));
   studyProgress.setAttribute("aria-valuenow", String(studyIndex + 1));
   studyProgress.querySelector("span").style.width = `${progress}%`;
