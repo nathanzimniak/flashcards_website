@@ -19,7 +19,6 @@ const studyProgress = document.querySelector(".study-progress");
 const studySide = document.querySelector(".study-side");
 const studyCardText = document.querySelector(".study-card-text");
 const studyFlipHelp = document.querySelector(".study-flip-help");
-const studyReveal = document.querySelector(".study-reveal");
 const studyRating = document.querySelector(".study-rating");
 const collectionStudyButton = document.querySelector(
   ".collection-study-button",
@@ -468,7 +467,6 @@ function renderStudyCard() {
     "aria-label",
     answerIsVisible ? "Afficher la question" : "Afficher la réponse",
   );
-  studyReveal.hidden = answerIsVisible;
   studyRating.hidden = !answerIsVisible;
 }
 
@@ -623,7 +621,6 @@ renderRoute();
 collectionStudyButton.addEventListener("click", startStudySession);
 
 studyCard.addEventListener("click", toggleStudyCard);
-studyReveal.addEventListener("click", toggleStudyCard);
 document.querySelectorAll(".difficulty-button").forEach((button) =>
   button.addEventListener("click", () => {
     const currentCard = studyCards[studyIndex];
