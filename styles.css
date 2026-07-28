@@ -838,7 +838,7 @@ svg {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin: 28px 0 18px;
+  margin: 10px 0px 28px 0px;
 }
 .study-progress-text {
   flex: none;
