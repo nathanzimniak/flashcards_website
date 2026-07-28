@@ -52,15 +52,20 @@ body {
 }
 .topbar {
   height: 82px;
-  padding: 0 max(32px, calc((100vw - 1180px) / 2));
-  display: flex;
-  align-items: center;
   border-bottom: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
   z-index: 10;
+}
+.topbar-content {
+  width: 100%;
+  max-width: 1000px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
 }
 .brand {
   display: flex;
@@ -405,7 +410,7 @@ svg {
   stroke-linejoin: round;
 }
 @media (max-width: 900px) {
-  .topbar {
+  .topbar-content {
     padding: 0 24px;
   }
   .desktop-nav {
