@@ -579,7 +579,7 @@ svg {
   transition: 0.2s;
 }
 .flashcard:hover {
-  border-color: #cfc5ef;
+  border-color: var(--accent-border);
   box-shadow: 0 10px 25px rgba(48, 40, 76, 0.07);
 }
 .flashcard:focus-visible {
@@ -853,7 +853,7 @@ svg {
   transition: 0.2s;
 }
 .study-card:hover {
-  border-color: #cfc5ef;
+  border-color: var(--accent-border);
   transform: translateY(-2px);
 }
 .study-card:focus-visible {
