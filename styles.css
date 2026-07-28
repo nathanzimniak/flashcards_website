@@ -964,6 +964,9 @@ svg {
 .study-rating:disabled .difficulty-button {
   cursor: not-allowed;
 }
+.study-rating:not(:disabled) .difficulty-button:hover {
+  border-color: currentColor;
+}
 .difficulty-button:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 2px;
