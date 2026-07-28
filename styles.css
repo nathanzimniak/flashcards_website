@@ -476,6 +476,7 @@ svg {
 .collection-card:focus-visible {
   transform: translateY(-5px);
   box-shadow: var(--shadow);
+  border-color: var(--accent-border);
 }
 .collection-card:focus-visible {
   outline: 3px solid var(--accent-border);
