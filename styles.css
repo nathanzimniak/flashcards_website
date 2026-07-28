@@ -133,7 +133,7 @@ body {
 main {
   max-width: 1000px;
   margin: auto;
-  padding: 64px 0 80px;
+  padding: 40px 0 80px;
 }
 .section-label {
   color: var(--accent);
