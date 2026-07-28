@@ -890,11 +890,11 @@ svg {
   pointer-events: none;
 }
 .study-card-stack::before {
-  transform: translate(7px, 7px) rotate(0.8deg);
+  transform: translate(7px, 7px);
 }
 .study-card-stack::after {
   z-index: -2;
-  transform: translate(13px, 13px) rotate(1.5deg);
+  transform: translate(13px, 13px);
   border-color: #e4e0e9;
   background: #f7f5f9;
 }
@@ -903,13 +903,13 @@ svg {
 }
 .decoration-third {
   z-index: -3;
-  transform: translate(19px, 19px) rotate(2.2deg);
+  transform: translate(19px, 19px);
   border-color: #e0dce6;
   background: #f3f1f6;
 }
 .decoration-fourth {
   z-index: -4;
-  transform: translate(25px, 25px) rotate(2.9deg);
+  transform: translate(25px, 25px);
   border-color: #dcd7e3;
   background: #efedf2;
 }
