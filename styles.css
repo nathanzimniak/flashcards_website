@@ -47,9 +47,6 @@ body {
   color: var(--ink);
   font-family: "DM Sans", sans-serif;
 }
-.app-shell {
-  min-height: 100vh;
-}
 .topbar {
   height: 82px;
   border-bottom: 1px solid var(--line);
@@ -239,7 +236,9 @@ main {
   align-items: center;
   justify-content: center;
   color: var(--muted);
+  font-family: inherit;
   cursor: pointer;
+  transition: 0.2s;
 }
 .add-card:hover,
 .add-flashcard-button:hover,
@@ -247,6 +246,10 @@ main {
   border-color: var(--accent);
   background: var(--accent-surface);
   color: var(--accent);
+}
+.add-flashcard-button:focus-visible {
+  outline: 3px solid var(--accent-border);
+  outline-offset: 3px;
 }
 .add-card span,
 .add-flashcard-button span {
@@ -318,6 +321,10 @@ main {
   outline: 0;
   background: #fff;
   color: var(--ink);
+}
+.modal textarea {
+  min-height: 92px;
+  resize: vertical;
 }
 .image-picker {
   margin: 25px 0 0;
@@ -690,18 +697,6 @@ svg {
 }
 
 /* Card management */
-.modal textarea {
-  min-height: 92px;
-  resize: vertical;
-}
-.add-flashcard-button {
-  font-family: inherit;
-  transition: 0.2s;
-}
-.add-flashcard-button:focus-visible {
-  outline: 3px solid var(--accent-border);
-  outline-offset: 3px;
-}
 .delete-card,
 .edit-card {
   position: absolute;

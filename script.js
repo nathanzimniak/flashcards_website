@@ -537,6 +537,27 @@ function setFlashcardFlipped(card, cardNumber, flipped) {
   );
 }
 
+function toggleFlashcard(card) {
+  const cardNumber = Number(card.dataset.cardIndex) + 1;
+  const flipped = !card.classList.contains("flipped");
+
+  if (flipped) {
+    flashcardList
+      .querySelectorAll(".flashcard.flipped")
+      .forEach((otherCard) => {
+        if (otherCard !== card) {
+          setFlashcardFlipped(
+            otherCard,
+            Number(otherCard.dataset.cardIndex) + 1,
+            false,
+          );
+        }
+      });
+  }
+
+  setFlashcardFlipped(card, cardNumber, flipped);
+}
+
 function createFlashcard([question, answer], index) {
   const cardKey = getCardKey([question, answer]);
   const difficulty = getDifficulties()[activeCollectionId]?.[cardKey];
@@ -553,39 +574,6 @@ function createFlashcard([question, answer], index) {
   card.querySelector(".flashcard-answer").textContent = answer;
   setDifficultyBadge(card.querySelector(".difficulty-badge"), difficulty);
 
-  const flipCard = () => {
-    const flipped = !card.classList.contains("flipped");
-    if (flipped) {
-      flashcardList
-        .querySelectorAll(".flashcard.flipped")
-        .forEach((otherCard) => {
-          if (otherCard !== card) {
-            const otherCardNumber = Number(otherCard.dataset.cardIndex) + 1;
-            setFlashcardFlipped(otherCard, otherCardNumber, false);
-          }
-        });
-    }
-    setFlashcardFlipped(card, index + 1, flipped);
-  };
-  card.addEventListener("click", flipCard);
-  card.addEventListener("keydown", (event) => {
-    if ((event.key === "Enter" || event.key === " ") && event.target === card) {
-      event.preventDefault();
-      flipCard();
-    }
-  });
-  card.querySelector(".delete-card").addEventListener("click", (event) => {
-    event.stopPropagation();
-    if (!window.confirm("Supprimer cette carte ?")) return;
-    collections[activeCollectionId].cards.splice(index, 1);
-    saveCards();
-    renderRoute();
-    showToast("Carte supprimée");
-  });
-  card.querySelector(".edit-card").addEventListener("click", (event) => {
-    event.stopPropagation();
-    openCardModal(index);
-  });
   return card;
 }
 
@@ -677,6 +665,39 @@ document
 document
   .querySelector(".add-flashcard-button")
   .addEventListener("click", () => openCardModal());
+
+flashcardList.addEventListener("click", (event) => {
+  const card = event.target.closest(".flashcard");
+  if (!card) return;
+
+  const cardIndex = Number(card.dataset.cardIndex);
+  if (event.target.closest(".edit-card")) {
+    openCardModal(cardIndex);
+    return;
+  }
+  if (event.target.closest(".delete-card")) {
+    if (!window.confirm("Supprimer cette carte ?")) return;
+    collections[activeCollectionId].cards.splice(cardIndex, 1);
+    saveCards();
+    renderRoute();
+    showToast("Carte supprimée");
+    return;
+  }
+
+  toggleFlashcard(card);
+});
+
+flashcardList.addEventListener("keydown", (event) => {
+  const card = event.target.closest(".flashcard");
+  if (
+    card &&
+    event.target === card &&
+    (event.key === "Enter" || event.key === " ")
+  ) {
+    event.preventDefault();
+    toggleFlashcard(card);
+  }
+});
 
 editCollectionButton.addEventListener("click", () => {
   if (activeCollectionId) openCollectionModal(activeCollectionId);

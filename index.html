@@ -17,108 +17,106 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body data-accent="black">
-    <div class="app-shell">
-      <header class="topbar">
-        <div class="topbar-content">
-          <a class="brand" href="#" aria-label="Accueil Memento">
-            <span class="brand-mark" aria-hidden="true"
-              ><span></span><span></span
-            ></span>
-            <span>Memento</span>
-          </a>
-          <nav class="desktop-nav" aria-label="Navigation principale">
-            <a class="active" href="#collections">Collections</a>
-            <a href="#stats">Statistiques</a>
-          </nav>
-          <button class="avatar" type="button" aria-label="Ouvrir le profil">
-            CM
+    <header class="topbar">
+      <div class="topbar-content">
+        <a class="brand" href="#" aria-label="Accueil Memento">
+          <span class="brand-mark" aria-hidden="true"
+            ><span></span><span></span
+          ></span>
+          <span>Memento</span>
+        </a>
+        <nav class="desktop-nav" aria-label="Navigation principale">
+          <a class="active" href="#collections">Collections</a>
+          <a href="#stats">Statistiques</a>
+        </nav>
+        <button class="avatar" type="button" aria-label="Ouvrir le profil">
+          CM
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section id="collections" aria-label="Collections">
+        <div class="collection-grid">
+          <button class="add-card" type="button" data-open-modal>
+            <span
+              ><svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M12 5v14M5 12h14"></path></svg></span
+            ><strong>Créer une collection</strong>
           </button>
         </div>
-      </header>
+      </section>
 
-      <main>
-        <section id="collections" aria-label="Collections">
-          <div class="collection-grid">
-            <button class="add-card" type="button" data-open-modal>
+      <section id="collection-view" class="collection-detail" hidden>
+        <a class="back-link" href="#collections"
+          ><span class="back-link-icon" aria-hidden="true"
+            ><svg viewBox="0 0 24 24">
+              <path d="m14.5 6-6 6 6 6"></path></svg></span
+          >Collections</a
+        >
+        <section class="detail-header">
+          <div class="detail-icon" aria-hidden="true">
+            <img class="collection-image" src="img/0.png" alt="" />
+          </div>
+          <div class="detail-content">
+            <p class="section-label detail-category"></p>
+            <h1 class="detail-title"></h1>
+            <p class="detail-count"></p>
+            <div
+              class="detail-collection-actions"
+              role="group"
+              aria-label="Actions de la collection"
+            >
+              <button
+                class="detail-action-button collection-study-button"
+                type="button"
+                aria-label="Commencer à réviser"
+                title="Commencer à réviser"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path
+                    d="M9.2 6.8A.8.8 0 0 0 8 7.5v9a.8.8 0 0 0 1.2.7l7.5-4.5a.8.8 0 0 0 0-1.4L9.2 6.8Z"
+                  ></path>
+                </svg>
+              </button>
+              <button
+                class="detail-action-button edit-detail-collection"
+                type="button"
+                aria-label="Modifier la collection"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path
+                    d="m4 20 4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"
+                  ></path>
+                  <path d="m14.8 6.4 3 3"></path>
+                </svg>
+              </button>
+              <button
+                class="detail-action-button delete-detail-collection"
+                type="button"
+                aria-label="Supprimer la collection"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path
+                    d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+        <section class="flashcards-section" aria-label="Cartes">
+          <div class="flashcard-list">
+            <button class="add-flashcard-button" type="button">
               <span
                 ><svg aria-hidden="true" viewBox="0 0 24 24">
                   <path d="M12 5v14M5 12h14"></path></svg></span
-              ><strong>Créer une collection</strong>
+              ><strong>Ajouter une carte</strong>
             </button>
           </div>
         </section>
-
-        <section id="collection-view" class="collection-detail" hidden>
-          <a class="back-link" href="#collections"
-            ><span class="back-link-icon" aria-hidden="true"
-              ><svg viewBox="0 0 24 24">
-                <path d="m14.5 6-6 6 6 6"></path></svg></span
-            >Collections</a
-          >
-          <section class="detail-header">
-            <div class="detail-icon" aria-hidden="true">
-              <img class="collection-image" src="img/0.png" alt="" />
-            </div>
-            <div class="detail-content">
-              <p class="section-label detail-category"></p>
-              <h1 class="detail-title"></h1>
-              <p class="detail-count"></p>
-              <div
-                class="detail-collection-actions"
-                role="group"
-                aria-label="Actions de la collection"
-              >
-                <button
-                  class="detail-action-button collection-study-button"
-                  type="button"
-                  aria-label="Commencer à réviser"
-                  title="Commencer à réviser"
-                >
-                  <svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path
-                      d="M9.2 6.8A.8.8 0 0 0 8 7.5v9a.8.8 0 0 0 1.2.7l7.5-4.5a.8.8 0 0 0 0-1.4L9.2 6.8Z"
-                    ></path>
-                  </svg>
-                </button>
-                <button
-                  class="detail-action-button edit-detail-collection"
-                  type="button"
-                  aria-label="Modifier la collection"
-                >
-                  <svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path
-                      d="m4 20 4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"
-                    ></path>
-                    <path d="m14.8 6.4 3 3"></path>
-                  </svg>
-                </button>
-                <button
-                  class="detail-action-button delete-detail-collection"
-                  type="button"
-                  aria-label="Supprimer la collection"
-                >
-                  <svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path
-                      d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </section>
-          <section class="flashcards-section" aria-label="Cartes">
-            <div class="flashcard-list">
-              <button class="add-flashcard-button" type="button">
-                <span
-                  ><svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M12 5v14M5 12h14"></path></svg></span
-                ><strong>Ajouter une carte</strong>
-              </button>
-            </div>
-          </section>
-        </section>
-      </main>
-    </div>
+      </section>
+    </main>
 
     <dialog class="modal" aria-labelledby="collection-modal-title">
       <form method="dialog" id="collection-form">
