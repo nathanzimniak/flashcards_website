@@ -528,7 +528,6 @@ function createFlashcard([question, answer], index) {
     editedCardIndex = index;
     cardForm.elements.question.value = question;
     cardForm.elements.answer.value = answer;
-    document.querySelector(".card-modal-label").textContent = "MODIFICATION";
     document.querySelector(".card-modal-title").textContent =
       "Modifier la carte";
     document.querySelector(".card-modal-description").textContent =
