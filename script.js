@@ -319,9 +319,8 @@ function openCollectionModal(id = null) {
   editedCollectionId = id;
   form.reset();
   const isEditing = Boolean(id && collections[id]);
-  collectionModalLabel.textContent = isEditing
-    ? "MODIFICATION"
-    : "NOUVEAU DÉPART";
+  collectionModalLabel.hidden = isEditing;
+  collectionModalLabel.textContent = "NOUVEAU DÉPART";
   collectionModalTitle.textContent = isEditing
     ? "Modifier la collection"
     : "Créer une collection";
