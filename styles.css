@@ -955,13 +955,13 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 8px;
+  gap: 6px;
+  padding: 6px 8px;
   border: 1px solid var(--line);
-  border-radius: 11px;
+  border-radius: 999px;
   background: #fff;
   color: var(--ink);
-  font: 700 13px "DM Sans";
+  font: 800 13px "DM Sans";
   cursor: pointer;
   transition: 0.2s;
 }
