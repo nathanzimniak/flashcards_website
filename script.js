@@ -4,11 +4,11 @@ const cardModal = document.querySelector(".card-modal");
 const cardForm = document.querySelector("#card-form");
 const studyModal = document.querySelector(".study-modal");
 const collectionGrid = document.querySelector(".collection-grid");
-const collectionModalTitle = document.querySelector(".collection-modal-title");
+const collectionModalTitle = document.querySelector("#collection-modal-title");
 const collectionModalSubmit = document.querySelector(
   ".collection-modal-submit",
 );
-const cardModalTitle = document.querySelector(".card-modal-title");
+const cardModalTitle = document.querySelector("#card-modal-title");
 const cardModalDescription = document.querySelector(".card-modal-description");
 const cardModalSubmit = document.querySelector(".card-modal-submit");
 const flashcardList = document.querySelector(".flashcard-list");
@@ -22,6 +22,14 @@ const studyFlipHelp = document.querySelector(".study-flip-help");
 const studyRating = document.querySelector(".study-rating");
 const collectionStudyButton = document.querySelector(
   ".collection-study-button",
+);
+const detailTitle = document.querySelector(".detail-title");
+const detailCategory = document.querySelector(".detail-category");
+const detailCount = document.querySelector(".detail-count");
+const detailImage = document.querySelector(".detail-icon .collection-image");
+const editCollectionButton = document.querySelector(".edit-detail-collection");
+const deleteCollectionButton = document.querySelector(
+  ".delete-detail-collection",
 );
 const storageKey = "memento-custom-cards";
 const collectionsStorageKey = "memento-custom-collections";
@@ -290,8 +298,7 @@ function createCollectionCard(id, collection) {
   card.innerHTML =
     '<div class="card-top"><img class="collection-image" src="img/0.png" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".tag").textContent = collection.category;
-  card.querySelector(".collection-image").src =
-    collection.image || "img/0.png";
+  card.querySelector(".collection-image").src = collection.image || "img/0.png";
   card.querySelector("h3").textContent = collection.title;
   card.querySelector(".card-footer span").textContent = formatCardCount(
     collection.cards.length,
@@ -332,6 +339,31 @@ function openCollectionModal(id = null) {
   setTimeout(() => form.elements.name.focus(), 50);
 }
 
+function openCardModal(index = null) {
+  editedCardIndex = index;
+  cardForm.reset();
+  const isEditing = index !== null;
+
+  cardModalTitle.textContent = isEditing
+    ? "Modifier la carte"
+    : "Ajouter une carte";
+  cardModalDescription.textContent = isEditing
+    ? "Modifiez la question et la réponse de cette carte."
+    : "Renseignez le recto et le verso de votre nouvelle carte.";
+  cardModalSubmit.textContent = isEditing
+    ? "Enregistrer les modifications"
+    : "Ajouter la carte";
+
+  if (isEditing) {
+    const [question, answer] = collections[activeCollectionId].cards[index];
+    cardForm.elements.question.value = question;
+    cardForm.elements.answer.value = answer;
+  }
+
+  cardModal.showModal();
+  setTimeout(() => cardForm.elements.question.focus(), 50);
+}
+
 function deleteCollection(id) {
   const collection = collections[id];
   if (
@@ -350,7 +382,9 @@ function deleteCollection(id) {
   delete difficulties[id];
   writeStorage(difficultyStorageKey, difficulties);
   const deletedCollections = readStorage(deletedCollectionsStorageKey);
-  const deletedIds = Array.isArray(deletedCollections) ? deletedCollections : [];
+  const deletedIds = Array.isArray(deletedCollections)
+    ? deletedCollections
+    : [];
   if (!deletedIds.includes(id)) deletedIds.push(id);
   writeStorage(deletedCollectionsStorageKey, deletedIds);
   renderCollectionCards();
@@ -448,17 +482,12 @@ function renderFlashcards(collection) {
 function renderStudyCard() {
   const [question, answer] = studyCards[studyIndex].card;
   const progress = ((studyIndex + 1) / studyCards.length) * 100;
-  studyProgressText.textContent =
-    `Carte ${studyIndex + 1} / ${studyCards.length}`;
+  studyProgressText.textContent = `Carte ${studyIndex + 1} / ${studyCards.length}`;
   studyProgress.setAttribute("aria-valuemax", String(studyCards.length));
   studyProgress.setAttribute("aria-valuenow", String(studyIndex + 1));
   studyProgress.querySelector("span").style.width = `${progress}%`;
-  studySide.textContent = answerIsVisible
-    ? "RÉPONSE"
-    : "QUESTION";
-  studyCardText.textContent = answerIsVisible
-    ? answer
-    : question;
+  studySide.textContent = answerIsVisible ? "RÉPONSE" : "QUESTION";
+  studyCardText.textContent = answerIsVisible ? answer : question;
   studyFlipHelp.textContent = answerIsVisible
     ? "Revoir la question"
     : "Afficher la réponse";
@@ -555,15 +584,7 @@ function createFlashcard([question, answer], index) {
   });
   card.querySelector(".edit-card").addEventListener("click", (event) => {
     event.stopPropagation();
-    editedCardIndex = index;
-    cardForm.elements.question.value = question;
-    cardForm.elements.answer.value = answer;
-    cardModalTitle.textContent = "Modifier la carte";
-    cardModalDescription.textContent =
-      "Modifiez la question et la réponse de cette carte.";
-    cardModalSubmit.textContent = "Enregistrer les modifications";
-    cardModal.showModal();
-    setTimeout(() => cardForm.elements.question.focus(), 50);
+    openCardModal(index);
   });
   return card;
 }
@@ -590,21 +611,19 @@ function renderRoute() {
     return;
   }
 
-  document.querySelector(".detail-title").textContent = collection.title;
-  document.querySelector(".detail-category").textContent = collection.category;
-  document
-    .querySelector(".edit-detail-collection")
-    .setAttribute("aria-label", `Modifier la collection ${collection.title}`);
-  document
-    .querySelector(".delete-detail-collection")
-    .setAttribute("aria-label", `Supprimer la collection ${collection.title}`);
+  detailTitle.textContent = collection.title;
+  detailCategory.textContent = collection.category;
+  editCollectionButton.setAttribute(
+    "aria-label",
+    `Modifier la collection ${collection.title}`,
+  );
+  deleteCollectionButton.setAttribute(
+    "aria-label",
+    `Supprimer la collection ${collection.title}`,
+  );
   const cardCount = collection.cards.length;
-  document.querySelector(".detail-count").textContent =
-    formatCardCount(cardCount);
-  const icon = document.querySelector(".detail-icon");
-  icon.innerHTML = '<img class="collection-image" alt="">';
-  icon.querySelector(".collection-image").src =
-    collection.image || "img/0.png";
+  detailCount.textContent = formatCardCount(cardCount);
+  detailImage.src = collection.image || "img/0.png";
 
   renderFlashcards(collection);
   document.title = `${collection.title} — Memento`;
@@ -657,29 +676,16 @@ document
 
 document
   .querySelector(".add-flashcard-button")
-  .addEventListener("click", () => {
-    editedCardIndex = null;
-    cardForm.reset();
-    cardModalTitle.textContent = "Ajouter une carte";
-    cardModalDescription.textContent =
-      "Renseignez le recto et le verso de votre nouvelle carte.";
-    cardModalSubmit.textContent = "Ajouter la carte";
-    cardModal.showModal();
-    setTimeout(() => document.querySelector("#card-question").focus(), 50);
-  });
+  .addEventListener("click", () => openCardModal());
 
-document
-  .querySelector(".edit-detail-collection")
-  .addEventListener("click", () => {
-    if (activeCollectionId) openCollectionModal(activeCollectionId);
-  });
+editCollectionButton.addEventListener("click", () => {
+  if (activeCollectionId) openCollectionModal(activeCollectionId);
+});
 
-document
-  .querySelector(".delete-detail-collection")
-  .addEventListener("click", () => {
-    if (activeCollectionId && deleteCollection(activeCollectionId))
-      window.location.hash = "collections";
-  });
+deleteCollectionButton.addEventListener("click", () => {
+  if (activeCollectionId && deleteCollection(activeCollectionId))
+    window.location.hash = "collections";
+});
 
 cardForm.addEventListener("submit", (event) => {
   if (event.submitter?.value === "cancel") return;

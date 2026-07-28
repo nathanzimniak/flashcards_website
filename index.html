@@ -56,13 +56,16 @@
             >Collections</a
           >
           <section class="detail-header">
-            <div class="detail-icon" aria-hidden="true"></div>
+            <div class="detail-icon" aria-hidden="true">
+              <img class="collection-image" src="img/0.png" alt="" />
+            </div>
             <div class="detail-content">
               <p class="section-label detail-category"></p>
               <h1 class="detail-title"></h1>
               <p class="detail-count"></p>
               <div
                 class="detail-collection-actions"
+                role="group"
                 aria-label="Actions de la collection"
               >
                 <button
@@ -117,7 +120,7 @@
       </main>
     </div>
 
-    <dialog class="modal">
+    <dialog class="modal" aria-labelledby="collection-modal-title">
       <form method="dialog" id="collection-form">
         <button
           class="modal-close"
@@ -127,7 +130,7 @@
         >
           ×
         </button>
-        <h2 class="collection-modal-title">Créer une collection</h2>
+        <h2 id="collection-modal-title">Créer une collection</h2>
         <label for="collection-name">Nom de la collection</label>
         <input
           id="collection-name"
@@ -171,7 +174,7 @@
         </button>
       </form>
     </dialog>
-    <dialog class="modal card-modal">
+    <dialog class="modal card-modal" aria-labelledby="card-modal-title">
       <form method="dialog" id="card-form">
         <button
           class="modal-close"
@@ -181,7 +184,7 @@
         >
           ×
         </button>
-        <h2 class="card-modal-title">Ajouter une carte</h2>
+        <h2 id="card-modal-title">Ajouter une carte</h2>
         <p class="card-modal-description">
           Renseignez le recto et le verso de votre nouvelle carte.
         </p>
