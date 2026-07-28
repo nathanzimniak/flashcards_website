@@ -912,8 +912,9 @@ svg {
 }
 .study-actions {
   display: flex;
+  width: min(100%, 400px);
   justify-content: center;
-  margin-top: 22px;
+  margin: 22px auto 0;
 }
 .study-actions [hidden] {
   display: block;
