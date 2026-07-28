@@ -614,7 +614,7 @@ svg {
   top: 50%;
   left: 26px;
   width: calc(100% - 52px);
-  font: 700 18px/1.45 Manrope;
+  font: 600 18px/1.45 Manrope;
   text-align: center;
   transform: translateY(-50%);
 }
