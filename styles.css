@@ -890,7 +890,6 @@ svg {
 }
 .study-card:hover {
   border-color: var(--accent-border);
-  transform: translateY(-2px);
 }
 .study-card:focus-visible {
   outline: 3px solid var(--accent-border);
