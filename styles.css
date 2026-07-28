@@ -38,18 +38,6 @@ body[data-accent="red"] {
 * {
   box-sizing: border-box;
 }
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
 html {
   scroll-behavior: smooth;
 }
@@ -156,7 +144,7 @@ main {
   color: var(--accent);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 1.0px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   margin: 0 0 16px;
 }
@@ -179,12 +167,6 @@ main {
   background: var(--accent-strong);
   transform: translateY(-2px);
 }
-.primary-button svg {
-  width: 18px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-}
 .modal h2 {
   font: 800 28px Manrope;
   margin: 0;
@@ -202,7 +184,7 @@ main {
   border-radius: 16px;
   overflow: hidden;
   min-height: 240px;
-  padding: 10px 20px 20px 20px;
+  padding: 10px 20px 20px;
   transition:
     transform 0.22s,
     box-shadow 0.22s,
@@ -237,7 +219,7 @@ main {
   color: var(--accent);
   font-size: 9px;
   font-weight: 800;
-  letter-spacing: 1.0px;
+  letter-spacing: 1px;
 }
 .card-content h3 {
   font: 800 16px Manrope;
@@ -289,11 +271,6 @@ main {
   font: 700 14px Manrope;
   color: var(--ink);
 }
-.add-card small,
-.add-flashcard-button small {
-  font-size: 11px;
-  margin-top: 6px;
-}
 .modal {
   border: 0;
   border-radius: 20px;
@@ -318,9 +295,6 @@ main {
   font-size: 27px;
   color: #8c8796;
   cursor: pointer;
-}
-.modal .section-label {
-  margin-bottom: 7px;
 }
 .modal p:not(.section-label) {
   color: var(--muted);
@@ -591,10 +565,7 @@ svg {
   stroke: none;
 }
 .collection-study-button:hover,
-.collection-study-button:focus-visible {
-  background: var(--accent-soft);
-  color: var(--accent);
-}
+.collection-study-button:focus-visible,
 .edit-detail-collection:hover,
 .edit-detail-collection:focus-visible {
   background: var(--accent-soft);
@@ -848,7 +819,7 @@ svg {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin: 10px 0px 28px 0px;
+  margin: 10px 0 28px;
 }
 .study-progress-text {
   flex: none;
@@ -974,11 +945,6 @@ svg {
   padding: 0;
   border: 0;
   text-align: center;
-}
-.study-rating p {
-  margin: 5px 0 14px;
-  color: var(--muted);
-  font-size: 12px;
 }
 .study-rating-buttons {
   display: grid;
