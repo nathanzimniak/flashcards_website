@@ -5,9 +5,6 @@ const cardForm = document.querySelector("#card-form");
 const studyModal = document.querySelector(".study-modal");
 const collectionGrid = document.querySelector(".collection-grid");
 const collectionModalTitle = document.querySelector(".collection-modal-title");
-const collectionModalDescription = document.querySelector(
-  ".collection-modal-description",
-);
 const collectionModalSubmit = document.querySelector(
   ".collection-modal-submit",
 );
@@ -321,9 +318,6 @@ function openCollectionModal(id = null) {
   collectionModalTitle.textContent = isEditing
     ? "Modifier la collection"
     : "Créer une collection";
-  collectionModalDescription.textContent = isEditing
-    ? "Modifiez le nom et la catégorie de cette collection."
-    : "Donnez un nom au prochain sujet que vous allez maîtriser.";
   collectionModalSubmit.textContent = isEditing
     ? "Enregistrer les modifications"
     : "Créer ma collection";
