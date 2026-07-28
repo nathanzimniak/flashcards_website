@@ -21,6 +21,9 @@ const studyCardText = document.querySelector(".study-card-text");
 const studyFlipHelp = document.querySelector(".study-flip-help");
 const studyReveal = document.querySelector(".study-reveal");
 const studyRating = document.querySelector(".study-rating");
+const collectionStudyButton = document.querySelector(
+  ".collection-study-button",
+);
 const storageKey = "memento-custom-cards";
 const collectionsStorageKey = "memento-custom-collections";
 const deletedCollectionsStorageKey = "memento-deleted-collections";
@@ -599,9 +602,7 @@ renderCollectionCards();
 window.addEventListener("hashchange", renderRoute);
 renderRoute();
 
-document
-  .querySelector(".start-study")
-  .addEventListener("click", startStudySession);
+collectionStudyButton.addEventListener("click", startStudySession);
 
 studyCard.addEventListener("click", toggleStudyCard);
 studyReveal.addEventListener("click", toggleStudyCard);
@@ -743,16 +744,3 @@ form.addEventListener("submit", (event) => {
   );
   if (!isEditing) window.location.hash = `collection/${id}`;
 });
-
-const detailHeader = document.querySelector(".detail-header");
-
-if (detailHeader && "ResizeObserver" in window) {
-  const detailHeaderObserver = new ResizeObserver(([entry]) => {
-    detailHeader.style.setProperty(
-      "--detail-header-height",
-      `${entry.contentRect.height}px`,
-    );
-  });
-
-  detailHeaderObserver.observe(detailHeader);
-}
