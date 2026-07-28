@@ -913,7 +913,9 @@ svg {
   margin-top: 22px;
 }
 .study-actions [hidden] {
-  display: none;
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
 }
 .study-rating {
   width: 100%;
