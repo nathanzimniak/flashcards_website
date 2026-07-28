@@ -617,17 +617,11 @@ svg {
   border-radius: 50%;
   background: currentColor;
 }
-.difficulty-badge.difficulty-hard {
-  background: #fff0f2;
-  color: #c83e57;
-}
-.difficulty-badge.difficulty-medium {
-  background: #fff6e6;
-  color: #b8750b;
-}
+.difficulty-badge.difficulty-hard,
+.difficulty-badge.difficulty-medium,
 .difficulty-badge.difficulty-easy {
-  background: #eaf9f1;
-  color: #31895e;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
 }
 .difficulty-badge.difficulty-unrated {
   background: #f0eef4;
