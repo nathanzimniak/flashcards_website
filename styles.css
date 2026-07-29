@@ -223,9 +223,53 @@ main {
   letter-spacing: -0.7px;
 }
 .collection-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.collection-theme {
+  min-width: 0;
+}
+.collection-theme-title {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font: 800 11px Manrope;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.collection-slider {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px 10px;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 30px) / 4);
+  gap: 10px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: 3px 3px 14px;
+  margin: -3px;
+  scroll-snap-type: inline proximity;
+  scrollbar-color: var(--accent-border) transparent;
+  scrollbar-width: thin;
+}
+.collection-slider::-webkit-scrollbar {
+  height: 7px;
+}
+.collection-slider::-webkit-scrollbar-track {
+  background: transparent;
+}
+.collection-slider::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: var(--accent-border);
+}
+.collection-slider:focus-visible {
+  border-radius: 5px;
+  outline: 2px solid var(--accent-border);
+  outline-offset: 3px;
+}
+.collection-slider .collection-card {
+  scroll-snap-align: start;
+}
+.collection-grid > .add-card {
+  width: calc((100% - 30px) / 4);
 }
 .collection-card,
 .add-card {
@@ -466,7 +510,13 @@ svg {
     padding: 45px 24px;
   }
   .collection-grid {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 26px;
+  }
+  .collection-slider {
+    grid-auto-columns: calc((100% - 10px) / 2);
+  }
+  .collection-grid > .add-card {
+    width: calc((100% - 10px) / 2);
   }
 }
 @media (max-width: 600px) {
@@ -496,8 +546,14 @@ svg {
     font-size: 11px;
   }
   .collection-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px 10px;
+    gap: 24px;
+  }
+  .collection-slider {
+    grid-auto-columns: min(76vw, 240px);
+    gap: 10px;
+  }
+  .collection-grid > .add-card {
+    width: min(76vw, 240px);
   }
   .collection-card,
   .add-card {
@@ -1206,7 +1262,6 @@ svg {
 }
 
 @media (max-width: 350px) {
-  .collection-grid,
   .flashcard-list {
     grid-template-columns: 1fr;
   }
@@ -1219,5 +1274,11 @@ svg {
   .add-card {
     aspect-ratio: auto;
     min-height: 234px;
+  }
+  .collection-slider {
+    grid-auto-columns: 88%;
+  }
+  .collection-grid > .add-card {
+    width: 88%;
   }
 }

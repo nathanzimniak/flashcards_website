@@ -743,8 +743,10 @@ function deleteCollection(id) {
 
 function renderCollectionCards() {
   collectionGrid
-    .querySelectorAll(".collection-card")
-    .forEach((card) => card.remove());
+    .querySelectorAll(".collection-theme")
+    .forEach((theme) => theme.remove());
+
+  const collectionsByCategory = new Map();
   Object.entries(collections)
     .sort(([, first], [, second]) => {
       const categoryComparison = frenchCollator.compare(
@@ -756,8 +758,34 @@ function renderCollectionCards() {
       );
     })
     .forEach(([id, collection]) => {
-      collectionGrid.append(createCollectionCard(id, collection));
+      if (!collectionsByCategory.has(collection.category)) {
+        collectionsByCategory.set(collection.category, []);
+      }
+      collectionsByCategory.get(collection.category).push([id, collection]);
     });
+
+  collectionsByCategory.forEach((categoryCollections, category) => {
+    const theme = document.createElement("section");
+    const headingId = `collection-theme-${category
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")}`;
+    theme.className = "collection-theme";
+    theme.setAttribute("aria-labelledby", headingId);
+    theme.innerHTML = `<h2 id="${headingId}" class="collection-theme-title"></h2><div class="collection-slider" tabindex="0"></div>`;
+    theme.querySelector(".collection-theme-title").textContent = category;
+
+    const slider = theme.querySelector(".collection-slider");
+    slider.setAttribute(
+      "aria-label",
+      `Collections du thème ${category}. Faites défiler horizontalement pour voir les collections restantes.`,
+    );
+    categoryCollections.forEach(([id, collection]) => {
+      slider.append(createCollectionCard(id, collection));
+    });
+    collectionGrid.append(theme);
+  });
 }
 
 function saveCards() {
