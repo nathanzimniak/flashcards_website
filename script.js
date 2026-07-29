@@ -45,16 +45,7 @@ const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
 const availableCollectionImages = ["img/0.png", "img/1.png", "img/2.png"];
-const availableCollectionColors = [
-  "black",
-  "blue",
-  "green",
-  "red",
-  "yellow",
-  "magenta",
-  "cyan",
-];
-const collectionColorValues = {
+const accentColorValues = {
   black: "#171717",
   blue: "#2563eb",
   green: "#16803c",
@@ -437,8 +428,10 @@ function getCollectionAccent(category) {
     .toUpperCase();
   if (normalizedCategory.startsWith("LANGUE")) return "blue";
   if (normalizedCategory === "GEOGRAPHIE") return "green";
-  if (normalizedCategory === "DEVELOPPEMENT") return "red";
-  return "blue";
+  if (normalizedCategory === "HISTOIRE") return "yellow";
+  if (normalizedCategory === "SCIENCES") return "cyan";
+  if (normalizedCategory === "DEVELOPPEMENT") return "magenta";
+  return "black";
 }
 
 function createCollectionCard(id, collection) {
@@ -449,9 +442,7 @@ function createCollectionCard(id, collection) {
   card.setAttribute("aria-label", `Ouvrir la collection ${collection.title}`);
   card.style.setProperty(
     "--card-accent",
-    collectionColorValues[
-      collection.color || getCollectionAccent(collection.category)
-    ],
+    accentColorValues[getCollectionAccent(collection.category)],
   );
   card.innerHTML =
     '<div class="card-top"><img class="collection-image" src="img/0.png" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
