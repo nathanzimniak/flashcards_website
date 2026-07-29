@@ -183,7 +183,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
-  min-height: 210px;
+  min-height: 200px;
   padding: 10px 20px 20px;
   transition:
     transform 0.22s,
@@ -224,7 +224,7 @@ main {
 }
 .card-content h3 {
   font: 800 16px Manrope;
-  margin: 8px 0;
+  margin: 4px 0;
 }
 .card-footer {
   color: #898493;
@@ -447,7 +447,7 @@ svg {
     height: min(25vw, 98px);
   }
   .card-content h3 {
-    margin: 6px 0;
+    margin: 4px 0;
     font-size: 14px;
   }
   .add-card strong {
