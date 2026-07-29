@@ -609,8 +609,12 @@ svg {
 .progress-collection div { min-width: 0; }
 .progress-collection strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 700 12px Manrope; }
 .progress-collection span, .progress-count { color: var(--muted); font-size: 9px; }
-.progress-track { height: 7px; overflow: hidden; border-radius: 10px; background: #eeecf2; }
-.progress-track span { display: block; height: 100%; border-radius: inherit; background: #5b5bd6; }
+.progress-track { display: flex; height: 7px; overflow: hidden; border-radius: 10px; background: #eeecf2; }
+.progress-segment { display: block; height: 100%; }
+.progress-easy { background: #28a978; }
+.progress-medium { background: #e8a33d; }
+.progress-hard { background: #dd5c68; }
+.progress-unrated { background: #d9d6df; }
 .progress-count { text-align: right; }
 .progress-count strong { color: var(--ink); font-size: 11px; }
 .stats-empty { padding: 25px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; text-align: center; }
