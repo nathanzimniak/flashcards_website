@@ -533,16 +533,6 @@ function renderStats() {
   document.querySelector('[data-stat="mastered-detail"]').textContent = `${masteredRate} % des cartes évaluées`;
   document.querySelector('[data-stat="collections"]').textContent = collectionStats.length;
   document.querySelector('[data-stat="collections-detail"]').textContent = `${formatCardCount(totalCards)} au total`;
-  document.querySelector('[data-stat="mastery-rate"]').textContent = `${masteredRate}%`;
-  Object.entries(counts).forEach(([difficulty, count]) => {
-    document.querySelector(`[data-difficulty-count="${difficulty}"]`).textContent = count;
-  });
-  const easyStop = reviewed ? (counts.easy / reviewed) * 100 : 0;
-  const mediumStop = reviewed ? easyStop + (counts.medium / reviewed) * 100 : 0;
-  document.querySelector(".difficulty-ring").style.background = reviewed
-    ? `conic-gradient(#28a978 0 ${easyStop}%, #e8a33d ${easyStop}% ${mediumStop}%, #dd5c68 ${mediumStop}% 100%)`
-    : "conic-gradient(#e9e7ee 0 100%)";
-
   const list = document.querySelector(".collection-progress-list");
   if (!collectionStats.length) {
     const empty = document.createElement("p");
