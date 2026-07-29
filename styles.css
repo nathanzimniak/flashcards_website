@@ -543,7 +543,7 @@ svg {
 .summary-card small { grid-column: 2; margin-top: -7px; color: var(--muted); font-size: 10px; }
 .stats-panels {
   display: grid;
-  grid-template-columns: 1.55fr 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
   margin-bottom: 16px;
 }
@@ -573,27 +573,6 @@ svg {
 }
 .activity-day.today .activity-bar { background: #252344; }
 .activity-day span { position: absolute; transform: translateY(23px); color: var(--muted); font-size: 9px; font-weight: 700; }
-.difficulty-content { display: flex; align-items: center; gap: 26px; margin-top: 25px; }
-.difficulty-ring {
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  width: 126px;
-  height: 126px;
-  border-radius: 50%;
-  background: conic-gradient(#e9e7ee 0 100%);
-}
-.difficulty-ring::before { content: ""; grid-area: 1/1; width: 88px; height: 88px; border-radius: 50%; background: #fff; }
-.difficulty-ring div { z-index: 1; grid-area: 1/1; display: flex; flex-direction: column; align-items: center; }
-.difficulty-ring strong { font: 800 21px Manrope; }
-.difficulty-ring span { color: var(--muted); font-size: 9px; }
-.difficulty-legend { flex: 1; margin: 0; padding: 0; list-style: none; }
-.difficulty-legend li { display: grid; grid-template-columns: 9px 1fr auto; align-items: center; gap: 8px; padding: 7px 0; font-size: 11px; }
-.difficulty-legend strong { font-size: 11px; }
-.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-.legend-dot.easy { background: #28a978; }
-.legend-dot.medium { background: #e8a33d; }
-.legend-dot.hard { background: #dd5c68; }
 .collection-progress-panel { padding-bottom: 12px; }
 .collection-progress-list { margin-top: 15px; }
 .collection-progress-item {
@@ -625,7 +604,6 @@ svg {
   .summary-card { padding: 18px; }
   .stats-panel { padding: 20px 17px; }
   .activity-chart { gap: 7px; }
-  .difficulty-content { justify-content: center; gap: 18px; }
   .collection-progress-item { grid-template-columns: minmax(135px, 1fr) 1fr; gap: 14px; }
 }
 
