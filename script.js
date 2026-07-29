@@ -45,6 +45,15 @@ const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
 const availableCollectionImages = ["img/0.png", "img/1.png", "img/2.png"];
+const accentColorValues = {
+  black: "#171717",
+  blue: "#2563eb",
+  green: "#16803c",
+  red: "#dc2626",
+  yellow: "#eab308",
+  magenta: "#d946ef",
+  cyan: "#06b6d4",
+};
 let editedCardIndex = null;
 let editedCollectionId = null;
 
@@ -414,8 +423,10 @@ function getCollectionAccent(category) {
     .toUpperCase();
   if (normalizedCategory.startsWith("LANGUE")) return "blue";
   if (normalizedCategory === "GEOGRAPHIE") return "green";
-  if (normalizedCategory === "DEVELOPPEMENT") return "red";
-  return "blue";
+  if (normalizedCategory === "HISTOIRE") return "yellow";
+  if (normalizedCategory === "SCIENCES") return "cyan";
+  if (normalizedCategory === "DEVELOPPEMENT") return "magenta";
+  return "black";
 }
 
 function createCollectionCard(id, collection) {
@@ -424,6 +435,10 @@ function createCollectionCard(id, collection) {
   card.dataset.collectionId = id;
   card.href = `#collection/${id}`;
   card.setAttribute("aria-label", `Ouvrir la collection ${collection.title}`);
+  card.style.setProperty(
+    "--card-accent",
+    accentColorValues[getCollectionAccent(collection.category)],
+  );
   card.innerHTML =
     '<div class="card-top"><img class="collection-image" src="img/0.png" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".tag").textContent = collection.category;
