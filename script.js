@@ -45,12 +45,23 @@ const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
 const availableCollectionImages = ["img/0.png", "img/1.png", "img/2.png"];
-const availableCollectionColors = ["black", "blue", "green", "red"];
+const availableCollectionColors = [
+  "black",
+  "blue",
+  "green",
+  "red",
+  "yellow",
+  "magenta",
+  "cyan",
+];
 const collectionColorValues = {
   black: "#171717",
   blue: "#2563eb",
   green: "#16803c",
   red: "#dc2626",
+  yellow: "#eab308",
+  magenta: "#d946ef",
+  cyan: "#06b6d4",
 };
 let editedCardIndex = null;
 let editedCollectionId = null;
