@@ -48,19 +48,28 @@ const frenchCollator = new Intl.Collator("fr", { sensitivity: "base" });
 const availableCollectionImages = ["img/0.png", "img/1.png", "img/2.png"];
 const collectionColorValues = {
   black: "#171717",
+  purple: "#7c3aed",
   blue: "#2563eb",
   green: "#16803c",
   red: "#dc2626",
   yellow: "#eab308",
-  magenta: "#d946ef",
-  cyan: "#06b6d4",
+  orange: "#ea580c",
 };
 const categoryAccents = {
-  LANGUES: "blue",
+  LANGUES: "purple",
+  SCIENCES: "blue",
   GEOGRAPHIE: "green",
   HISTOIRE: "yellow",
-  SCIENCES: "cyan",
-  DEVELOPPEMENT: "magenta",
+  PERSONNEL: "orange",
+  DEVELOPPEMENT: "red",
+};
+const categorySortOrder = {
+  LANGUES: 0,
+  SCIENCES: 1,
+  GEOGRAPHIE: 2,
+  HISTOIRE: 3,
+  PERSONNEL: 4,
+  DEVELOPPEMENT: 5,
 };
 let editedCardIndex = null;
 let editedCollectionId = null;
@@ -625,11 +634,15 @@ function formatCardCount(count) {
 }
 
 function getCollectionAccent(category) {
-  const normalizedCategory = category
+  const normalizedCategory = normalizeCategory(category);
+  return categoryAccents[normalizedCategory] || "black";
+}
+
+function normalizeCategory(category) {
+  return category
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toUpperCase();
-  return categoryAccents[normalizedCategory] || "black";
 }
 
 function createCollectionCard(id, collection) {
@@ -749,10 +762,11 @@ function renderCollectionCards() {
   const collectionsByCategory = new Map();
   Object.entries(collections)
     .sort(([, first], [, second]) => {
-      const categoryComparison = frenchCollator.compare(
-        first.category,
-        second.category,
-      );
+      const firstCategoryOrder =
+        categorySortOrder[normalizeCategory(first.category)] ?? Infinity;
+      const secondCategoryOrder =
+        categorySortOrder[normalizeCategory(second.category)] ?? Infinity;
+      const categoryComparison = firstCategoryOrder - secondCategoryOrder;
       return (
         categoryComparison || frenchCollator.compare(first.title, second.title)
       );
