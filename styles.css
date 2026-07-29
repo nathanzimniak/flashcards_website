@@ -598,7 +598,7 @@ svg {
 .collection-progress-list { margin-top: 15px; }
 .collection-progress-item {
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) 2fr 78px;
+  grid-template-columns: minmax(150px, 1fr) 2fr;
   align-items: center;
   gap: 24px;
   padding: 13px 0;
@@ -608,11 +608,13 @@ svg {
 .progress-collection img { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; }
 .progress-collection div { min-width: 0; }
 .progress-collection strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 700 12px Manrope; }
-.progress-collection span, .progress-count { color: var(--muted); font-size: 9px; }
-.progress-track { height: 7px; overflow: hidden; border-radius: 10px; background: #eeecf2; }
-.progress-track span { display: block; height: 100%; border-radius: inherit; background: #5b5bd6; }
-.progress-count { text-align: right; }
-.progress-count strong { color: var(--ink); font-size: 11px; }
+.progress-collection span { color: var(--muted); font-size: 9px; }
+.progress-track { display: flex; height: 7px; overflow: hidden; border-radius: 10px; background: #eeecf2; }
+.progress-segment { display: block; height: 100%; }
+.progress-easy { background: #28a978; }
+.progress-medium { background: #e8a33d; }
+.progress-hard { background: #dd5c68; }
+.progress-unrated { background: #d9d6df; }
 .stats-empty { padding: 25px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; text-align: center; }
 @media (max-width: 760px) {
   .stats-summary { grid-template-columns: 1fr; }
@@ -625,7 +627,6 @@ svg {
   .activity-chart { gap: 7px; }
   .difficulty-content { justify-content: center; gap: 18px; }
   .collection-progress-item { grid-template-columns: minmax(135px, 1fr) 1fr; gap: 14px; }
-  .progress-count { display: none; }
 }
 
 /* Collection navigation and detail pages */
