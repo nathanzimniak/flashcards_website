@@ -960,7 +960,7 @@ svg {
   display: flex;
   width: 100%;
   justify-content: center;
-  margin: 20px auto 0;
+  margin: 30px auto 0;
 }
 .study-rating {
   width: 100%;
@@ -1063,7 +1063,7 @@ svg {
     font-size: 11px;
   }
   .study-actions {
-    margin-top: 20px;
+    margin-top: 30px;
   }
 }
 
