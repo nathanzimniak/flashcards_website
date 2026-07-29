@@ -230,13 +230,6 @@ main {
 .collection-theme {
   min-width: 0;
 }
-.collection-theme-title {
-  margin: 0 0 12px;
-  color: var(--muted);
-  font: 800 11px Manrope;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-}
 .collection-slider {
   display: grid;
   grid-auto-flow: column;
