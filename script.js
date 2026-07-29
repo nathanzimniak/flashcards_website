@@ -464,16 +464,20 @@ function getStats() {
   let totalCards = 0;
   const collectionStats = Object.entries(collections).map(([id, collection]) => {
     const saved = difficulties[id] || {};
+    const difficultyCounts = { easy: 0, medium: 0, hard: 0, unrated: 0 };
     let reviewed = 0;
     collection.cards.forEach((card) => {
       const difficulty = saved[getCardKey(card)];
       if (counts[difficulty] !== undefined) {
         counts[difficulty] += 1;
+        difficultyCounts[difficulty] += 1;
         reviewed += 1;
+      } else {
+        difficultyCounts.unrated += 1;
       }
     });
     totalCards += collection.cards.length;
-    return { id, collection, reviewed };
+    return { id, collection, reviewed, difficultyCounts };
   });
   return {
     counts,
@@ -546,20 +550,42 @@ function renderStats() {
     empty.textContent = "Créez une collection pour commencer à suivre votre progression.";
     list.replaceChildren(empty);
   } else {
-    list.replaceChildren(...collectionStats.map(({ collection, reviewed: collectionReviewed }) => {
-      const percentage = collection.cards.length
-        ? Math.round((collectionReviewed / collection.cards.length) * 100)
-        : 0;
-      const item = document.createElement("div");
-      item.className = "collection-progress-item";
-      item.innerHTML = '<div class="progress-collection"><img alt=""><div><strong></strong><span></span></div></div><div class="progress-track" aria-hidden="true"><span></span></div><div class="progress-count"><strong></strong> évaluées</div>';
-      item.querySelector("img").src = collection.image || "img/0.png";
-      item.querySelector("strong").textContent = collection.title;
-      item.querySelector(".progress-collection span").textContent = collection.category;
-      item.querySelector(".progress-track span").style.width = `${percentage}%`;
-      item.querySelector(".progress-count strong").textContent = `${collectionReviewed}/${collection.cards.length}`;
-      return item;
-    }));
+    list.replaceChildren(
+      ...collectionStats.map(
+        ({ collection, reviewed: collectionReviewed, difficultyCounts }) => {
+          const item = document.createElement("div");
+          item.className = "collection-progress-item";
+          item.innerHTML = '<div class="progress-collection"><img alt=""><div><strong></strong><span></span></div></div><div class="progress-track" role="img"></div><div class="progress-count"><strong></strong> évaluées</div>';
+          item.querySelector("img").src = collection.image || "img/0.png";
+          item.querySelector("strong").textContent = collection.title;
+          item.querySelector(".progress-collection span").textContent =
+            collection.category;
+          const progressTrack = item.querySelector(".progress-track");
+          const difficultyDescriptions = {
+            easy: `${difficultyCounts.easy} faciles`,
+            medium: `${difficultyCounts.medium} moyennes`,
+            hard: `${difficultyCounts.hard} difficiles`,
+            unrated: `${difficultyCounts.unrated} non évaluées`,
+          };
+          progressTrack.setAttribute(
+            "aria-label",
+            `${collection.title} : ${Object.values(difficultyDescriptions).join(", ")}`,
+          );
+          Object.entries(difficultyCounts).forEach(([difficulty, count]) => {
+            const segment = document.createElement("span");
+            segment.className = `progress-segment progress-${difficulty}`;
+            segment.style.width = collection.cards.length
+              ? `${(count / collection.cards.length) * 100}%`
+              : "0%";
+            segment.title = difficultyDescriptions[difficulty];
+            progressTrack.append(segment);
+          });
+          item.querySelector(".progress-count strong").textContent =
+            `${collectionReviewed}/${collection.cards.length}`;
+          return item;
+        },
+      ),
+    );
   }
   renderActivityChart();
 }
