@@ -863,19 +863,17 @@ function getStats() {
   const collectionStats = Object.entries(collections).map(([id, collection]) => {
     const saved = difficulties[id] || {};
     const difficultyCounts = { easy: 0, medium: 0, hard: 0, unrated: 0 };
-    let reviewed = 0;
     collection.cards.forEach((card) => {
       const difficulty = saved[getCardKey(card)];
       if (counts[difficulty] !== undefined) {
         counts[difficulty] += 1;
         difficultyCounts[difficulty] += 1;
-        reviewed += 1;
       } else {
         difficultyCounts.unrated += 1;
       }
     });
     totalCards += collection.cards.length;
-    return { id, collection, reviewed, difficultyCounts };
+    return { collection, difficultyCounts };
   });
   return {
     counts,
@@ -889,15 +887,23 @@ function renderStats() {
   const { counts, reviewed, totalCards, collectionStats } = getStats();
   const masteredCards = counts.easy;
   const unratedCards = totalCards - reviewed;
-  // totalCards inclut aussi les cartes sans difficulté enregistrée (non évaluées).
-  const masteredRate = totalCards ? Math.round((masteredCards / totalCards) * 100) : 0;
-  const unratedRate = totalCards ? Math.round((unratedCards / totalCards) * 100) : 0;
-  document.querySelector('[data-stat="unrated"]').textContent = unratedCards;
-  document.querySelector('[data-stat="unrated-detail"]').textContent = `${unratedRate}% des cartes`;
-  document.querySelector('[data-stat="mastered"]').textContent = masteredCards;
-  document.querySelector('[data-stat="mastered-detail"]').textContent = `${masteredRate} % au total`;
-  document.querySelector('[data-stat="collections"]').textContent = collectionStats.length;
-  document.querySelector('[data-stat="collections-detail"]').textContent = `${formatCardCount(totalCards)} au total`;
+  const masteredRate = totalCards
+    ? Math.round((masteredCards / totalCards) * 100)
+    : 0;
+  const unratedRate = totalCards
+    ? Math.round((unratedCards / totalCards) * 100)
+    : 0;
+  const stats = {
+    unrated: unratedCards,
+    "unrated-detail": `${unratedRate}% des cartes`,
+    mastered: masteredCards,
+    "mastered-detail": `${masteredRate} % au total`,
+    collections: collectionStats.length,
+    "collections-detail": `${formatCardCount(totalCards)} au total`,
+  };
+  Object.entries(stats).forEach(([name, value]) => {
+    document.querySelector(`[data-stat="${name}"]`).textContent = value;
+  });
   const list = document.querySelector(".collection-progress-list");
   if (!collectionStats.length) {
     const empty = document.createElement("p");
