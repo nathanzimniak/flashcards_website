@@ -505,6 +505,8 @@ svg {
   box-shadow: var(--shadow);
 }
 .summary-card {
+  --card-color: #171717;
+  --card-tint: #e8e8e8;
   position: relative;
   display: grid;
   grid-template-columns: 48px 1fr;
@@ -524,9 +526,6 @@ svg {
   background: var(--card-tint);
   opacity: .55;
 }
-.summary-reviewed { --card-color: #5b5bd6; --card-tint: #eeeeff; }
-.summary-mastered { --card-color: #16805c; --card-tint: #e2f8ee; }
-.summary-collections { --card-color: #d77b2a; --card-tint: #fff1df; }
 .summary-icon {
   display: grid;
   place-items: center;
