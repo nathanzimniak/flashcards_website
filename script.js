@@ -527,10 +527,12 @@ function renderActivityChart() {
 function renderStats() {
   const { counts, reviewed, totalCards, collectionStats } = getStats();
   const masteredCards = counts.easy;
+  const unratedCards = totalCards - reviewed;
   // totalCards inclut aussi les cartes sans difficulté enregistrée (non évaluées).
   const masteredRate = totalCards ? Math.round((masteredCards / totalCards) * 100) : 0;
-  document.querySelector('[data-stat="reviewed"]').textContent = reviewed;
-  document.querySelector('[data-stat="reviewed-detail"]').textContent = `sur ${formatCardCount(totalCards)}`;
+  const unratedRate = totalCards ? Math.round((unratedCards / totalCards) * 100) : 0;
+  document.querySelector('[data-stat="unrated"]').textContent = unratedCards;
+  document.querySelector('[data-stat="unrated-detail"]').textContent = `${unratedRate}% des cartes`;
   document.querySelector('[data-stat="mastered"]').textContent = masteredCards;
   document.querySelector('[data-stat="mastered-detail"]').textContent = `${masteredRate} % au total`;
   document.querySelector('[data-stat="collections"]').textContent = collectionStats.length;
