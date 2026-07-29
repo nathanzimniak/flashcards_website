@@ -436,7 +436,7 @@ svg {
   .collection-card,
   .add-card {
     min-height: 0;
-    aspect-ratio: 1 / 1.12;
+    aspect-ratio: 1 / 1.008;
     padding: 8px 14px 16px;
   }
   .add-card {
@@ -1083,11 +1083,14 @@ svg {
   .flashcard-list {
     grid-template-columns: 1fr;
   }
-  .collection-card,
-  .add-card,
   .flashcard,
   .add-flashcard-button {
     aspect-ratio: auto;
     min-height: 260px;
+  }
+  .collection-card,
+  .add-card {
+    aspect-ratio: auto;
+    min-height: 234px;
   }
 }
