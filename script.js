@@ -552,10 +552,10 @@ function renderStats() {
   } else {
     list.replaceChildren(
       ...collectionStats.map(
-        ({ collection, reviewed: collectionReviewed, difficultyCounts }) => {
+        ({ collection, difficultyCounts }) => {
           const item = document.createElement("div");
           item.className = "collection-progress-item";
-          item.innerHTML = '<div class="progress-collection"><img alt=""><div><strong></strong><span></span></div></div><div class="progress-track" role="img"></div><div class="progress-count"><strong></strong> évaluées</div>';
+          item.innerHTML = '<div class="progress-collection"><img alt=""><div><strong></strong><span></span></div></div><div class="progress-track" role="img"></div>';
           item.querySelector("img").src = collection.image || "img/0.png";
           item.querySelector("strong").textContent = collection.title;
           item.querySelector(".progress-collection span").textContent =
@@ -580,8 +580,6 @@ function renderStats() {
             segment.title = difficultyDescriptions[difficulty];
             progressTrack.append(segment);
           });
-          item.querySelector(".progress-count strong").textContent =
-            `${collectionReviewed}/${collection.cards.length}`;
           return item;
         },
       ),
