@@ -445,10 +445,7 @@ svg {
   }
   .card-top,
   .card-top .collection-image {
-    height: min(25vw, 98px);
-  }
-  .card-top .collection-image {
-    height: min(25vw, 98px);
+    height: min(22vw, 86px);
   }
   .card-content h3 {
     margin: 6px 0;
