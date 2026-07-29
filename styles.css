@@ -988,13 +988,13 @@ svg {
   cursor: pointer;
 }
 .study-rating.awaiting-rating .difficulty-button {
-  animation: difficulty-attention 2.4s ease-in-out infinite;
+  animation: difficulty-attention 4s ease-in-out infinite;
 }
 .study-rating.awaiting-rating .difficulty-button:nth-child(2) {
-  animation-delay: 0.12s;
+  animation-delay: 0.2s;
 }
 .study-rating.awaiting-rating .difficulty-button:nth-child(3) {
-  animation-delay: 0.24s;
+  animation-delay: 0.4s;
 }
 @keyframes difficulty-attention {
   0%,
