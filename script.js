@@ -497,6 +497,7 @@ function renderStudyCard() {
     answerIsVisible ? "Afficher la question" : "Afficher la réponse",
   );
   studyRating.disabled = !answerIsVisible;
+  studyRating.classList.toggle("awaiting-rating", answerIsVisible);
 }
 
 function toggleStudyCard() {
@@ -630,6 +631,7 @@ collectionStudyButton.addEventListener("click", startStudySession);
 studyCard.addEventListener("click", toggleStudyCard);
 document.querySelectorAll(".difficulty-button").forEach((button) =>
   button.addEventListener("click", () => {
+    studyRating.classList.remove("awaiting-rating");
     const currentCard = studyCards[studyIndex];
     const difficulty = button.dataset.difficulty;
     saveDifficulty(currentCard.key, difficulty);
