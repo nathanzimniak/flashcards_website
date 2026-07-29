@@ -263,7 +263,7 @@ main {
 }
 .collection-grid > .add-card {
   width: calc((100% - 30px) / 4);
-  margin-bottom: 18px;
+  margin-bottom: 10px;
 }
 .collection-card,
 .add-card {
@@ -540,7 +540,7 @@ svg {
     font-size: 11px;
   }
   .collection-grid {
-    gap: 24px;
+    gap: 10px;
   }
   .collection-slider {
     grid-auto-columns: min(76vw, 240px);
