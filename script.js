@@ -282,7 +282,9 @@ function validateImport(data) {
       isRecord(collection) &&
       typeof collection.title === "string" &&
       typeof collection.category === "string" &&
-      availableCollectionImages.includes(collection.image),
+      availableCollectionImages.includes(collection.image) &&
+      (collection.color === undefined ||
+        availableCollectionColors.includes(collection.color)),
   );
   const cardsAreValid = Object.values(cards).every(
     (collectionCards) =>
@@ -379,6 +381,9 @@ function loadSavedCollections() {
       image: availableCollectionImages.includes(collection.image)
         ? collection.image
         : "img/0.png",
+      color: availableCollectionColors.includes(collection.color)
+        ? collection.color
+        : getCollectionAccent(collection.category || "PERSONNEL"),
       cards: collections[id]?.cards || [],
     };
   });
@@ -452,8 +457,8 @@ function createCollectionCard(id, collection) {
 
 function saveCollectionMetadata(id) {
   const savedCollections = readStorage(collectionsStorageKey);
-  const { title, category, image } = collections[id];
-  savedCollections[id] = { title, category, image };
+  const { title, category, image, color } = collections[id];
+  savedCollections[id] = { title, category, image, color };
   writeStorage(collectionsStorageKey, savedCollections);
   const deletedCollections = readStorage(deletedCollectionsStorageKey);
   if (Array.isArray(deletedCollections) && deletedCollections.includes(id)) {
@@ -478,6 +483,8 @@ function openCollectionModal(id = null) {
     form.elements.name.value = collections[id].title;
     form.elements.category.value = collections[id].category;
     form.elements.image.value = collections[id].image || "img/0.png";
+    form.elements.color.value =
+      collections[id].color || getCollectionAccent(collections[id].category);
   }
   modal.showModal();
   setTimeout(() => form.elements.name.focus(), 50);
@@ -824,7 +831,7 @@ function renderRoute() {
   const collection = match ? collections[match[1]] : null;
   activeCollectionId = collection ? match[1] : null;
   document.body.dataset.accent = collection
-    ? getCollectionAccent(collection.category)
+    ? collection.color || getCollectionAccent(collection.category)
     : "black";
 
   libraryView.hidden = Boolean(collection) || isStatsRoute;
@@ -1022,17 +1029,23 @@ form.addEventListener("submit", (event) => {
   const image = availableCollectionImages.includes(requestedImage)
     ? requestedImage
     : "img/0.png";
+  const requestedColor = data.get("color");
+  const color = availableCollectionColors.includes(requestedColor)
+    ? requestedColor
+    : "black";
   const isEditing = Boolean(editedCollectionId);
   const id = isEditing ? editedCollectionId : createCollectionId(title);
   if (isEditing) {
     collections[id].title = title;
     collections[id].category = category;
     collections[id].image = image;
+    collections[id].color = color;
   } else {
     collections[id] = {
       title,
       category,
       image,
+      color,
       cards: [],
     };
   }
