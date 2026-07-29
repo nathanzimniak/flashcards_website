@@ -532,7 +532,7 @@ function renderStats() {
   document.querySelector('[data-stat="reviewed"]').textContent = reviewed;
   document.querySelector('[data-stat="reviewed-detail"]').textContent = `sur ${formatCardCount(totalCards)}`;
   document.querySelector('[data-stat="mastered"]').textContent = masteredCards;
-  document.querySelector('[data-stat="mastered-detail"]').textContent = `${masteredRate} % des cartes`;
+  document.querySelector('[data-stat="mastered-detail"]').textContent = `${masteredRate} % au total`;
   document.querySelector('[data-stat="collections"]').textContent = collectionStats.length;
   document.querySelector('[data-stat="collections-detail"]').textContent = `${formatCardCount(totalCards)} au total`;
   const list = document.querySelector(".collection-progress-list");
