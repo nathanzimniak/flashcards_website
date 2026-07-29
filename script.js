@@ -60,16 +60,16 @@ const categoryAccents = {
   SCIENCES: "blue",
   GEOGRAPHIE: "green",
   HISTOIRE: "yellow",
-  PERSONNEL: "orange",
-  DEVELOPPEMENT: "red",
+  ART: "orange",
+  INFORMATIQUE: "red",
 };
 const categorySortOrder = {
   LANGUES: 0,
   SCIENCES: 1,
   GEOGRAPHIE: 2,
   HISTOIRE: 3,
-  PERSONNEL: 4,
-  DEVELOPPEMENT: 5,
+  ART: 4,
+  INFORMATIQUE: 5,
 };
 let editedCardIndex = null;
 let editedCollectionId = null;
@@ -346,7 +346,7 @@ const collections = {
   },
   "bases-javascript": {
     title: "Bases de JavaScript",
-    category: "DÉVELOPPEMENT",
+    category: "INFORMATIQUE",
     cards: [
       ["Comment déclarer une constante ?", "Avec le mot-clé const."],
       ["Que retourne typeof true ?", "La chaîne « boolean »."],
@@ -592,7 +592,7 @@ function loadSavedCollections() {
     if (!collection || typeof collection.title !== "string") return;
     collections[id] = {
       title: collection.title,
-      category: collection.category || "PERSONNEL",
+      category: renameLegacyCategory(collection.category),
       image: availableCollectionImages.includes(collection.image)
         ? collection.image
         : "img/0.png",
@@ -643,6 +643,13 @@ function normalizeCategory(category) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toUpperCase();
+}
+
+function renameLegacyCategory(category) {
+  const normalizedCategory = normalizeCategory(category || "ART");
+  if (normalizedCategory === "PERSONNEL") return "ART";
+  if (normalizedCategory === "DEVELOPPEMENT") return "INFORMATIQUE";
+  return category || "ART";
 }
 
 function createCollectionCard(id, collection) {
