@@ -142,7 +142,7 @@ main {
 }
 .section-label {
   color: var(--accent);
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -582,7 +582,7 @@ svg {
 .detail-count {
   margin: 6px 0 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
 }
 .detail-collection-actions {
@@ -736,7 +736,7 @@ svg {
     padding: 24px 18px 24px 0;
   }
   .detail-header h1 {
-    font-size: 21px;
+    font-size: 18px;
     letter-spacing: -0.8px;
     overflow-wrap: anywhere;
   }
