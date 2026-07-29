@@ -979,9 +979,9 @@ svg {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 6px 8px;
+  padding: 8px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 14px;
   background: #fff;
   color: var(--ink);
   font: 800 13px "DM Sans";
