@@ -492,33 +492,6 @@ svg {
 @keyframes stats-in {
   from { opacity: 0; transform: translateY(8px); }
 }
-.stats-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 30px;
-}
-.stats-heading .section-label { margin-bottom: 8px; }
-.stats-heading h1 {
-  margin: 0;
-  font: 800 34px/1.2 Manrope, sans-serif;
-  letter-spacing: -1.3px;
-}
-.stats-heading > div > p:last-child {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-}
-.stats-period {
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #fff;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-}
 .stats-summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -644,11 +617,8 @@ svg {
 @media (max-width: 760px) {
   .stats-summary { grid-template-columns: 1fr; }
   .stats-panels { grid-template-columns: 1fr; }
-  .stats-heading { align-items: flex-start; flex-direction: column; }
-  .stats-period { display: none; }
 }
 @media (max-width: 600px) {
-  .stats-heading h1 { font-size: 29px; }
   .stats-summary { gap: 10px; }
   .summary-card { padding: 18px; }
   .stats-panel { padding: 20px 17px; }
