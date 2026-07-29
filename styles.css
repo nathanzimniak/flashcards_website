@@ -193,7 +193,7 @@ main {
     color 0.22s;
 }
 .card-top {
-  height: 140px;
+  height: 112px;
   flex-shrink: 0;
   position: relative;
   display: grid;
@@ -205,7 +205,8 @@ main {
   object-fit: cover;
 }
 .card-top .collection-image {
-  height: 140px;
+  width: 82%;
+  height: 112px;
 }
 .detail-icon .collection-image {
   height: 140%;
@@ -444,7 +445,7 @@ svg {
   }
   .card-top,
   .card-top .collection-image {
-    height: min(31vw, 122px);
+    height: min(25vw, 98px);
   }
   .card-content h3 {
     margin: 6px 0;
