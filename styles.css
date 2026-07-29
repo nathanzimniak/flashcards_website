@@ -225,7 +225,7 @@ main {
 .collection-grid {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 10px;
 }
 .collection-theme {
   min-width: 0;
@@ -503,7 +503,7 @@ svg {
     padding: 45px 24px;
   }
   .collection-grid {
-    gap: 26px;
+    gap: 10px;
   }
   .collection-slider {
     grid-auto-columns: calc((100% - 10px) / 2);
