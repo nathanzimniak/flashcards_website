@@ -263,6 +263,7 @@ main {
 }
 .collection-grid > .add-card {
   width: calc((100% - 30px) / 4);
+  margin-bottom: 18px;
 }
 .collection-card,
 .add-card {
