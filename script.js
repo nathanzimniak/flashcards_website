@@ -44,6 +44,7 @@ const exportVersion = 1;
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
+const frenchCollator = new Intl.Collator("fr", { sensitivity: "base" });
 const availableCollectionImages = ["img/0.png", "img/1.png", "img/2.png"];
 const collectionColorValues = {
   black: "#171717",
@@ -544,9 +545,19 @@ function renderCollectionCards() {
   collectionGrid
     .querySelectorAll(".collection-card")
     .forEach((card) => card.remove());
-  Object.entries(collections).forEach(([id, collection]) => {
-    collectionGrid.append(createCollectionCard(id, collection));
-  });
+  Object.entries(collections)
+    .sort(([, first], [, second]) => {
+      const categoryComparison = frenchCollator.compare(
+        first.category,
+        second.category,
+      );
+      return (
+        categoryComparison || frenchCollator.compare(first.title, second.title)
+      );
+    })
+    .forEach(([id, collection]) => {
+      collectionGrid.append(createCollectionCard(id, collection));
+    });
 }
 
 function saveCards() {
