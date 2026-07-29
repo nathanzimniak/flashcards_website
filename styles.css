@@ -244,8 +244,8 @@ main {
   gap: 10px;
   overflow-x: auto;
   overscroll-behavior-inline: contain;
-  padding: 3px 3px 14px;
-  margin: -3px;
+  padding: 10px 3px 14px;
+  margin: -10px -3px -3px;
   scroll-snap-type: inline proximity;
   scrollbar-color: var(--accent-border) transparent;
   scrollbar-width: thin;
