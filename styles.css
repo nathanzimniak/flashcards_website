@@ -906,43 +906,6 @@ svg {
   width: min(100%, 400px);
   aspect-ratio: 3 / 4;
   margin-inline: auto;
-  isolation: isolate;
-}
-.study-card-stack::before,
-.study-card-stack::after,
-.study-card-decoration {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: #fff;
-  pointer-events: none;
-}
-.study-card-stack::before {
-  transform: translate(7px, 7px);
-}
-.study-card-stack::after {
-  z-index: -2;
-  transform: translate(13px, 13px);
-  border-color: #e4e0e9;
-  background: #f7f5f9;
-}
-.study-card-decoration {
-  display: block;
-}
-.decoration-third {
-  z-index: -3;
-  transform: translate(19px, 19px);
-  border-color: #e0dce6;
-  background: #f3f1f6;
-}
-.decoration-fourth {
-  z-index: -4;
-  transform: translate(25px, 25px);
-  border-color: #dcd7e3;
-  background: #efedf2;
 }
 .study-card {
   position: relative;
