@@ -487,43 +487,6 @@ function getStats() {
   };
 }
 
-function renderActivityChart() {
-  const activity = readStorage(activityStorageKey);
-  const reviews = Array.isArray(activity) ? activity : [];
-  const days = [];
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  for (let offset = 6; offset >= 0; offset -= 1) {
-    const date = new Date(today);
-    date.setDate(date.getDate() - offset);
-    const nextDate = new Date(date);
-    nextDate.setDate(nextDate.getDate() + 1);
-    days.push({
-      date,
-      count: reviews.filter((time) => time >= date.getTime() && time < nextDate.getTime()).length,
-    });
-  }
-  const max = Math.max(1, ...days.map(({ count }) => count));
-  const chart = document.querySelector(".activity-chart");
-  chart.replaceChildren(
-    ...days.map(({ date, count }, index) => {
-      const day = document.createElement("div");
-      day.className = `activity-day${index === 6 ? " today" : ""}`;
-      day.title = `${count} révision${count > 1 ? "s" : ""}`;
-      const bar = document.createElement("div");
-      bar.className = "activity-bar";
-      bar.style.height = `${Math.max(3, (count / max) * 125)}px`;
-      const label = document.createElement("span");
-      label.textContent = date.toLocaleDateString("fr-FR", { weekday: "short" }).replace(".", "");
-      day.append(bar, label);
-      return day;
-    }),
-  );
-  const weekly = days.reduce((sum, day) => sum + day.count, 0);
-  document.querySelector('[data-stat="weekly"]').textContent = weekly;
-  chart.setAttribute("aria-label", `${weekly} révisions au cours des sept derniers jours`);
-}
-
 function renderStats() {
   const { counts, reviewed, totalCards, collectionStats } = getStats();
   const masteredCards = counts.easy;
@@ -579,7 +542,6 @@ function renderStats() {
       ),
     );
   }
-  renderActivityChart();
 }
 
 function setDifficultyBadge(badge, difficulty) {
