@@ -368,19 +368,20 @@ main {
   font-weight: 700;
 }
 .color-options {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-.modal .color-option {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 7px;
+  gap: 12px;
+}
+.modal .color-option {
+  position: relative;
+  display: block;
+  width: 28px;
+  height: 28px;
   margin: 0;
-  padding: 10px 6px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--option-color);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--option-color), #fff 35%);
   cursor: pointer;
 }
 .color-option input {
@@ -389,21 +390,7 @@ main {
   height: 1px;
   opacity: 0;
 }
-.color-swatch {
-  width: 16px;
-  height: 16px;
-  flex: 0 0 auto;
-  border: 3px solid #fff;
-  border-radius: 50%;
-  background: var(--option-color);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--option-color), #fff 35%);
-}
 .color-option:has(input:checked) {
-  border-color: var(--option-color);
-  background: color-mix(in srgb, var(--option-color), #fff 92%);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--option-color), transparent 78%);
-}
-.color-option:has(input:checked) .color-swatch {
   box-shadow: 0 0 0 2px var(--option-color);
 }
 .color-option:focus-within {
