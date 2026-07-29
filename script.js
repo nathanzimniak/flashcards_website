@@ -766,15 +766,8 @@ function renderCollectionCards() {
 
   collectionsByCategory.forEach((categoryCollections, category) => {
     const theme = document.createElement("section");
-    const headingId = `collection-theme-${category
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")}`;
     theme.className = "collection-theme";
-    theme.setAttribute("aria-labelledby", headingId);
-    theme.innerHTML = `<h2 id="${headingId}" class="collection-theme-title"></h2><div class="collection-slider" tabindex="0"></div>`;
-    theme.querySelector(".collection-theme-title").textContent = category;
+    theme.innerHTML = '<div class="collection-slider" tabindex="0"></div>';
 
     const slider = theme.querySelector(".collection-slider");
     slider.setAttribute(
