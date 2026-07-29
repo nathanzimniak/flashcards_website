@@ -35,6 +35,7 @@ const storageKey = "memento-custom-cards";
 const collectionsStorageKey = "memento-custom-collections";
 const deletedCollectionsStorageKey = "memento-deleted-collections";
 const difficultyStorageKey = "memento-card-difficulties";
+const activityStorageKey = "memento-review-activity";
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
@@ -214,6 +215,8 @@ collections["bases-javascript"].cards.push(
 
 const libraryView = document.querySelector("#collections");
 const collectionView = document.querySelector("#collection-view");
+const statsView = document.querySelector("#stats");
+const navLinks = document.querySelectorAll(".desktop-nav [data-nav]");
 let activeCollectionId = null;
 let studyCards = [];
 let studyIndex = 0;
@@ -445,6 +448,122 @@ function saveDifficulty(cardKey, difficulty) {
   writeStorage(difficultyStorageKey, difficulties);
 }
 
+function recordReview() {
+  const activity = readStorage(activityStorageKey);
+  const reviews = Array.isArray(activity) ? activity : [];
+  reviews.push(Date.now());
+  writeStorage(
+    activityStorageKey,
+    reviews.filter((timestamp) => timestamp > Date.now() - 90 * 86400000),
+  );
+}
+
+function getStats() {
+  const difficulties = getDifficulties();
+  const counts = { easy: 0, medium: 0, hard: 0 };
+  let totalCards = 0;
+  const collectionStats = Object.entries(collections).map(([id, collection]) => {
+    const saved = difficulties[id] || {};
+    let reviewed = 0;
+    collection.cards.forEach((card) => {
+      const difficulty = saved[getCardKey(card)];
+      if (counts[difficulty] !== undefined) {
+        counts[difficulty] += 1;
+        reviewed += 1;
+      }
+    });
+    totalCards += collection.cards.length;
+    return { id, collection, reviewed };
+  });
+  return {
+    counts,
+    reviewed: counts.easy + counts.medium + counts.hard,
+    totalCards,
+    collectionStats,
+  };
+}
+
+function renderActivityChart() {
+  const activity = readStorage(activityStorageKey);
+  const reviews = Array.isArray(activity) ? activity : [];
+  const days = [];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  for (let offset = 6; offset >= 0; offset -= 1) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - offset);
+    const nextDate = new Date(date);
+    nextDate.setDate(nextDate.getDate() + 1);
+    days.push({
+      date,
+      count: reviews.filter((time) => time >= date.getTime() && time < nextDate.getTime()).length,
+    });
+  }
+  const max = Math.max(1, ...days.map(({ count }) => count));
+  const chart = document.querySelector(".activity-chart");
+  chart.replaceChildren(
+    ...days.map(({ date, count }, index) => {
+      const day = document.createElement("div");
+      day.className = `activity-day${index === 6 ? " today" : ""}`;
+      day.title = `${count} révision${count > 1 ? "s" : ""}`;
+      const bar = document.createElement("div");
+      bar.className = "activity-bar";
+      bar.style.height = `${Math.max(3, (count / max) * 125)}px`;
+      const label = document.createElement("span");
+      label.textContent = date.toLocaleDateString("fr-FR", { weekday: "short" }).replace(".", "");
+      day.append(bar, label);
+      return day;
+    }),
+  );
+  const weekly = days.reduce((sum, day) => sum + day.count, 0);
+  document.querySelector('[data-stat="weekly"]').textContent = weekly;
+  chart.setAttribute("aria-label", `${weekly} révisions au cours des sept derniers jours`);
+}
+
+function renderStats() {
+  const { counts, reviewed, totalCards, collectionStats } = getStats();
+  const masteredRate = reviewed ? Math.round((counts.easy / reviewed) * 100) : 0;
+  document.querySelector('[data-stat="reviewed"]').textContent = reviewed;
+  document.querySelector('[data-stat="reviewed-detail"]').textContent = `sur ${formatCardCount(totalCards)}`;
+  document.querySelector('[data-stat="mastered"]').textContent = counts.easy;
+  document.querySelector('[data-stat="mastered-detail"]').textContent = `${masteredRate} % des cartes évaluées`;
+  document.querySelector('[data-stat="collections"]').textContent = collectionStats.length;
+  document.querySelector('[data-stat="collections-detail"]').textContent = `${formatCardCount(totalCards)} au total`;
+  document.querySelector('[data-stat="mastery-rate"]').textContent = `${masteredRate}%`;
+  Object.entries(counts).forEach(([difficulty, count]) => {
+    document.querySelector(`[data-difficulty-count="${difficulty}"]`).textContent = count;
+  });
+  const easyStop = reviewed ? (counts.easy / reviewed) * 100 : 0;
+  const mediumStop = reviewed ? easyStop + (counts.medium / reviewed) * 100 : 0;
+  document.querySelector(".difficulty-ring").style.background = reviewed
+    ? `conic-gradient(#28a978 0 ${easyStop}%, #e8a33d ${easyStop}% ${mediumStop}%, #dd5c68 ${mediumStop}% 100%)`
+    : "conic-gradient(#e9e7ee 0 100%)";
+
+  const list = document.querySelector(".collection-progress-list");
+  if (!collectionStats.length) {
+    const empty = document.createElement("p");
+    empty.className = "stats-empty";
+    empty.textContent = "Créez une collection pour commencer à suivre votre progression.";
+    list.replaceChildren(empty);
+  } else {
+    list.replaceChildren(...collectionStats.map(({ collection, reviewed: collectionReviewed }) => {
+      const percentage = collection.cards.length
+        ? Math.round((collectionReviewed / collection.cards.length) * 100)
+        : 0;
+      const item = document.createElement("div");
+      item.className = "collection-progress-item";
+      item.innerHTML = '<div class="progress-collection"><img alt=""><div><strong></strong><span></span></div></div><div class="progress-track" aria-hidden="true"><span></span></div><div class="progress-count"><strong></strong> évaluées</div>';
+      item.querySelector("img").src = collection.image || "img/0.png";
+      item.querySelector("strong").textContent = collection.title;
+      item.querySelector(".progress-collection span").textContent = collection.category;
+      item.querySelector(".progress-track span").style.width = `${percentage}%`;
+      item.querySelector(".progress-count strong").textContent = `${collectionReviewed}/${collection.cards.length}`;
+      return item;
+    }));
+  }
+  renderActivityChart();
+}
+
 function setDifficultyBadge(badge, difficulty) {
   const savedDifficulty = difficultyLabels[difficulty] ? difficulty : "unrated";
   badge.className = `difficulty-badge difficulty-${savedDifficulty}`;
@@ -579,6 +698,7 @@ function createFlashcard([question, answer], index) {
 }
 
 function renderRoute() {
+  const isStatsRoute = window.location.hash === "#stats";
   const match = window.location.hash.match(/^#collection\/(.+)$/);
   const collection = match ? collections[match[1]] : null;
   activeCollectionId = collection ? match[1] : null;
@@ -586,8 +706,21 @@ function renderRoute() {
     ? getCollectionAccent(collection.category)
     : "black";
 
-  libraryView.hidden = Boolean(collection);
+  libraryView.hidden = Boolean(collection) || isStatsRoute;
   collectionView.hidden = !collection;
+  statsView.hidden = !isStatsRoute;
+  navLinks.forEach((link) =>
+    link.classList.toggle(
+      "active",
+      link.dataset.nav === (isStatsRoute ? "stats" : "collections"),
+    ),
+  );
+  if (isStatsRoute) {
+    renderStats();
+    document.title = "Statistiques — Memento";
+    window.scrollTo(0, 0);
+    return;
+  }
   if (!collection) {
     document.querySelectorAll(".collection-card").forEach((card) => {
       const collectionId = card.dataset.collectionId;
@@ -635,6 +768,7 @@ document.querySelectorAll(".difficulty-button").forEach((button) =>
     const currentCard = studyCards[studyIndex];
     const difficulty = button.dataset.difficulty;
     saveDifficulty(currentCard.key, difficulty);
+    recordReview();
     renderFlashcards(collections[activeCollectionId]);
 
     const appearances = studyCards.filter(
