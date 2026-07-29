@@ -229,7 +229,6 @@ main {
 .card-footer {
   color: #898493;
   font-size: 11px;
-  margin-top: auto;
 }
 .add-card,
 .add-flashcard-button {
@@ -444,9 +443,6 @@ svg {
     min-height: 0;
   }
   .card-top,
-  .card-top .collection-image {
-    height: min(25vw, 98px);
-  }
   .card-top .collection-image {
     height: min(25vw, 98px);
   }
