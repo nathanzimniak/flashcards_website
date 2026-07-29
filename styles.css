@@ -613,7 +613,7 @@ svg {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 .summary-card,
 .stats-panel {
