@@ -26,8 +26,8 @@
           <span>Memento</span>
         </a>
         <nav class="desktop-nav" aria-label="Navigation principale">
-          <a class="active" href="#collections">Collections</a>
-          <a href="#stats">Statistiques</a>
+          <a class="active" href="#collections" data-nav="collections">Collections</a>
+          <a href="#stats" data-nav="stats">Statistiques</a>
         </nav>
         <button class="avatar" type="button" aria-label="Ouvrir le profil">
           CM
@@ -115,6 +115,61 @@
             </button>
           </div>
         </section>
+      </section>
+
+      <section id="stats" class="stats-view" aria-labelledby="stats-title" hidden>
+        <header class="stats-heading">
+          <div>
+            <p class="section-label">Votre progression</p>
+            <h1 id="stats-title">Statistiques</h1>
+            <p>Gardez un œil sur vos acquis et avancez à votre rythme.</p>
+          </div>
+          <div class="stats-period" aria-label="Période affichée">Toutes les données</div>
+        </header>
+
+        <div class="stats-summary" aria-label="Résumé de votre progression">
+          <article class="summary-card summary-reviewed">
+            <span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"></path><path d="M5 16h11a3 3 0 0 1 3 3M9 8h6"></path></svg></span>
+            <div><strong data-stat="reviewed">0</strong><span>Cartes évaluées</span></div>
+            <small data-stat="reviewed-detail">sur 0 cartes</small>
+          </article>
+          <article class="summary-card summary-mastered">
+            <span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></svg></span>
+            <div><strong data-stat="mastered">0</strong><span>Cartes maîtrisées</span></div>
+            <small data-stat="mastered-detail">0 % des cartes évaluées</small>
+          </article>
+          <article class="summary-card summary-collections">
+            <span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="13" height="15" rx="2"></rect><path d="M8 2h10a2 2 0 0 1 2 2v12"></path></svg></span>
+            <div><strong data-stat="collections">0</strong><span>Collections</span></div>
+            <small data-stat="collections-detail">0 carte au total</small>
+          </article>
+        </div>
+
+        <div class="stats-panels">
+          <article class="stats-panel activity-panel">
+            <div class="panel-heading">
+              <div><h2>Activité récente</h2><p>Cartes révisées ces 7 derniers jours</p></div>
+              <strong class="activity-total"><span data-stat="weekly">0</span> révisions</strong>
+            </div>
+            <div class="activity-chart" role="img" aria-label="Activité des sept derniers jours"></div>
+          </article>
+          <article class="stats-panel difficulty-panel">
+            <div class="panel-heading"><div><h2>Niveau de maîtrise</h2><p>Répartition des cartes évaluées</p></div></div>
+            <div class="difficulty-content">
+              <div class="difficulty-ring" role="img" aria-label="Répartition par difficulté"><div><strong data-stat="mastery-rate">0%</strong><span>maîtrisées</span></div></div>
+              <ul class="difficulty-legend">
+                <li><span class="legend-dot easy"></span><span>Facile</span><strong data-difficulty-count="easy">0</strong></li>
+                <li><span class="legend-dot medium"></span><span>Moyen</span><strong data-difficulty-count="medium">0</strong></li>
+                <li><span class="legend-dot hard"></span><span>Difficile</span><strong data-difficulty-count="hard">0</strong></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <article class="stats-panel collection-progress-panel">
+          <div class="panel-heading"><div><h2>Progression par collection</h2><p>Vos cartes évaluées dans chaque collection</p></div></div>
+          <div class="collection-progress-list"></div>
+        </article>
       </section>
     </main>
 
