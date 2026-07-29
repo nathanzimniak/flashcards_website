@@ -193,7 +193,7 @@ main {
     color 0.22s;
 }
 .card-top {
-  height: 140px;
+  height: 112px;
   flex-shrink: 0;
   position: relative;
   display: grid;
@@ -443,8 +443,9 @@ svg {
     height: auto;
     min-height: 0;
   }
-  .card-top {
-    height: min(31vw, 122px);
+  .card-top,
+  .card-top .collection-image {
+    height: min(25vw, 98px);
   }
   .card-top .collection-image {
     height: min(25vw, 98px);
