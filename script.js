@@ -49,10 +49,16 @@ const accentColorValues = {
   black: "#171717",
   blue: "#2563eb",
   green: "#16803c",
-  red: "#dc2626",
   yellow: "#eab308",
   magenta: "#d946ef",
   cyan: "#06b6d4",
+};
+const categoryAccents = {
+  LANGUES: "blue",
+  "GÉOGRAPHIE": "green",
+  HISTOIRE: "yellow",
+  SCIENCES: "cyan",
+  "DÉVELOPPEMENT": "magenta",
 };
 let editedCardIndex = null;
 let editedCollectionId = null;
@@ -281,10 +287,8 @@ function validateImport(data) {
     (collection) =>
       isRecord(collection) &&
       typeof collection.title === "string" &&
-      typeof collection.category === "string" &&
-      availableCollectionImages.includes(collection.image) &&
-      (collection.color === undefined ||
-        availableCollectionColors.includes(collection.color)),
+      Object.hasOwn(categoryAccents, collection.category) &&
+      availableCollectionImages.includes(collection.image),
   );
   const cardsAreValid = Object.values(cards).every(
     (collectionCards) =>
@@ -377,13 +381,12 @@ function loadSavedCollections() {
     if (!collection || typeof collection.title !== "string") return;
     collections[id] = {
       title: collection.title,
-      category: collection.category || "PERSONNEL",
+      category: Object.hasOwn(categoryAccents, collection.category)
+        ? collection.category
+        : "LANGUES",
       image: availableCollectionImages.includes(collection.image)
         ? collection.image
         : "img/0.png",
-      color: availableCollectionColors.includes(collection.color)
-        ? collection.color
-        : getCollectionAccent(collection.category || "PERSONNEL"),
       cards: collections[id]?.cards || [],
     };
   });
@@ -422,16 +425,7 @@ function formatCardCount(count) {
 }
 
 function getCollectionAccent(category) {
-  const normalizedCategory = category
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toUpperCase();
-  if (normalizedCategory.startsWith("LANGUE")) return "blue";
-  if (normalizedCategory === "GEOGRAPHIE") return "green";
-  if (normalizedCategory === "HISTOIRE") return "yellow";
-  if (normalizedCategory === "SCIENCES") return "cyan";
-  if (normalizedCategory === "DEVELOPPEMENT") return "magenta";
-  return "black";
+  return categoryAccents[category] || "black";
 }
 
 function createCollectionCard(id, collection) {
@@ -457,8 +451,8 @@ function createCollectionCard(id, collection) {
 
 function saveCollectionMetadata(id) {
   const savedCollections = readStorage(collectionsStorageKey);
-  const { title, category, image, color } = collections[id];
-  savedCollections[id] = { title, category, image, color };
+  const { title, category, image } = collections[id];
+  savedCollections[id] = { title, category, image };
   writeStorage(collectionsStorageKey, savedCollections);
   const deletedCollections = readStorage(deletedCollectionsStorageKey);
   if (Array.isArray(deletedCollections) && deletedCollections.includes(id)) {
@@ -483,8 +477,6 @@ function openCollectionModal(id = null) {
     form.elements.name.value = collections[id].title;
     form.elements.category.value = collections[id].category;
     form.elements.image.value = collections[id].image || "img/0.png";
-    form.elements.color.value =
-      collections[id].color || getCollectionAccent(collections[id].category);
   }
   modal.showModal();
   setTimeout(() => form.elements.name.focus(), 50);
@@ -831,7 +823,7 @@ function renderRoute() {
   const collection = match ? collections[match[1]] : null;
   activeCollectionId = collection ? match[1] : null;
   document.body.dataset.accent = collection
-    ? collection.color || getCollectionAccent(collection.category)
+    ? getCollectionAccent(collection.category)
     : "black";
 
   libraryView.hidden = Boolean(collection) || isStatsRoute;
@@ -1024,28 +1016,25 @@ form.addEventListener("submit", (event) => {
   if (!form.reportValidity()) return;
   const data = new FormData(form);
   const title = data.get("name").trim();
-  const category = data.get("category");
+  const requestedCategory = data.get("category");
+  const category = Object.hasOwn(categoryAccents, requestedCategory)
+    ? requestedCategory
+    : "LANGUES";
   const requestedImage = data.get("image");
   const image = availableCollectionImages.includes(requestedImage)
     ? requestedImage
     : "img/0.png";
-  const requestedColor = data.get("color");
-  const color = availableCollectionColors.includes(requestedColor)
-    ? requestedColor
-    : "black";
   const isEditing = Boolean(editedCollectionId);
   const id = isEditing ? editedCollectionId : createCollectionId(title);
   if (isEditing) {
     collections[id].title = title;
     collections[id].category = category;
     collections[id].image = image;
-    collections[id].color = color;
   } else {
     collections[id] = {
       title,
       category,
       image,
-      color,
       cards: [],
     };
   }
