@@ -29,9 +29,26 @@
           <a class="active" href="#collections" data-nav="collections">Collections</a>
           <a href="#stats" data-nav="stats">Statistiques</a>
         </nav>
-        <button class="avatar" type="button" aria-label="Ouvrir le profil">
-          CM
-        </button>
+        <div class="data-actions" aria-label="Gestion des données">
+          <input
+            class="import-file-input"
+            type="file"
+            accept="application/json,.json"
+            hidden
+          />
+          <button class="data-button import-button" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"></path>
+            </svg>
+            <span>Import</span>
+          </button>
+          <button class="data-button export-button" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M12 16V4m0 0 4 4m-4-4L8 8M5 20h14"></path>
+            </svg>
+            <span>Export</span>
+          </button>
+        </div>
       </div>
     </header>
 

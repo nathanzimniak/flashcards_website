@@ -31,11 +31,16 @@ const editCollectionButton = document.querySelector(".edit-detail-collection");
 const deleteCollectionButton = document.querySelector(
   ".delete-detail-collection",
 );
+const importButton = document.querySelector(".import-button");
+const exportButton = document.querySelector(".export-button");
+const importFileInput = document.querySelector(".import-file-input");
 const storageKey = "memento-custom-cards";
 const collectionsStorageKey = "memento-custom-collections";
 const deletedCollectionsStorageKey = "memento-deleted-collections";
 const difficultyStorageKey = "memento-card-difficulties";
 const activityStorageKey = "memento-review-activity";
+const exportFormat = "memento-user-data";
+const exportVersion = 1;
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
@@ -232,6 +237,127 @@ function readStorage(key) {
 
 function writeStorage(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function isRecord(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function validateImport(data) {
+  if (
+    !isRecord(data) ||
+    data.format !== exportFormat ||
+    data.version !== exportVersion ||
+    !isRecord(data.data)
+  )
+    return false;
+
+  const {
+    collections: metadata,
+    cards,
+    deletedCollections,
+    difficulties,
+    reviewActivity,
+  } = data.data;
+  if (
+    !isRecord(metadata) ||
+    !isRecord(cards) ||
+    !Array.isArray(deletedCollections) ||
+    !isRecord(difficulties) ||
+    !Array.isArray(reviewActivity)
+  )
+    return false;
+
+  const metadataIsValid = Object.values(metadata).every(
+    (collection) =>
+      isRecord(collection) &&
+      typeof collection.title === "string" &&
+      typeof collection.category === "string" &&
+      availableCollectionImages.includes(collection.image),
+  );
+  const cardsAreValid = Object.values(cards).every(
+    (collectionCards) =>
+      Array.isArray(collectionCards) &&
+      collectionCards.every(
+        (card) =>
+          Array.isArray(card) &&
+          card.length === 2 &&
+          card.every((side) => typeof side === "string"),
+      ),
+  );
+  const difficultiesAreValid = Object.values(difficulties).every(
+    (collectionDifficulties) =>
+      isRecord(collectionDifficulties) &&
+      Object.values(collectionDifficulties).every((difficulty) =>
+        ["easy", "medium", "hard"].includes(difficulty),
+      ),
+  );
+  return (
+    [
+      ...Object.keys(metadata),
+      ...Object.keys(cards),
+      ...Object.keys(difficulties),
+    ].every((id) => /^[a-z0-9][a-z0-9-]*$/.test(id)) &&
+    metadataIsValid &&
+    cardsAreValid &&
+    deletedCollections.every(
+      (id) => typeof id === "string" && /^[a-z0-9][a-z0-9-]*$/.test(id),
+    ) &&
+    difficultiesAreValid &&
+    reviewActivity.every((timestamp) => Number.isFinite(timestamp))
+  );
+}
+
+function exportUserData() {
+  const deletedCollections = readStorage(deletedCollectionsStorageKey);
+  const reviewActivity = readStorage(activityStorageKey);
+  const payload = {
+    format: exportFormat,
+    version: exportVersion,
+    exportedAt: new Date().toISOString(),
+    data: {
+      collections: readStorage(collectionsStorageKey),
+      cards: readStorage(storageKey),
+      deletedCollections: Array.isArray(deletedCollections)
+        ? deletedCollections
+        : [],
+      difficulties: readStorage(difficultyStorageKey),
+      reviewActivity: Array.isArray(reviewActivity) ? reviewActivity : [],
+    },
+  };
+  const file = new Blob([JSON.stringify(payload, null, 2)], {
+    type: "application/json",
+  });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(file);
+  link.download = `memento-${new Date().toISOString().slice(0, 10)}.json`;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(link.href), 0);
+  showToast("Données exportées avec succès");
+}
+
+async function importUserData(file) {
+  try {
+    const payload = JSON.parse(await file.text());
+    if (!validateImport(payload)) throw new Error("invalid-data");
+    if (
+      !window.confirm(
+        "Importer ce fichier et remplacer vos données actuelles ?",
+      )
+    )
+      return;
+    const importedData = payload.data;
+    writeStorage(collectionsStorageKey, importedData.collections);
+    writeStorage(storageKey, importedData.cards);
+    writeStorage(deletedCollectionsStorageKey, importedData.deletedCollections);
+    writeStorage(difficultyStorageKey, importedData.difficulties);
+    writeStorage(activityStorageKey, importedData.reviewActivity);
+    window.location.reload();
+  } catch {
+    showToast("Fichier invalide : import impossible");
+  } finally {
+    importFileInput.value = "";
+  }
 }
 
 function loadSavedCollections() {
@@ -738,6 +864,13 @@ loadSavedCards();
 renderCollectionCards();
 window.addEventListener("hashchange", renderRoute);
 renderRoute();
+
+exportButton.addEventListener("click", exportUserData);
+importButton.addEventListener("click", () => importFileInput.click());
+importFileInput.addEventListener("change", () => {
+  const [file] = importFileInput.files;
+  if (file) importUserData(file);
+});
 
 collectionStudyButton.addEventListener("click", startStudySession);
 

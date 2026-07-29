@@ -124,16 +124,42 @@ body {
   left: 0;
   right: 0;
 }
-.avatar {
+.data-actions {
   margin-left: auto;
-  border: 0;
-  background: var(--accent-soft);
-  color: var(--accent-strong);
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
+  display: flex;
+  gap: 8px;
+}
+.data-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font: 700 12px "DM Sans";
   font-weight: 700;
   cursor: pointer;
+  transition: 0.2s;
+}
+.data-button svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+.data-button:hover,
+.data-button:focus-visible {
+  border-color: var(--accent-border);
+  background: var(--accent-surface);
+  color: var(--accent-strong);
+}
+.data-button:focus-visible {
+  outline: 3px solid var(--accent-border);
+  outline-offset: 2px;
 }
 main {
   max-width: 1000px;
@@ -427,6 +453,23 @@ svg {
   .topbar-content {
     padding-right: max(18px, env(safe-area-inset-right));
     padding-left: max(18px, env(safe-area-inset-left));
+  }
+  .brand {
+    gap: 8px;
+    font-size: 18px;
+  }
+  .brand-mark {
+    width: 29px;
+    transform: scale(0.9);
+    transform-origin: left center;
+  }
+  .data-actions {
+    gap: 5px;
+  }
+  .data-button {
+    gap: 5px;
+    padding: 0 8px;
+    font-size: 11px;
   }
   .collection-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
