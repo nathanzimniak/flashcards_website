@@ -49,16 +49,10 @@ const accentColorValues = {
   black: "#171717",
   blue: "#2563eb",
   green: "#16803c",
+  red: "#dc2626",
   yellow: "#eab308",
   magenta: "#d946ef",
   cyan: "#06b6d4",
-};
-const categoryAccents = {
-  LANGUES: "blue",
-  GEOGRAPHIE: "green",
-  HISTOIRE: "yellow",
-  SCIENCES: "cyan",
-  DEVELOPPEMENT: "magenta",
 };
 let editedCardIndex = null;
 let editedCollectionId = null;
@@ -432,7 +426,12 @@ function getCollectionAccent(category) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toUpperCase();
-  return categoryAccents[normalizedCategory] || "black";
+  if (normalizedCategory.startsWith("LANGUE")) return "blue";
+  if (normalizedCategory === "GEOGRAPHIE") return "green";
+  if (normalizedCategory === "HISTOIRE") return "yellow";
+  if (normalizedCategory === "SCIENCES") return "cyan";
+  if (normalizedCategory === "DEVELOPPEMENT") return "magenta";
+  return "black";
 }
 
 function createCollectionCard(id, collection) {
