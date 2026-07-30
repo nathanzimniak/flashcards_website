@@ -82,6 +82,24 @@ const categorySortOrder = {
 let editedCardIndex = null;
 let editedCollectionId = null;
 
+const adaptiveTextClasses = ["text-medium", "text-long", "text-extra-long"];
+
+function adaptCardTextSize(element, text) {
+  const textLength = text.trim().length;
+  let sizeClass = "";
+
+  if (textLength > 180) {
+    sizeClass = "text-extra-long";
+  } else if (textLength > 100) {
+    sizeClass = "text-long";
+  } else if (textLength > 55) {
+    sizeClass = "text-medium";
+  }
+
+  element.classList.remove(...adaptiveTextClasses);
+  if (sizeClass) element.classList.add(sizeClass);
+}
+
 function createCapitalCards(entries) {
   return entries.map(([country, capital]) => [
     `Quelle est la capitale ${country} ?`,
@@ -1052,7 +1070,9 @@ function renderStudyCard() {
   studyProgress.setAttribute("aria-valuenow", String(studyIndex + 1));
   studyProgress.querySelector("span").style.width = `${progress}%`;
   studySide.textContent = answerIsVisible ? "RÉPONSE" : "QUESTION";
-  studyCardText.textContent = answerIsVisible ? answer : question;
+  const visibleText = answerIsVisible ? answer : question;
+  studyCardText.textContent = visibleText;
+  adaptCardTextSize(studyCardText, visibleText);
   studyFlipHelp.textContent = answerIsVisible
     ? "Revoir la question"
     : "Afficher la réponse";
@@ -1136,8 +1156,12 @@ function createFlashcard([question, answer], index) {
   card.setAttribute("aria-pressed", "false");
   card.setAttribute("aria-label", `Carte ${index + 1} : afficher la réponse`);
   card.innerHTML = `<button class="edit-card" type="button" aria-label="Modifier la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m4 20 4.2-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"></path><path d="m14.8 6.4 3 3"></path></svg></button><button class="delete-card" type="button" aria-label="Supprimer la carte ${index + 1}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path></svg></button><span class="flashcard-meta"><span class="difficulty-badge"></span></span><span class="flashcard-text flashcard-question"></span><span class="flashcard-text flashcard-answer"></span>`;
-  card.querySelector(".flashcard-question").textContent = question;
-  card.querySelector(".flashcard-answer").textContent = answer;
+  const questionElement = card.querySelector(".flashcard-question");
+  const answerElement = card.querySelector(".flashcard-answer");
+  questionElement.textContent = question;
+  answerElement.textContent = answer;
+  adaptCardTextSize(questionElement, question);
+  adaptCardTextSize(answerElement, answer);
   setDifficultyBadge(card.querySelector(".difficulty-badge"), difficulty);
 
   return card;
