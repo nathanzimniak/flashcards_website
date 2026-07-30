@@ -45,7 +45,15 @@ const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
 const frenchCollator = new Intl.Collator("fr", { sensitivity: "base" });
-const availableCollectionImages = ["img/0.png", "img/1.png", "img/2.png"];
+const collectionImageDirectories = {
+  LANGUES: "langues",
+  SCIENCES: "sciences",
+  GEOGRAPHIE: "geographie",
+  HISTOIRE: "histoire",
+  ART: "art",
+  INFORMATIQUE: "informatique",
+};
+const collectionImageNames = ["0.png", "1.png", "2.png"];
 const collectionColorValues = {
   black: "#171717",
   purple: "#7c3aed",
@@ -499,7 +507,7 @@ function validateImport(data) {
       isRecord(collection) &&
       typeof collection.title === "string" &&
       typeof collection.category === "string" &&
-      availableCollectionImages.includes(collection.image),
+      getCollectionImages(collection.category).includes(collection.image),
   );
   const cardsAreValid = Object.values(cards).every(
     (collectionCards) =>
@@ -590,12 +598,11 @@ function loadSavedCollections() {
   const savedCollections = readStorage(collectionsStorageKey);
   Object.entries(savedCollections).forEach(([id, collection]) => {
     if (!collection || typeof collection.title !== "string") return;
+    const category = renameLegacyCategory(collection.category);
     collections[id] = {
       title: collection.title,
-      category: renameLegacyCategory(collection.category),
-      image: availableCollectionImages.includes(collection.image)
-        ? collection.image
-        : "img/0.png",
+      category,
+      image: getCollectionImage(collection.image, category),
       cards: collections[id]?.cards || [],
     };
   });
@@ -652,6 +659,50 @@ function renameLegacyCategory(category) {
   return category || "ART";
 }
 
+function getCollectionImages(category) {
+  const directory =
+    collectionImageDirectories[normalizeCategory(category || "LANGUES")] ||
+    collectionImageDirectories.LANGUES;
+  return collectionImageNames.map((name) => `img/${directory}/${name}`);
+}
+
+function getCollectionImage(image, category) {
+  const categoryImages = getCollectionImages(category);
+  if (categoryImages.includes(image)) return image;
+
+  // Conserve le choix des utilisateurs ayant enregistré une ancienne URL
+  // (img/0.png, par exemple) tout en la replaçant dans la bonne catégorie.
+  const imageName = image?.split("/").pop();
+  return (
+    categoryImages.find((candidate) => candidate.endsWith(`/${imageName}`)) ||
+    categoryImages[0]
+  );
+}
+
+function renderCollectionImageOptions(category, selectedImage = null) {
+  const imageOptions = form.querySelector(".image-options");
+  const categoryImages = getCollectionImages(category);
+  const image = getCollectionImage(selectedImage, category);
+  imageOptions.replaceChildren(
+    ...categoryImages.map((source, index) => {
+      const label = document.createElement("label");
+      label.className = "image-option";
+
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "image";
+      input.value = source;
+      input.checked = source === image;
+
+      const preview = document.createElement("img");
+      preview.src = source;
+      preview.alt = `Illustration ${index + 1}`;
+      label.append(input, preview);
+      return label;
+    }),
+  );
+}
+
 function createCollectionCard(id, collection) {
   const card = document.createElement("a");
   card.className = "collection-card";
@@ -665,9 +716,12 @@ function createCollectionCard(id, collection) {
     ],
   );
   card.innerHTML =
-    '<div class="card-top"><img class="collection-image" src="img/0.png" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
+    '<div class="card-top"><img class="collection-image" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".tag").textContent = collection.category;
-  card.querySelector(".collection-image").src = collection.image || "img/0.png";
+  card.querySelector(".collection-image").src = getCollectionImage(
+    collection.image,
+    collection.category,
+  );
   card.querySelector("h3").textContent = collection.title;
   card.querySelector(".card-footer span").textContent = formatCardCount(
     collection.cards.length,
@@ -702,8 +756,11 @@ function openCollectionModal(id = null) {
   if (isEditing) {
     form.elements.name.value = collections[id].title;
     form.elements.category.value = collections[id].category;
-    form.elements.image.value = collections[id].image || "img/0.png";
   }
+  renderCollectionImageOptions(
+    form.elements.category.value,
+    isEditing ? collections[id].image : null,
+  );
   modal.showModal();
   setTimeout(() => form.elements.name.focus(), 50);
 }
@@ -917,7 +974,10 @@ function renderStats() {
           const item = document.createElement("div");
           item.className = "collection-progress-item";
           item.innerHTML = '<div class="progress-collection"><img alt=""><div><strong></strong><span></span></div></div><div class="progress-track" role="img"></div>';
-          item.querySelector("img").src = collection.image || "img/0.png";
+          item.querySelector("img").src = getCollectionImage(
+            collection.image,
+            collection.category,
+          );
           item.querySelector("strong").textContent = collection.title;
           item.querySelector(".progress-collection span").textContent =
             collection.category;
@@ -1129,7 +1189,7 @@ function renderRoute() {
   );
   const cardCount = collection.cards.length;
   detailCount.textContent = formatCardCount(cardCount);
-  detailImage.src = collection.image || "img/0.png";
+  detailImage.src = getCollectionImage(collection.image, collection.category);
 
   renderFlashcards(collection);
   document.title = `${collection.title} — Memento`;
@@ -1273,6 +1333,10 @@ document
   .querySelector("[data-open-modal]")
   .addEventListener("click", () => openCollectionModal());
 
+form.elements.category.addEventListener("change", (event) => {
+  renderCollectionImageOptions(event.target.value);
+});
+
 form.addEventListener("submit", (event) => {
   const submitter = event.submitter;
   if (submitter?.value === "cancel") return;
@@ -1282,9 +1346,7 @@ form.addEventListener("submit", (event) => {
   const title = data.get("name").trim();
   const category = data.get("category");
   const requestedImage = data.get("image");
-  const image = availableCollectionImages.includes(requestedImage)
-    ? requestedImage
-    : "img/0.png";
+  const image = getCollectionImage(requestedImage, category);
   const isEditing = Boolean(editedCollectionId);
   const id = isEditing ? editedCollectionId : createCollectionId(title);
   if (isEditing) {
