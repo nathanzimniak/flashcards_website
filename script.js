@@ -572,7 +572,9 @@ function exportUserData() {
 
 async function importUserData(file) {
   try {
-    const payload = JSON.parse(await file.text());
+    // JSON.parse ne tolère pas le BOM ajouté par certains éditeurs Windows.
+    const fileContents = (await file.text()).replace(/^\uFEFF/, "");
+    const payload = JSON.parse(fileContents);
     if (!validateImport(payload)) throw new Error("invalid-data");
     if (
       !window.confirm(
