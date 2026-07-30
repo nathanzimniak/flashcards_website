@@ -292,7 +292,7 @@ main {
   object-fit: cover;
 }
 .card-top .collection-image {
-  width: 82%;
+  width: 90%;
   height: 112px;
 }
 .detail-icon .collection-image {
@@ -987,16 +987,16 @@ svg {
     column-gap: 16px;
   }
   .detail-icon {
-    width: 140px;
+    width: 150px;
     height: 100%;
     margin: 0;
   }
   .detail-content {
     min-width: 0;
-    padding: 24px 16px 24px 16px;
+    padding: 24px 16px 24px 32px;
   }
   .detail-header h1 {
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: -0.8px;
     overflow-wrap: anywhere;
   }
