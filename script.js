@@ -507,7 +507,7 @@ function validateImport(data) {
       isRecord(collection) &&
       typeof collection.title === "string" &&
       typeof collection.category === "string" &&
-      getCollectionImages(collection.category).includes(collection.image),
+      (collection.image === undefined || typeof collection.image === "string"),
   );
   const cardsAreValid = Object.values(cards).every(
     (collectionCards) =>
@@ -572,7 +572,9 @@ function exportUserData() {
 
 async function importUserData(file) {
   try {
-    const payload = JSON.parse(await file.text());
+    // JSON.parse ne tolère pas le BOM ajouté par certains éditeurs Windows.
+    const fileContents = (await file.text()).replace(/^\uFEFF/, "");
+    const payload = JSON.parse(fileContents);
     if (!validateImport(payload)) throw new Error("invalid-data");
     if (
       !window.confirm(
