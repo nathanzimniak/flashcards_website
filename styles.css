@@ -948,7 +948,8 @@ svg {
   transform: translateY(-50%);
 }
 .flashcard-question,
-.study-card:not(.answer-visible) .study-card-text {
+.flashcard-answer,
+.study-card-text {
   white-space: pre-wrap;
 }
 .flashcard-answer {
