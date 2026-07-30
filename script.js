@@ -507,7 +507,7 @@ function validateImport(data) {
       isRecord(collection) &&
       typeof collection.title === "string" &&
       typeof collection.category === "string" &&
-      getCollectionImages(collection.category).includes(collection.image),
+      (collection.image === undefined || typeof collection.image === "string"),
   );
   const cardsAreValid = Object.values(cards).every(
     (collectionCards) =>
