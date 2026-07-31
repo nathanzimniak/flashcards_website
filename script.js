@@ -624,7 +624,7 @@ function renderStats() {
         ({ collection, difficultyCounts }) => {
           const item = document.createElement("div");
           item.className = "collection-progress-item";
-          item.innerHTML = '<div class="progress-collection"><img alt=""><div><strong></strong><span></span></div></div><div class="progress-track" role="img"></div>';
+          item.innerHTML = '<div class="progress-collection"><div class="progress-collection-media" aria-hidden="true"><img class="collection-image" alt=""></div><div><strong></strong><span></span></div></div><div class="progress-track" role="img"></div>';
           item.querySelector("img").src = getCollectionImage(
             collection.image,
             collection.category,
