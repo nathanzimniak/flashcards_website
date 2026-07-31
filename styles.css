@@ -677,7 +677,7 @@ svg {
 }
 .collection-progress-item {
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) 2fr;
+  grid-template-columns: minmax(250px, 1fr) 2fr;
   align-items: center;
   gap: 24px;
   padding: 13px 0;
@@ -686,11 +686,11 @@ svg {
 .progress-collection {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 2px;
   min-width: 0;
 }
 .progress-collection img {
-  width: 42px;
+  width: 90px;
   height: 42px;
   border-radius: 10px;
   object-fit: cover;
@@ -747,7 +747,7 @@ svg {
     padding: 20px 17px;
   }
   .collection-progress-item {
-    grid-template-columns: minmax(135px, 1fr) 1fr;
+    grid-template-columns: minmax(250px, 1fr) 1fr;
     gap: 14px;
   }
 }
