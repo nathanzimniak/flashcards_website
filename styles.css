@@ -864,7 +864,7 @@ svg {
   box-shadow: var(--shadow);
 }
 .detail-icon {
-  align-self: center;
+  align-self: stretch;
   display: grid;
   place-items: center;
   width: 100%;
@@ -876,7 +876,7 @@ svg {
 }
 .detail-content {
   min-width: 0;
-  align-self: stretch;
+  align-self: start;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1038,7 +1038,6 @@ svg {
 }
 @media (max-width: 900px) {
   .detail-header {
-    --detail-column: 122.4px;
     --detail-gap: 17px;
     --detail-radius: 17px;
     --detail-icon-width: 136px;
@@ -1062,7 +1061,6 @@ svg {
     gap: 10px;
   }
   .detail-header {
-    --detail-column: 100px;
     --detail-gap: 17px;
     --detail-radius: 17px;
     --detail-icon-width: 136px;

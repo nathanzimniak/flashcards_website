@@ -28,6 +28,8 @@ const collectionStudyButton = document.querySelector(
 const detailTitle = document.querySelector(".detail-title");
 const detailCategory = document.querySelector(".detail-category");
 const detailCount = document.querySelector(".detail-count");
+const detailHeader = document.querySelector(".detail-header");
+const detailContent = document.querySelector(".detail-content");
 const detailImage = document.querySelector(".detail-icon .collection-image");
 const editCollectionButton = document.querySelector(".edit-detail-collection");
 const deleteCollectionButton = document.querySelector(
@@ -96,6 +98,15 @@ let activeCollectionId = null;
 let studyCards = [];
 let studyIndex = 0;
 let answerIsVisible = false;
+
+const detailContentObserver = new ResizeObserver(() => {
+  const contentHeight = detailContent.getBoundingClientRect().height;
+  if (contentHeight > 0) {
+    detailHeader.style.setProperty("--detail-column", `${contentHeight}px`);
+  }
+});
+
+detailContentObserver.observe(detailContent);
 
 function readStorage(key) {
   try {
