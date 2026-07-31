@@ -29,7 +29,7 @@
           <a class="active" href="#collections" data-nav="collections">Collections</a>
           <a href="#stats" data-nav="stats">Statistiques</a>
         </nav>
-        <div class="data-actions" aria-label="Gestion des données">
+        <div class="data-actions" role="group" aria-label="Gestion des données">
           <input
             class="import-file-input"
             type="file"
@@ -71,7 +71,7 @@
               <path d="m14.5 6-6 6 6 6"></path></svg></span
           >Collections</a
         >
-        <section class="detail-header">
+        <header class="detail-header">
           <div class="detail-icon" aria-hidden="true">
             <img
               class="collection-image"
@@ -125,7 +125,7 @@
               </button>
             </div>
           </div>
-        </section>
+        </header>
         <section class="flashcards-section" aria-label="Cartes">
           <div class="flashcard-list">
             <button class="add-flashcard-button" type="button">
@@ -139,7 +139,11 @@
       </section>
 
       <section id="stats" class="stats-view" aria-label="Statistiques" hidden>
-        <div class="stats-summary" aria-label="Résumé de votre progression">
+        <div
+          class="stats-summary"
+          role="group"
+          aria-label="Résumé de votre progression"
+        >
           <article class="summary-card summary-collections">
             <div><strong data-stat="collections">0</strong><span>Collections</span></div>
             <small data-stat="collections-detail">0 carte au total</small>

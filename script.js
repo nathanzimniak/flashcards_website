@@ -1,3 +1,5 @@
+import { collections } from "./data.js";
+
 const modal = document.querySelector(".modal");
 const form = document.querySelector("#collection-form");
 const cardModal = document.querySelector(".card-modal");
@@ -45,13 +47,13 @@ const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
 const difficultySortOrder = { easy: 0, medium: 1, hard: 2, unrated: 3 };
 const difficultyLabels = { hard: "Difficile", medium: "Moyen", easy: "Facile" };
 const frenchCollator = new Intl.Collator("fr", { sensitivity: "base" });
-const collectionImageDirectories = {
-  LANGUES: "langues",
-  SCIENCES: "sciences",
-  GEOGRAPHIE: "geographie",
-  HISTOIRE: "histoire",
-  ART: "art",
-  INFORMATIQUE: "informatique",
+const categorySettings = {
+  LANGUES: { directory: "langues", accent: "purple", order: 0 },
+  SCIENCES: { directory: "sciences", accent: "blue", order: 1 },
+  GEOGRAPHIE: { directory: "geographie", accent: "green", order: 2 },
+  HISTOIRE: { directory: "histoire", accent: "yellow", order: 3 },
+  ART: { directory: "art", accent: "orange", order: 4 },
+  INFORMATIQUE: { directory: "informatique", accent: "red", order: 5 },
 };
 const collectionImageNames = ["0.png", "1.png", "2.png"];
 const collectionColorValues = {
@@ -62,22 +64,6 @@ const collectionColorValues = {
   red: "#dc2626",
   yellow: "#eab308",
   orange: "#ea580c",
-};
-const categoryAccents = {
-  LANGUES: "purple",
-  SCIENCES: "blue",
-  GEOGRAPHIE: "green",
-  HISTOIRE: "yellow",
-  ART: "orange",
-  INFORMATIQUE: "red",
-};
-const categorySortOrder = {
-  LANGUES: 0,
-  SCIENCES: 1,
-  GEOGRAPHIE: 2,
-  HISTOIRE: 3,
-  ART: 4,
-  INFORMATIQUE: 5,
 };
 let editedCardIndex = null;
 let editedCollectionId = null;
@@ -99,362 +85,6 @@ function adaptCardTextSize(element, text) {
   element.classList.remove(...adaptiveTextClasses);
   if (sizeClass) element.classList.add(sizeClass);
 }
-
-function createCapitalCards(continent, entries) {
-  return entries.map(([country, capital]) => [
-    `Quelle est la capitale ${country} ?`,
-    `[${continent}]\n${capital}`,
-  ]);
-}
-
-const collections = {
-  "anglais-quotidien": {
-    title: "Anglais quotidien",
-    category: "LANGUES",
-    cards: [
-      ["Comment dit-on « enchanté » ?", "Nice to meet you."],
-      ["Que signifie « How are you doing? »", "Comment vas-tu ?"],
-      ["Comment demander son chemin ?", "Could you tell me the way?"],
-      ["Traduisez « Je suis d’accord »", "I agree."],
-      ["Comment commander poliment ?", "Could I have…, please?"],
-      ["Que signifie « See you soon » ?", "À bientôt."],
-    ],
-  },
-  capitales: {
-    title: "Capitales",
-    category: "GÉOGRAPHIE",
-    cards: [
-      ...createCapitalCards("Europe", [
-        ["de l’Albanie", "Tirana"],
-        ["de l’Allemagne", "Berlin"],
-        ["d’Andorre", "Andorre-la-Vieille"],
-        ["de l’Autriche", "Vienne"],
-        ["du Bélarus", "Minsk"],
-        ["de la Belgique", "Bruxelles"],
-        ["de la Bosnie-Herzégovine", "Sarajevo"],
-        ["de la Bulgarie", "Sofia"],
-        ["de la Croatie", "Zagreb"],
-        ["du Danemark", "Copenhague"],
-        ["de l’Espagne", "Madrid"],
-        ["de l’Estonie", "Tallinn"],
-        ["de la Finlande", "Helsinki"],
-        ["de la France", "Paris"],
-        ["de la Grèce", "Athènes"],
-        ["de la Hongrie", "Budapest"],
-        ["de l’Irlande", "Dublin"],
-        ["de l’Islande", "Reykjavik"],
-        ["de l’Italie", "Rome"],
-        ["du Kosovo", "Pristina"],
-        ["de la Lettonie", "Riga"],
-        ["du Liechtenstein", "Vaduz"],
-        ["de la Lituanie", "Vilnius"],
-        ["du Luxembourg", "Luxembourg"],
-        ["de la Macédoine du Nord", "Skopje"],
-        ["de Malte", "La Valette"],
-        ["de la Moldavie", "Chișinău"],
-        ["de Monaco", "Monaco"],
-        ["du Monténégro", "Podgorica"],
-        ["de la Norvège", "Oslo"],
-        ["des Pays-Bas", "Amsterdam"],
-        ["de la Pologne", "Varsovie"],
-        ["du Portugal", "Lisbonne"],
-        ["de la Roumanie", "Bucarest"],
-        ["du Royaume-Uni", "Londres"],
-        ["de la Russie", "Moscou"],
-        ["de Saint-Marin", "Saint-Marin"],
-        ["de la Serbie", "Belgrade"],
-        ["de la Slovaquie", "Bratislava"],
-        ["de la Slovénie", "Ljubljana"],
-        ["de la Suède", "Stockholm"],
-        ["de la Suisse", "Berne"],
-        ["de la Tchéquie", "Prague"],
-        ["de l’Ukraine", "Kyiv"],
-        ["du Vatican", "Cité du Vatican"],
-      ]),
-      ...createCapitalCards("Amérique", [
-        ["d’Antigua-et-Barbuda", "Saint John’s"],
-        ["de l’Argentine", "Buenos Aires"],
-        ["des Bahamas", "Nassau"],
-        ["de la Barbade", "Bridgetown"],
-        ["du Belize", "Belmopan"],
-        [
-          "de la Bolivie",
-          "Sucre (capitale constitutionnelle) ; La Paz (siège du gouvernement)",
-        ],
-        ["du Brésil", "Brasília"],
-        ["du Canada", "Ottawa"],
-        ["du Chili", "Santiago"],
-        ["de la Colombie", "Bogotá"],
-        ["du Costa Rica", "San José"],
-        ["de Cuba", "La Havane"],
-        ["de la Dominique", "Roseau"],
-        ["de l’Équateur", "Quito"],
-        ["des États-Unis", "Washington, D.C."],
-        ["de la Grenade", "Saint-Georges"],
-        ["du Guatemala", "Guatemala"],
-        ["du Guyana", "Georgetown"],
-        ["d’Haïti", "Port-au-Prince"],
-        ["du Honduras", "Tegucigalpa"],
-        ["de la Jamaïque", "Kingston"],
-        ["du Mexique", "Mexico"],
-        ["du Nicaragua", "Managua"],
-        ["du Panama", "Panama"],
-        ["du Paraguay", "Asunción"],
-        ["du Pérou", "Lima"],
-        ["de la République dominicaine", "Saint-Domingue"],
-        ["de Saint-Christophe-et-Niévès", "Basseterre"],
-        ["de Sainte-Lucie", "Castries"],
-        ["de Saint-Vincent-et-les-Grenadines", "Kingstown"],
-        ["du Salvador", "San Salvador"],
-        ["du Suriname", "Paramaribo"],
-        ["de Trinité-et-Tobago", "Port-d’Espagne"],
-        ["de l’Uruguay", "Montevideo"],
-        ["du Venezuela", "Caracas"],
-      ]),
-      ...createCapitalCards("Asie", [
-        ["de l’Afghanistan", "Kaboul"],
-        ["de l’Arabie saoudite", "Riyad"],
-        ["de l’Arménie", "Erevan"],
-        ["de l’Azerbaïdjan", "Bakou"],
-        ["de Bahreïn", "Manama"],
-        ["du Bangladesh", "Dacca"],
-        ["du Bhoutan", "Thimphou"],
-        ["de la Birmanie (Myanmar)", "Naypyidaw"],
-        ["du Brunei", "Bandar Seri Begawan"],
-        ["du Cambodge", "Phnom Penh"],
-        ["de la Chine", "Pékin"],
-        ["de Chypre", "Nicosie"],
-        ["de la Corée du Nord", "Pyongyang"],
-        ["de la Corée du Sud", "Séoul"],
-        ["des Émirats arabes unis", "Abou Dabi"],
-        ["de la Géorgie", "Tbilissi"],
-        ["de l’Inde", "New Delhi"],
-        ["de l’Indonésie", "Jakarta"],
-        ["de l’Irak", "Bagdad"],
-        ["de l’Iran", "Téhéran"],
-        ["d’Israël", "Jérusalem"],
-        ["du Japon", "Tokyo"],
-        ["de la Jordanie", "Amman"],
-        ["du Kazakhstan", "Astana"],
-        ["du Kirghizistan", "Bichkek"],
-        ["du Koweït", "Koweït"],
-        ["du Laos", "Vientiane"],
-        ["du Liban", "Beyrouth"],
-        [
-          "de la Malaisie",
-          "Kuala Lumpur (capitale) ; Putrajaya (centre administratif)",
-        ],
-        ["des Maldives", "Malé"],
-        ["de la Mongolie", "Oulan-Bator"],
-        ["du Népal", "Katmandou"],
-        ["d’Oman", "Mascate"],
-        ["de l’Ouzbékistan", "Tachkent"],
-        ["du Pakistan", "Islamabad"],
-        [
-          "de la Palestine",
-          "Jérusalem-Est (revendiquée) ; Ramallah (siège administratif)",
-        ],
-        ["des Philippines", "Manille"],
-        ["du Qatar", "Doha"],
-        ["de Singapour", "Singapour"],
-        [
-          "du Sri Lanka",
-          "Sri Jayawardenapura Kotte (législative) ; Colombo (exécutive et judiciaire)",
-        ],
-        ["de la Syrie", "Damas"],
-        ["du Tadjikistan", "Douchanbé"],
-        ["de la Thaïlande", "Bangkok"],
-        ["du Timor oriental", "Dili"],
-        ["du Turkménistan", "Achgabat"],
-        ["de la Turquie", "Ankara"],
-        ["du Vietnam", "Hanoï"],
-        [
-          "du Yémen",
-          "Sanaa (capitale constitutionnelle) ; Aden (siège provisoire du gouvernement)",
-        ],
-      ]),
-      ...createCapitalCards("Afrique", [
-        [
-          "de l’Afrique du Sud",
-          "Pretoria (exécutive) ; Le Cap (législative) ; Bloemfontein (judiciaire)",
-        ],
-        ["de l’Algérie", "Alger"],
-        ["de l’Angola", "Luanda"],
-        ["du Bénin", "Porto-Novo (capitale) ; Cotonou (siège du gouvernement)"],
-        ["du Botswana", "Gaborone"],
-        ["du Burkina Faso", "Ouagadougou"],
-        ["du Burundi", "Gitega"],
-        ["du Cameroun", "Yaoundé"],
-        ["du Cap-Vert", "Praia"],
-        ["des Comores", "Moroni"],
-        ["de la Côte d’Ivoire", "Yamoussoukro"],
-        ["de Djibouti", "Djibouti"],
-        ["de l’Égypte", "Le Caire"],
-        ["de l’Érythrée", "Asmara"],
-        [
-          "de l’Eswatini",
-          "Mbabane (administrative) ; Lobamba (royale et législative)",
-        ],
-        ["de l’Éthiopie", "Addis-Abeba"],
-        ["du Gabon", "Libreville"],
-        ["de la Gambie", "Banjul"],
-        ["du Ghana", "Accra"],
-        ["de la Guinée", "Conakry"],
-        ["de la Guinée-Bissau", "Bissau"],
-        ["de la Guinée équatoriale", "Malabo"],
-        ["du Kenya", "Nairobi"],
-        ["du Lesotho", "Maseru"],
-        ["du Liberia", "Monrovia"],
-        ["de la Libye", "Tripoli"],
-        ["de Madagascar", "Antananarivo"],
-        ["du Malawi", "Lilongwe"],
-        ["du Mali", "Bamako"],
-        ["du Maroc", "Rabat"],
-        ["de Maurice", "Port-Louis"],
-        ["de la Mauritanie", "Nouakchott"],
-        ["du Mozambique", "Maputo"],
-        ["de la Namibie", "Windhoek"],
-        ["du Niger", "Niamey"],
-        ["du Nigeria", "Abuja"],
-        ["de l’Ouganda", "Kampala"],
-        ["de la République centrafricaine", "Bangui"],
-        ["de la République démocratique du Congo", "Kinshasa"],
-        ["de la République du Congo", "Brazzaville"],
-        ["du Rwanda", "Kigali"],
-        ["de Sao Tomé-et-Principe", "São Tomé"],
-        ["du Sénégal", "Dakar"],
-        ["des Seychelles", "Victoria"],
-        ["de la Sierra Leone", "Freetown"],
-        ["de la Somalie", "Mogadiscio"],
-        ["du Soudan", "Khartoum"],
-        ["du Soudan du Sud", "Djouba"],
-        ["de la Tanzanie", "Dodoma"],
-        ["du Tchad", "N’Djamena"],
-        ["du Togo", "Lomé"],
-        ["de la Tunisie", "Tunis"],
-        ["de la Zambie", "Lusaka"],
-        ["du Zimbabwe", "Harare"],
-      ]),
-      ...createCapitalCards("Océanie", [
-        ["de l’Australie", "Canberra"],
-        ["des Fidji", "Suva"],
-        ["des Îles Marshall", "Majuro"],
-        ["des Îles Salomon", "Honiara"],
-        ["des Kiribati", "Tarawa-Sud"],
-        ["des États fédérés de Micronésie", "Palikir"],
-        [
-          "de Nauru",
-          "Yaren (siège du gouvernement ; aucune capitale officielle)",
-        ],
-        ["de la Nouvelle-Zélande", "Wellington"],
-        ["des Palaos", "Ngerulmud"],
-        ["de la Papouasie-Nouvelle-Guinée", "Port Moresby"],
-        ["des Samoa", "Apia"],
-        ["des Tonga", "Nuku’alofa"],
-        ["des Tuvalu", "Funafuti"],
-        ["du Vanuatu", "Port-Vila"],
-      ]),
-    ],
-  },
-  "bases-javascript": {
-    title: "Bases de JavaScript",
-    category: "INFORMATIQUE",
-    cards: [
-      ["Comment déclarer une constante ?", "Avec le mot-clé const."],
-      ["Que retourne typeof true ?", "La chaîne « boolean »."],
-      [
-        "À quoi sert Array.map() ?",
-        "À créer un nouveau tableau en transformant chaque élément.",
-      ],
-      [
-        "Quelle comparaison vérifie aussi le type ?",
-        "La comparaison stricte ===.",
-      ],
-      [
-        "Comment sélectionner un élément du DOM ?",
-        "Avec document.querySelector().",
-      ],
-      [
-        "À quoi sert addEventListener() ?",
-        "À exécuter une fonction lorsqu’un événement survient.",
-      ],
-    ],
-  },
-};
-
-collections["anglais-quotidien"].cards.push(
-  ["Comment dit-on « bonjour » ?", "Hello."],
-  ["Comment dit-on « merci beaucoup » ?", "Thank you very much."],
-  ["Que signifie « You’re welcome » ?", "De rien."],
-  ["Comment demander le prix ?", "How much is it?"],
-  ["Comment demander l’heure ?", "What time is it?"],
-  ["Traduisez « Je ne comprends pas »", "I don’t understand."],
-  ["Comment demander de répéter ?", "Could you repeat that, please?"],
-  ["Que signifie « Excuse me » ?", "Excusez-moi."],
-  ["Comment dit-on « À demain » ?", "See you tomorrow."],
-  ["Traduisez « Où sont les toilettes ? »", "Where is the bathroom?"],
-  ["Comment dire que l’on a faim ?", "I’m hungry."],
-  ["Comment dire que l’on a soif ?", "I’m thirsty."],
-  ["Que signifie « Take care » ?", "Prends soin de toi."],
-  ["Comment demander de l’aide ?", "Could you help me?"],
-  ["Traduisez « J’arrive tout de suite »", "I’ll be right there."],
-  ["Comment dit-on « Bonne chance » ?", "Good luck."],
-  ["Que signifie « Never mind » ?", "Ce n’est pas grave."],
-  ["Comment demander le prénom de quelqu’un ?", "What’s your name?"],
-  ["Traduisez « Je suis en retard »", "I’m late."],
-  ["Comment dit-on « Faites attention » ?", "Be careful."],
-  ["Que signifie « I’m just looking » ?", "Je regarde seulement."],
-  ["Comment accepter une proposition ?", "That sounds good."],
-  [
-    "Traduisez « Pouvez-vous parler plus lentement ? »",
-    "Could you speak more slowly?",
-  ],
-  ["Comment dit-on « Bon voyage » ?", "Have a good trip."],
-  ["Que signifie « It depends » ?", "Ça dépend."],
-  ["Comment dire « Pas de problème » ?", "No problem."],
-);
-
-collections["bases-javascript"].cards.push(
-  ["Comment déclarer une variable réassignable ?", "Avec le mot-clé let."],
-  ["Quelle valeur représente une absence intentionnelle ?", "null."],
-  ["Comment créer un tableau vide ?", "Avec []."],
-  ["Comment ajouter un élément à la fin d’un tableau ?", "Avec Array.push()."],
-  [
-    "À quoi sert Array.filter() ?",
-    "À créer un tableau avec les éléments qui passent un test.",
-  ],
-  [
-    "À quoi sert Array.find() ?",
-    "À obtenir le premier élément qui passe un test.",
-  ],
-  [
-    "Comment convertir une chaîne en nombre entier ?",
-    "Avec parseInt() ou Number().",
-  ],
-  [
-    "Quel opérateur permet l’interpolation dans un template literal ?",
-    "La syntaxe ${expression}.",
-  ],
-  ["Comment écrire une fonction fléchée ?", "Avec la syntaxe () => {}."],
-  ["Que vaut une variable déclarée mais non initialisée ?", "undefined."],
-  ["Comment tester plusieurs conditions alternatives ?", "Avec else if."],
-  ["Quelle boucle parcourt les valeurs d’un itérable ?", "La boucle for...of."],
-  ["Comment créer un objet littéral ?", "Avec des accolades : {}."],
-  [
-    "À quoi sert JSON.stringify() ?",
-    "À convertir une valeur JavaScript en chaîne JSON.",
-  ],
-  [
-    "À quoi sert JSON.parse() ?",
-    "À convertir une chaîne JSON en valeur JavaScript.",
-  ],
-  [
-    "Comment empêcher le comportement par défaut d’un événement ?",
-    "Avec event.preventDefault().",
-  ],
-  ["Que fait une fonction async ?", "Elle retourne toujours une promesse."],
-  ["Quel mot-clé attend la résolution d’une promesse ?", "await."],
-);
 
 const libraryView = document.querySelector("#collections");
 const collectionView = document.querySelector("#collection-view");
@@ -648,7 +278,7 @@ function formatCardCount(count) {
 
 function getCollectionAccent(category) {
   const normalizedCategory = normalizeCategory(category);
-  return categoryAccents[normalizedCategory] || "black";
+  return categorySettings[normalizedCategory]?.accent || "black";
 }
 
 function normalizeCategory(category) {
@@ -667,8 +297,8 @@ function renameLegacyCategory(category) {
 
 function getCollectionImages(category) {
   const directory =
-    collectionImageDirectories[normalizeCategory(category || "LANGUES")] ||
-    collectionImageDirectories.LANGUES;
+    categorySettings[normalizeCategory(category || "LANGUES")]?.directory ||
+    categorySettings.LANGUES.directory;
   return collectionImageNames.map((name) => `img/${directory}/${name}`);
 }
 
@@ -833,9 +463,9 @@ function renderCollectionCards() {
   Object.entries(collections)
     .sort(([, first], [, second]) => {
       const firstCategoryOrder =
-        categorySortOrder[normalizeCategory(first.category)] ?? Infinity;
+        categorySettings[normalizeCategory(first.category)]?.order ?? Infinity;
       const secondCategoryOrder =
-        categorySortOrder[normalizeCategory(second.category)] ?? Infinity;
+        categorySettings[normalizeCategory(second.category)]?.order ?? Infinity;
       const categoryComparison = firstCategoryOrder - secondCategoryOrder;
       return (
         categoryComparison || frenchCollator.compare(first.title, second.title)
