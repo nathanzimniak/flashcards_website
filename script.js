@@ -86,7 +86,9 @@ function adaptCardTextSize(element, text) {
   if (sizeClass) element.classList.add(sizeClass);
 }
 
-const libraryView = document.querySelector("#collections-view");
+// Keep the previous id as a fallback while an older app shell may still be
+// served by the browser or the GitHub Pages CDN during an update.
+const libraryView = document.querySelector("#collections-view, #collections");
 const collectionView = document.querySelector("#collection-view");
 const statsView = document.querySelector("#stats");
 const navLinks = document.querySelectorAll(".desktop-nav [data-nav]");
