@@ -10,6 +10,9 @@
   --line: #e8e5ee;
   --bg: #faf9fc;
   --shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
+  --collection-media-padding: 10px;
+  --collection-media-radius: 12px;
+  --collection-media-background: var(--accent-surface);
 }
 body[data-accent="blue"] {
   --accent: #2563eb;
@@ -296,18 +299,20 @@ main {
   position: relative;
   display: grid;
   place-items: center;
+  padding: var(--collection-media-padding);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--collection-media-radius);
+  background: var(--collection-media-background);
 }
 .collection-image {
   width: 100%;
+  height: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
 .card-top .collection-image {
-  width: 90%;
-  height: 97px;
-}
-.detail-icon .collection-image {
-  height: 140%;
+  width: 100%;
 }
 .card-content {
   display: flex;
@@ -566,15 +571,14 @@ svg {
   .add-card {
     height: auto;
   }
-  .card-top,
-  .card-top .collection-image {
+  .card-top {
     height: 40cqi;
   }
   .card-top {
-    margin-top: 4.12cqi;
-  }
-  .card-top .collection-image {
-    width: 75%;
+    margin: 4.12cqi 4.12cqi 0;
+    width: calc(100% - 8.24cqi);
+    padding: 4.12cqi;
+    border-radius: 4.95cqi;
   }
   .card-content {
     padding: 0 8.25cqi 8.25cqi;
@@ -855,20 +859,24 @@ svg {
   grid-template-columns: var(--detail-column) minmax(0, 1fr);
   align-items: stretch;
   column-gap: var(--detail-gap);
-  overflow: hidden;
+  padding: 12px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--detail-radius);
   box-shadow: var(--shadow);
 }
 .detail-icon {
-  align-self: stretch;
+  align-self: center;
   display: grid;
   place-items: center;
-  width: var(--detail-icon-width);
-  height: auto;
-  font-size: var(--detail-icon-font-size);
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: var(--collection-media-padding);
   overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--collection-media-radius);
+  background: var(--collection-media-background);
+  font-size: var(--detail-icon-font-size);
 }
 .detail-content {
   min-width: 0;
