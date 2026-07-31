@@ -857,7 +857,7 @@ svg {
   grid-template-columns: var(--detail-column) minmax(0, 1fr);
   align-items: stretch;
   column-gap: var(--detail-gap);
-  padding: 18px;
+  padding: 20px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--detail-radius);
