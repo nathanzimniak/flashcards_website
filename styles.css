@@ -299,7 +299,6 @@ main {
   position: relative;
   display: grid;
   place-items: center;
-  padding: var(--collection-media-padding);
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--collection-media-radius);
@@ -577,7 +576,6 @@ svg {
   .card-top {
     margin: 4.12cqi 4.12cqi 0;
     width: calc(100% - 8.24cqi);
-    padding: 4.12cqi;
     border-radius: 4.95cqi;
   }
   .card-content {
@@ -870,7 +868,6 @@ svg {
   display: grid;
   place-items: center;
   width: 100%;
-  padding: var(--collection-media-padding);
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--collection-media-radius);
