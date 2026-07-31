@@ -12,7 +12,7 @@
   --shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
   --collection-media-padding: 10px;
   --collection-media-radius: 12px;
-  --collection-media-aspect-ratio: 2.1 / 1;
+  --collection-media-aspect-ratio: 2.3/1;
   --collection-media-background: var(--accent-surface);
 }
 body[data-accent="blue"] {
