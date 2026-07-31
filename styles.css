@@ -710,14 +710,22 @@ svg {
 .progress-collection {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 12px;
   min-width: 0;
 }
-.progress-collection img {
+.progress-collection-media {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
   width: 90px;
-  height: 42px;
+  height: 54px;
+  overflow: hidden;
+  border: 1px solid var(--line);
   border-radius: 10px;
-  object-fit: cover;
+  background: var(--collection-media-background);
+}
+.progress-collection-media .collection-image {
+  object-fit: contain;
 }
 .progress-collection div {
   min-width: 0;
