@@ -86,7 +86,7 @@ function adaptCardTextSize(element, text) {
   if (sizeClass) element.classList.add(sizeClass);
 }
 
-const libraryView = document.querySelector("#collections");
+const libraryView = document.querySelector("#collections-view");
 const collectionView = document.querySelector("#collection-view");
 const statsView = document.querySelector("#stats");
 const navLinks = document.querySelectorAll(".desktop-nav [data-nav]");
