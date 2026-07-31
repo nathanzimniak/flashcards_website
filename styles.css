@@ -68,9 +68,14 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;
+@media (display-mode: standalone) {
+  html {
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
 }
 body {
   margin: 0;

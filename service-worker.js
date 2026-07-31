@@ -1,4 +1,4 @@
-const CACHE_NAME = "memento-v2";
+const CACHE_NAME = "memento-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
