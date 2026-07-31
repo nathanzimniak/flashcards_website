@@ -1017,3 +1017,11 @@ form.addEventListener("submit", (event) => {
   );
   if (!isEditing) window.location.hash = `collection/${id}`;
 });
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch((error) => {
+      console.error("Impossible d’enregistrer le service worker Memento.", error);
+    });
+  });
+}
