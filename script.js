@@ -631,7 +631,7 @@ function renderStats() {
           );
           item.querySelector("strong").textContent = collection.title;
           item.querySelector(".progress-collection span").textContent =
-            collection.category;
+            `${collection.category} · ${formatCardCount(collection.cards.length)}`;
           const progressTrack = item.querySelector(".progress-track");
           const difficultyDescriptions = {
             easy: `${difficultyCounts.easy} faciles`,
