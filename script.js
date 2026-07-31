@@ -454,29 +454,31 @@ function deleteCollection(id) {
   return true;
 }
 
+function getOrderedCollections() {
+  return Object.entries(collections).sort(([, first], [, second]) => {
+    const firstCategoryOrder =
+      categorySettings[normalizeCategory(first.category)]?.order ?? Infinity;
+    const secondCategoryOrder =
+      categorySettings[normalizeCategory(second.category)]?.order ?? Infinity;
+    const categoryComparison = firstCategoryOrder - secondCategoryOrder;
+    return (
+      categoryComparison || frenchCollator.compare(first.title, second.title)
+    );
+  });
+}
+
 function renderCollectionCards() {
   collectionGrid
     .querySelectorAll(".collection-theme")
     .forEach((theme) => theme.remove());
 
   const collectionsByCategory = new Map();
-  Object.entries(collections)
-    .sort(([, first], [, second]) => {
-      const firstCategoryOrder =
-        categorySettings[normalizeCategory(first.category)]?.order ?? Infinity;
-      const secondCategoryOrder =
-        categorySettings[normalizeCategory(second.category)]?.order ?? Infinity;
-      const categoryComparison = firstCategoryOrder - secondCategoryOrder;
-      return (
-        categoryComparison || frenchCollator.compare(first.title, second.title)
-      );
-    })
-    .forEach(([id, collection]) => {
-      if (!collectionsByCategory.has(collection.category)) {
-        collectionsByCategory.set(collection.category, []);
-      }
-      collectionsByCategory.get(collection.category).push([id, collection]);
-    });
+  getOrderedCollections().forEach(([id, collection]) => {
+    if (!collectionsByCategory.has(collection.category)) {
+      collectionsByCategory.set(collection.category, []);
+    }
+    collectionsByCategory.get(collection.category).push([id, collection]);
+  });
 
   collectionsByCategory.forEach((categoryCollections, category) => {
     const theme = document.createElement("section");
@@ -553,7 +555,7 @@ function getStats() {
   const difficulties = getDifficulties();
   const counts = { easy: 0, medium: 0, hard: 0 };
   let totalCards = 0;
-  const collectionStats = Object.entries(collections).map(([id, collection]) => {
+  const collectionStats = getOrderedCollections().map(([id, collection]) => {
     const saved = difficulties[id] || {};
     const difficultyCounts = { easy: 0, medium: 0, hard: 0, unrated: 0 };
     collection.cards.forEach((card) => {
