@@ -903,7 +903,7 @@ svg {
 }
 .flashcard,
 .add-flashcard-button {
-  min-height: 320px;
+  aspect-ratio: 3 / 4;
   border-radius: 15px;
 }
 .flashcard {
@@ -1035,11 +1035,6 @@ svg {
   }
   .flashcards-section {
     margin-top: 32px;
-  }
-  .flashcard,
-  .add-flashcard-button {
-    min-height: 0;
-    aspect-ratio: 3 / 4;
   }
   .flashcard {
     padding: 18px 14px;
