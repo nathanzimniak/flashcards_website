@@ -703,7 +703,7 @@ svg {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font: 700 12px Manrope;
+  font: 800 10px Manrope;
 }
 .progress-collection span {
   color: var(--muted);
@@ -747,8 +747,8 @@ svg {
     padding: 20px 17px;
   }
   .collection-progress-item {
-    grid-template-columns: minmax(250px, 1fr) 1fr;
-    gap: 14px;
+    grid-template-columns: minmax(220px, 1fr) 1fr;
+    gap: 2px;
   }
 }
 
