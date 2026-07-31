@@ -846,9 +846,9 @@ svg {
   --detail-label-spacing: 1px;
   --detail-label-gap: 4px;
   --detail-count-size: 12px;
-  --detail-button-size: 34px;
-  --detail-button-radius: 9px;
-  --detail-action-icon-size: 17px;
+  --detail-button-size: 40px;
+  --detail-button-radius: 10px;
+  --detail-action-icon-size: 20px;
   --detail-small-gap: 6px;
   --detail-action-gap: 8px;
   display: grid;
@@ -1045,9 +1045,9 @@ svg {
     --detail-label-spacing: 0.85px;
     --detail-label-gap: 3.4px;
     --detail-count-size: 10.2px;
-    --detail-button-size: 28.9px;
-    --detail-button-radius: 7.65px;
-    --detail-action-icon-size: 14.45px;
+    --detail-button-size: 34px;
+    --detail-button-radius: 8.5px;
+    --detail-action-icon-size: 17px;
     --detail-small-gap: 5.1px;
     --detail-action-gap: 6.8px;
   }
@@ -1069,9 +1069,9 @@ svg {
     --detail-label-spacing: 0.72px;
     --detail-label-gap: 2.88px;
     --detail-count-size: 8.64px;
-    --detail-button-size: 24.48px;
-    --detail-button-radius: 6.48px;
-    --detail-action-icon-size: 12.24px;
+    --detail-button-size: 28.8px;
+    --detail-button-radius: 7.2px;
+    --detail-action-icon-size: 14.4px;
     --detail-small-gap: 4.32px;
     --detail-action-gap: 5.76px;
   }
