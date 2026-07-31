@@ -64,8 +64,13 @@ body[data-accent="orange"] {
 }
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 body {
   margin: 0;
