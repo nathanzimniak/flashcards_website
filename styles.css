@@ -846,9 +846,9 @@ svg {
   --detail-label-spacing: 1px;
   --detail-label-gap: 4px;
   --detail-count-size: 12px;
-  --detail-button-size: 40px;
+  --detail-button-size: 36px;
   --detail-button-radius: 10px;
-  --detail-action-icon-size: 20px;
+  --detail-action-icon-size: 18px;
   --detail-small-gap: 6px;
   --detail-action-gap: 8px;
   display: grid;
