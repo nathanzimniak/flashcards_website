@@ -276,6 +276,7 @@ main {
 }
 .collection-card,
 .add-card {
+  container-type: inline-size;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -290,7 +291,7 @@ main {
     color 0.22s;
 }
 .card-top {
-  height: 112px;
+  height: 97px;
   flex-shrink: 0;
   position: relative;
   display: grid;
@@ -303,7 +304,7 @@ main {
 }
 .card-top .collection-image {
   width: 90%;
-  height: 112px;
+  height: 97px;
 }
 .detail-icon .collection-image {
   height: 140%;
@@ -552,29 +553,53 @@ svg {
     gap: 10px;
   }
   .collection-slider {
-    grid-auto-columns: min(76vw, 240px);
+    grid-auto-columns: calc((100% - 10px) / 2);
     gap: 10px;
   }
   .collection-grid > .add-card {
-    width: min(76vw, 240px);
+    width: calc((100% - 10px) / 2);
   }
   .collection-card,
   .add-card {
-    padding: 8px 14px 16px;
+    padding: 0;
   }
   .add-card {
     height: auto;
   }
   .card-top,
   .card-top .collection-image {
-    height: min(25vw, 98px);
+    height: 40cqi;
+  }
+  .card-top {
+    margin-top: 4.12cqi;
+  }
+  .card-top .collection-image {
+    width: 75%;
+  }
+  .card-content {
+    padding: 0 8.25cqi 8.25cqi;
+  }
+  .tag {
+    font-size: 3.71cqi;
+    letter-spacing: 0.41cqi;
   }
   .card-content h3 {
-    margin: 4px 0;
-    font-size: 14px;
+    margin: 1.65cqi 0;
+    font-size: 6.6cqi;
+  }
+  .card-footer {
+    font-size: 4.54cqi;
+  }
+  .add-card span {
+    width: 17.73cqi;
+    height: 17.73cqi;
+    margin-bottom: 6.19cqi;
+  }
+  .add-card svg {
+    width: 8.25cqi;
   }
   .add-card strong {
-    font-size: 13px;
+    font-size: 5.77cqi;
     text-align: center;
   }
   main {
@@ -1391,16 +1416,5 @@ svg {
   .add-flashcard-button {
     aspect-ratio: auto;
     min-height: 260px;
-  }
-  .collection-card,
-  .add-card {
-    aspect-ratio: auto;
-    min-height: 234px;
-  }
-  .collection-slider {
-    grid-auto-columns: 88%;
-  }
-  .collection-grid > .add-card {
-    width: 88%;
   }
 }
