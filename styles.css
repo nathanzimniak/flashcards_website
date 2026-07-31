@@ -318,7 +318,7 @@ main {
   display: flex;
   flex: 1;
   flex-direction: column;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 .tag {
   color: var(--accent);
@@ -578,7 +578,7 @@ svg {
     border-radius: 4.95cqi;
   }
   .card-content {
-    margin-top: 4.0cqi;
+    margin-top: 5.0cqi;
     padding: 0 8.25cqi 8.25cqi;
   }
   .tag {
