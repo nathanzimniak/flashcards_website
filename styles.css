@@ -844,7 +844,7 @@ svg {
   --detail-radius: 20px;
   --detail-icon-width: 160px;
   --detail-icon-font-size: 44px;
-  --detail-title-size: 25px;
+  --detail-title-size: 24px;
   --detail-title-spacing: -1.2px;
   --detail-label-size: 10px;
   --detail-label-spacing: 1px;
@@ -1070,7 +1070,7 @@ svg {
     --detail-radius: 17px;
     --detail-icon-width: 136px;
     --detail-icon-font-size: 37.4px;
-    --detail-title-size: 21.25px;
+    --detail-title-size: 20px;
     --detail-title-spacing: -1.02px;
     --detail-label-size: 8.5px;
     --detail-label-spacing: 0.85px;
