@@ -327,7 +327,7 @@ main {
 }
 .card-content h3 {
   font: 800 16px Manrope;
-  margin: 4px 0;
+  margin: 0px 0;
 }
 .card-footer {
   color: #898493;
@@ -584,7 +584,7 @@ svg {
     letter-spacing: 0.41cqi;
   }
   .card-content h3 {
-    margin: 1.65cqi 0;
+    margin: 0 0;
     font-size: 6.6cqi;
   }
   .card-footer {
