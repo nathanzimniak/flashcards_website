@@ -308,19 +308,22 @@ function renameLegacyCategory(category) {
   return category || "ART";
 }
 
-function getCollectionImages(category) {
+function getCollectionImages(category, variant = "card") {
   const directory =
     categorySettings[normalizeCategory(category || "LANGUES")]?.directory ||
     categorySettings.LANGUES.directory;
-  return collectionImageNames.map((name) => `img/${directory}/${name}`);
+  return collectionImageNames.map(
+    (name) => `img/collection-${variant}/${directory}/${name}`,
+  );
 }
 
-function getCollectionImage(image, category) {
-  const categoryImages = getCollectionImages(category);
+function getCollectionImage(image, category, variant = "card") {
+  const categoryImages = getCollectionImages(category, variant);
   if (categoryImages.includes(image)) return image;
 
   // Conserve le choix des utilisateurs ayant enregistré une ancienne URL
-  // (img/0.png, par exemple) tout en la replaçant dans la bonne catégorie.
+  // (img/0.png ou l'autre format, par exemple) tout en la replaçant dans la
+  // bonne catégorie et le format demandé.
   const imageName = image?.split("/").pop();
   return (
     categoryImages.find((candidate) => candidate.endsWith(`/${imageName}`)) ||
@@ -846,7 +849,11 @@ function renderRoute() {
   );
   const cardCount = collection.cards.length;
   detailCount.textContent = formatCardCount(cardCount);
-  detailImage.src = getCollectionImage(collection.image, collection.category);
+  detailImage.src = getCollectionImage(
+    collection.image,
+    collection.category,
+    "header",
+  );
 
   renderFlashcards(collection);
   document.title = `${collection.title} — Memento`;

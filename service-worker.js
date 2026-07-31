@@ -1,4 +1,4 @@
-const CACHE_NAME = "memento-v6";
+const CACHE_NAME = "memento-v7";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -8,12 +8,8 @@ const APP_SHELL = [
   "./favicon.svg",
   "./manifest.webmanifest",
   "./icons/icon.svg",
-  "./img/art/0.png",
-  "./img/geographie/0.png",
-  "./img/histoire/0.png",
-  "./img/informatique/0.png",
-  "./img/langues/0.png",
-  "./img/sciences/0.png",
+  "./img/collection-card/langues/0.png",
+  "./img/collection-header/langues/0.png",
 ];
 
 self.addEventListener("install", (event) => {
