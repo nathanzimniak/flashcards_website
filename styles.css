@@ -291,7 +291,7 @@ main {
     color 0.22s;
 }
 .card-top {
-  height: 112px;
+  height: 97px;
   flex-shrink: 0;
   position: relative;
   display: grid;
@@ -304,7 +304,7 @@ main {
 }
 .card-top .collection-image {
   width: 90%;
-  height: 112px;
+  height: 97px;
 }
 .detail-icon .collection-image {
   height: 140%;
