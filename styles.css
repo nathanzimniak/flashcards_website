@@ -718,7 +718,7 @@ svg {
   place-items: center;
   flex: 0 0 auto;
   width: 90px;
-  height: 54px;
+  height: 40px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 10px;
