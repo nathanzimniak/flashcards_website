@@ -573,12 +573,12 @@ svg {
     height: auto;
   }
   .card-top {
-    width: 78%;
+    width: 85%;
     margin: 4.12cqi auto 0;
     border-radius: 4.95cqi;
   }
   .card-content {
-    margin-top: 3.0cqi;
+    margin-top: 4.0cqi;
     padding: 0 8.25cqi 8.25cqi;
   }
   .tag {
