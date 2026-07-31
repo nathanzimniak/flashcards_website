@@ -835,7 +835,7 @@ svg {
   border-radius: 3px;
 }
 .detail-header {
-  --detail-column: 144px;
+  --detail-column: 118px;
   --detail-gap: 20px;
   --detail-radius: 20px;
   --detail-icon-width: 160px;
@@ -1058,7 +1058,7 @@ svg {
     gap: 10px;
   }
   .detail-header {
-    --detail-column: 122.4px;
+    --detail-column: 100px;
     --detail-gap: 17px;
     --detail-radius: 17px;
     --detail-icon-width: 136px;
