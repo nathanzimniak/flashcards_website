@@ -722,9 +722,6 @@ svg {
   border-radius: 10px;
   background: var(--collection-media-background);
 }
-.progress-collection-media .collection-image {
-  object-fit: contain;
-}
 .progress-collection div {
   min-width: 0;
 }
