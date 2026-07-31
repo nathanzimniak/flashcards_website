@@ -790,9 +790,22 @@ svg {
 .collection-card {
   display: flex;
   flex-direction: column;
+  padding: 0;
   color: inherit;
   cursor: pointer;
   text-decoration: none;
+}
+.collection-card .card-top {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.collection-card .collection-image {
+  object-fit: cover;
+}
+.collection-card .card-content {
+  padding: 0 20px 20px;
 }
 .collection-card .tag {
   color: var(--card-accent, var(--accent));
