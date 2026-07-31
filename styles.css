@@ -281,6 +281,7 @@ main {
 .collection-card,
 .add-card {
   container-type: inline-size;
+  contain: size layout style;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 16px;
