@@ -12,6 +12,7 @@
   --shadow: 0 4px 2px rgba(0, 0, 0, 0.05);
   --collection-media-padding: 10px;
   --collection-media-radius: 12px;
+  --collection-media-aspect-ratio: 2.1 / 1;
   --collection-media-background: var(--accent-surface);
 }
 body[data-accent="blue"] {
@@ -294,7 +295,7 @@ main {
     color 0.22s;
 }
 .card-top {
-  height: 97px;
+  aspect-ratio: var(--collection-media-aspect-ratio);
   flex-shrink: 0;
   position: relative;
   display: grid;
@@ -571,9 +572,6 @@ svg {
     height: auto;
   }
   .card-top {
-    height: 40cqi;
-  }
-  .card-top {
     margin: 4.12cqi 4.12cqi 0;
     width: calc(100% - 8.24cqi);
     border-radius: 4.95cqi;
@@ -710,14 +708,22 @@ svg {
 .progress-collection {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 12px;
   min-width: 0;
 }
-.progress-collection img {
+.progress-collection-media {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
   width: 90px;
-  height: 42px;
+  aspect-ratio: var(--collection-media-aspect-ratio);
+  overflow: hidden;
+  border: 1px solid var(--line);
   border-radius: 10px;
-  object-fit: cover;
+  background: var(--collection-media-background);
+}
+.progress-collection-media .collection-image {
+  object-fit: contain;
 }
 .progress-collection div {
   min-width: 0;
