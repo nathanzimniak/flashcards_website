@@ -859,7 +859,7 @@ svg {
   grid-template-columns: var(--detail-column) minmax(0, 1fr);
   align-items: stretch;
   column-gap: var(--detail-gap);
-  padding: 12px;
+  padding: 18px;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--detail-radius);
@@ -870,7 +870,6 @@ svg {
   display: grid;
   place-items: center;
   width: 100%;
-  aspect-ratio: 4 / 3;
   padding: var(--collection-media-padding);
   overflow: hidden;
   border: 1px solid var(--line);
