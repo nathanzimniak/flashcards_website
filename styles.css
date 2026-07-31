@@ -835,26 +835,43 @@ svg {
   border-radius: 3px;
 }
 .detail-header {
+  --detail-column: 144px;
+  --detail-gap: 20px;
+  --detail-radius: 20px;
+  --detail-icon-width: 160px;
+  --detail-icon-font-size: 44px;
+  --detail-title-size: 25px;
+  --detail-title-spacing: -1.2px;
+  --detail-label-size: 10px;
+  --detail-label-spacing: 1px;
+  --detail-label-gap: 4px;
+  --detail-count-size: 12px;
+  --detail-button-size: 34px;
+  --detail-button-radius: 9px;
+  --detail-action-icon-size: 17px;
+  --detail-small-gap: 6px;
+  --detail-action-gap: 8px;
   display: grid;
-  grid-template-columns: 144px 1fr;
+  grid-template-columns: var(--detail-column) minmax(0, 1fr);
   align-items: stretch;
-  column-gap: 20px;
+  column-gap: var(--detail-gap);
   overflow: hidden;
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: var(--detail-radius);
   box-shadow: var(--shadow);
 }
 .detail-icon {
   align-self: stretch;
   display: grid;
   place-items: center;
-  width: 160px;
+  width: var(--detail-icon-width);
   height: auto;
-  font-size: 44px;
+  font-size: var(--detail-icon-font-size);
   overflow: hidden;
 }
 .detail-content {
+  min-width: 0;
   align-self: stretch;
   display: flex;
   flex-direction: column;
@@ -862,42 +879,45 @@ svg {
 }
 .detail-header h1 {
   font-family: Manrope, sans-serif;
-  font-size: 25px;
+  font-size: var(--detail-title-size);
   font-weight: 800;
   line-height: 1.15;
   margin: 0;
-  letter-spacing: -1.2px;
+  letter-spacing: var(--detail-title-spacing);
+  overflow-wrap: anywhere;
 }
 .detail-header .section-label {
-  margin-bottom: 4px;
+  margin-bottom: var(--detail-label-gap);
+  font-size: var(--detail-label-size);
+  letter-spacing: var(--detail-label-spacing);
 }
 .flashcards-section {
   margin-top: 48px;
 }
 .detail-count {
-  margin: 6px 0 0;
+  margin: var(--detail-small-gap) 0 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: var(--detail-count-size);
   font-weight: 600;
 }
 .detail-collection-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 6px;
+  gap: var(--detail-action-gap);
+  margin-top: var(--detail-small-gap);
 }
 .detail-action-button {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: var(--detail-button-size);
+  height: var(--detail-button-size);
   border: 1px solid var(--line);
-  border-radius: 9px;
+  border-radius: var(--detail-button-radius);
   background: #fff;
   color: #aaa5b3;
   cursor: pointer;
 }
 .detail-action-button svg {
-  width: 17px;
+  width: var(--detail-action-icon-size);
   fill: none;
   stroke: currentColor;
   stroke-width: 1.8;
@@ -1014,15 +1034,22 @@ svg {
 }
 @media (max-width: 900px) {
   .detail-header {
-    grid-template-columns: 122px 1fr;
-    column-gap: 30px;
-  }
-  .detail-icon {
-    width: 90px;
-    height: auto;
-  }
-  .detail-content {
-    padding: 32px 32px 32px 0;
+    --detail-column: 122.4px;
+    --detail-gap: 17px;
+    --detail-radius: 17px;
+    --detail-icon-width: 136px;
+    --detail-icon-font-size: 37.4px;
+    --detail-title-size: 21.25px;
+    --detail-title-spacing: -1.02px;
+    --detail-label-size: 8.5px;
+    --detail-label-spacing: 0.85px;
+    --detail-label-gap: 3.4px;
+    --detail-count-size: 10.2px;
+    --detail-button-size: 28.9px;
+    --detail-button-radius: 7.65px;
+    --detail-action-icon-size: 14.45px;
+    --detail-small-gap: 5.1px;
+    --detail-action-gap: 6.8px;
   }
 }
 @media (max-width: 600px) {
@@ -1031,26 +1058,22 @@ svg {
     gap: 10px;
   }
   .detail-header {
-    grid-template-columns: 104px minmax(0, 1fr);
-    column-gap: 16px;
-  }
-  .detail-icon {
-    width: 150px;
-    height: 100%;
-    margin: 0;
-  }
-  .detail-content {
-    min-width: 0;
-    padding: 24px 16px 24px 32px;
-  }
-  .detail-header h1 {
-    font-size: 18px;
-    letter-spacing: -0.8px;
-    overflow-wrap: anywhere;
-  }
-  .detail-action-button {
-    width: 38px;
-    height: 38px;
+    --detail-column: 103.68px;
+    --detail-gap: 14.4px;
+    --detail-radius: 14.4px;
+    --detail-icon-width: 115.2px;
+    --detail-icon-font-size: 31.68px;
+    --detail-title-size: 18px;
+    --detail-title-spacing: -0.864px;
+    --detail-label-size: 7.2px;
+    --detail-label-spacing: 0.72px;
+    --detail-label-gap: 2.88px;
+    --detail-count-size: 8.64px;
+    --detail-button-size: 24.48px;
+    --detail-button-radius: 6.48px;
+    --detail-action-icon-size: 12.24px;
+    --detail-small-gap: 4.32px;
+    --detail-action-gap: 5.76px;
   }
   .collection-detail {
     padding-top: 0;
