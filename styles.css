@@ -514,6 +514,11 @@ svg {
   }
 }
 @media (max-width: 600px) {
+  #collections-view,
+  .collection-grid,
+  .collection-theme {
+    overflow: visible;
+  }
   .topbar {
     height: calc(60px + env(safe-area-inset-top));
     padding-top: env(safe-area-inset-top);
@@ -591,8 +596,17 @@ svg {
     gap: 10px;
   }
   .collection-slider {
+    /* The theme stays on main's content line, while its scrollport reaches the
+       viewport edges and becomes the only place where cards are clipped. */
+    box-sizing: border-box;
+    width: calc(100% + var(--main-gutter-start) + var(--main-gutter-end));
     grid-auto-columns: 65%;
     gap: 10px;
+    margin-inline: calc(-1 * var(--main-gutter-start))
+      calc(-1 * var(--main-gutter-end));
+    padding-inline: calc(var(--main-gutter-start) + 3px)
+      calc(var(--main-gutter-end) + 3px);
+    scroll-padding-inline-start: calc(var(--main-gutter-start) + 3px);
   }
   .collection-grid > .add-card {
     width: 65%;
@@ -637,9 +651,12 @@ svg {
     text-align: center;
   }
   main {
+    --main-gutter-start: max(18px, env(safe-area-inset-left));
+    --main-gutter-end: max(18px, env(safe-area-inset-right));
     padding: 20px max(18px, env(safe-area-inset-right))
       calc(96px + env(safe-area-inset-bottom))
       max(18px, env(safe-area-inset-left));
+    overflow: visible;
   }
   .modal {
     max-height: calc(100dvh - 24px - env(safe-area-inset-top));
