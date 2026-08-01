@@ -593,10 +593,6 @@ svg {
   .collection-slider {
     grid-auto-columns: 65%;
     gap: 10px;
-    /* Keep the first card on the main content line, but move this scrollport's
-       right edge to the viewport edge. The slider itself, rather than the
-       page, remains the only horizontally scrolling element. */
-    margin-right: calc(0px - max(18px, env(safe-area-inset-right)));
   }
   .collection-grid > .add-card {
     width: 65%;
