@@ -514,14 +514,6 @@ svg {
   }
 }
 @media (max-width: 600px) {
-  main,
-  #collections-view,
-  .collection-grid,
-  .collection-theme {
-    /* The slider owns horizontal scrolling; its ancestors must not clip cards
-       while they travel towards the physical edges of the viewport. */
-    overflow: visible;
-  }
   .topbar {
     height: calc(60px + env(safe-area-inset-top));
     padding-top: env(safe-area-inset-top);
