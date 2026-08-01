@@ -556,6 +556,7 @@ svg {
   }
   .mobile-nav a,
   .mobile-nav button {
+    -webkit-tap-highlight-color: transparent;
     position: relative;
     display: flex;
     min-width: 0;
