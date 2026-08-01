@@ -213,6 +213,28 @@ function validateImport(data) {
   );
 }
 
+function getExportedCollections() {
+  return Object.fromEntries(
+    Object.entries(collections).map(([id, collection]) => [
+      id,
+      {
+        title: collection.title,
+        category: collection.category,
+        image: collection.image,
+      },
+    ]),
+  );
+}
+
+function getExportedCards() {
+  return Object.fromEntries(
+    Object.entries(collections).map(([id, collection]) => [
+      id,
+      collection.cards,
+    ]),
+  );
+}
+
 function exportUserData() {
   const deletedCollections = readStorage(storageKeys.deletedCollections);
   const reviewActivity = readStorage(storageKeys.reviewActivity);
@@ -221,8 +243,8 @@ function exportUserData() {
     version: exportVersion,
     exportedAt: new Date().toISOString(),
     data: {
-      collections: readStorage(storageKeys.collections),
-      cards: readStorage(storageKeys.cards),
+      collections: getExportedCollections(),
+      cards: getExportedCards(),
       deletedCollections: Array.isArray(deletedCollections)
         ? deletedCollections
         : [],
