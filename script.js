@@ -362,6 +362,26 @@ function getCollectionImage(image, category, variant = "card") {
   );
 }
 
+function updateCollectionImage(imageElement, source) {
+  imageElement.hidden = true;
+
+  const revealCurrentImage = () => {
+    if (imageElement.getAttribute("src") !== source) return;
+    imageElement.hidden = false;
+  };
+
+  imageElement.onload = revealCurrentImage;
+  imageElement.onerror = () => {
+    if (imageElement.getAttribute("src") === source) imageElement.hidden = true;
+  };
+  imageElement.src = source;
+
+  // L'événement load a parfois déjà eu lieu lorsque l'image vient du cache.
+  if (imageElement.complete && imageElement.naturalWidth > 0) {
+    revealCurrentImage();
+  }
+}
+
 function renderCollectionImageOptions(category, selectedImage = null) {
   const imageOptions = collectionForm.querySelector(".image-options");
   const categoryImages = getCollectionImages(category);
@@ -401,9 +421,9 @@ function createCollectionCard(id, collection) {
   card.innerHTML =
     '<div class="card-top"><img class="collection-image" alt=""><span class="review-notification" aria-hidden="true"></span></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".tag").textContent = collection.category;
-  card.querySelector(".collection-image").src = getCollectionImage(
-    collection.image,
-    collection.category,
+  updateCollectionImage(
+    card.querySelector(".collection-image"),
+    getCollectionImage(collection.image, collection.category),
   );
   card.querySelector("h3").textContent = collection.title;
   card.querySelector(".card-footer span").textContent = formatCardCount(
@@ -917,10 +937,9 @@ function renderRoute() {
   );
   const cardCount = collection.cards.length;
   detailCount.textContent = formatCardCount(cardCount);
-  detailImage.src = getCollectionImage(
-    collection.image,
-    collection.category,
-    "header",
+  updateCollectionImage(
+    detailImage,
+    getCollectionImage(collection.image, collection.category, "header"),
   );
 
   renderFlashcards(collection);
