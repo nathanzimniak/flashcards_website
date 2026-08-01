@@ -46,7 +46,6 @@ const importFileInput = select(".import-file-input");
 const storageKeys = {
   cards: "memento-custom-cards",
   collections: "memento-custom-collections",
-  deletedCollections: "memento-deleted-collections",
   difficulties: "memento-card-difficulties",
   schedules: "memento-card-schedules",
   reviewActivity: "memento-review-activity",
@@ -144,7 +143,6 @@ function validateImport(data) {
   const {
     collections: metadata,
     cards,
-    deletedCollections,
     difficulties,
     schedules = {},
     reviewActivity,
@@ -152,7 +150,6 @@ function validateImport(data) {
   if (
     !isRecord(metadata) ||
     !isRecord(cards) ||
-    !Array.isArray(deletedCollections) ||
     !isRecord(difficulties) ||
     !isRecord(schedules) ||
     !Array.isArray(reviewActivity)
@@ -204,9 +201,6 @@ function validateImport(data) {
     ].every((id) => /^[a-z0-9][a-z0-9-]*$/.test(id)) &&
     metadataIsValid &&
     cardsAreValid &&
-    deletedCollections.every(
-      (id) => typeof id === "string" && /^[a-z0-9][a-z0-9-]*$/.test(id),
-    ) &&
     difficultiesAreValid &&
     schedulesAreValid &&
     reviewActivity.every((timestamp) => Number.isFinite(timestamp))
@@ -214,7 +208,6 @@ function validateImport(data) {
 }
 
 function exportUserData() {
-  const deletedCollections = readStorage(storageKeys.deletedCollections);
   const reviewActivity = readStorage(storageKeys.reviewActivity);
   const payload = {
     format: exportFormat,
@@ -223,9 +216,6 @@ function exportUserData() {
     data: {
       collections: readStorage(storageKeys.collections),
       cards: readStorage(storageKeys.cards),
-      deletedCollections: Array.isArray(deletedCollections)
-        ? deletedCollections
-        : [],
       difficulties: readStorage(storageKeys.difficulties),
       schedules: readStorage(storageKeys.schedules),
       reviewActivity: Array.isArray(reviewActivity) ? reviewActivity : [],
@@ -257,7 +247,6 @@ async function importUserData(file) {
     const importedData = payload.data;
     writeStorage(storageKeys.collections, importedData.collections);
     writeStorage(storageKeys.cards, importedData.cards);
-    writeStorage(storageKeys.deletedCollections, importedData.deletedCollections);
     writeStorage(storageKeys.difficulties, importedData.difficulties);
     writeStorage(storageKeys.schedules, importedData.schedules || {});
     writeStorage(storageKeys.reviewActivity, importedData.reviewActivity);
@@ -281,12 +270,6 @@ function loadSavedCollections() {
       cards: collections[id]?.cards || [],
     };
   });
-}
-
-function loadDeletedCollections() {
-  const deletedCollections = readStorage(storageKeys.deletedCollections);
-  if (!Array.isArray(deletedCollections)) return;
-  deletedCollections.forEach((id) => delete collections[id]);
 }
 
 function loadSavedCards() {
@@ -431,13 +414,6 @@ function saveCollectionMetadata(id) {
   const { title, category, image } = collections[id];
   savedCollections[id] = { title, category, image };
   writeStorage(storageKeys.collections, savedCollections);
-  const deletedCollections = readStorage(storageKeys.deletedCollections);
-  if (Array.isArray(deletedCollections) && deletedCollections.includes(id)) {
-    writeStorage(
-      storageKeys.deletedCollections,
-      deletedCollections.filter((deletedId) => deletedId !== id),
-    );
-  }
 }
 
 function openCollectionModal(id = null) {
@@ -507,12 +483,6 @@ function deleteCollection(id) {
   const schedules = readStorage(storageKeys.schedules);
   delete schedules[id];
   writeStorage(storageKeys.schedules, schedules);
-  const deletedCollections = readStorage(storageKeys.deletedCollections);
-  const deletedIds = Array.isArray(deletedCollections)
-    ? deletedCollections
-    : [];
-  if (!deletedIds.includes(id)) deletedIds.push(id);
-  writeStorage(storageKeys.deletedCollections, deletedIds);
   renderCollectionCards();
   showToast("Collection supprimée");
   return true;
@@ -937,7 +907,6 @@ function renderRoute() {
 }
 
 loadSavedCollections();
-loadDeletedCollections();
 loadSavedCards();
 renderCollectionCards();
 window.addEventListener("hashchange", renderRoute);
