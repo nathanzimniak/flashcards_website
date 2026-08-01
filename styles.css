@@ -520,8 +520,70 @@ svg {
   .desktop-nav {
     display: none;
   }
+  .data-actions {
+    display: none;
+  }
+  .mobile-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    min-height: calc(76px + env(safe-area-inset-bottom));
+    padding: 8px max(10px, env(safe-area-inset-right))
+      env(safe-area-inset-bottom) max(10px, env(safe-area-inset-left));
+    border-top: 2px solid #d9d5e2;
+    background: #fff;
+    box-shadow: 0 -10px 30px rgba(39, 36, 61, 0.2);
+  }
+  .mobile-nav a,
+  .mobile-nav button {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    min-height: 58px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px 2px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: #625d70;
+    font: 700 12px "DM Sans";
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .mobile-nav a.active {
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+  }
+  .mobile-nav a.active::before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    width: 40px;
+    height: 4px;
+    border-radius: 0 0 4px 4px;
+    background: var(--accent);
+  }
+  .mobile-nav svg {
+    width: 25px;
+    height: 25px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  .mobile-nav a:focus-visible,
+  .mobile-nav button:focus-visible {
+    outline: 3px solid var(--accent-border);
+    outline-offset: -3px;
+  }
   main {
-    padding: 45px 24px;
+    padding: 45px 24px calc(112px + env(safe-area-inset-bottom));
   }
   .collection-grid {
     gap: 10px;
@@ -550,69 +612,6 @@ svg {
     width: 29px;
     transform: scale(0.9);
     transform-origin: left center;
-  }
-  .data-actions {
-    display: none;
-  }
-  .mobile-nav {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 15;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    min-height: calc(64px + env(safe-area-inset-bottom));
-    padding: 6px max(8px, env(safe-area-inset-right))
-      env(safe-area-inset-bottom) max(8px, env(safe-area-inset-left));
-    border-top: 1px solid var(--line);
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 -6px 20px rgba(39, 36, 61, 0.08);
-    backdrop-filter: blur(14px);
-  }
-  .mobile-nav a,
-  .mobile-nav button {
-    position: relative;
-    display: flex;
-    min-width: 0;
-    min-height: 52px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 4px 2px;
-    border: 0;
-    border-radius: 10px;
-    background: transparent;
-    color: #858091;
-    font: 600 10px "DM Sans";
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .mobile-nav a.active {
-    color: var(--accent);
-    background: var(--accent-surface);
-  }
-  .mobile-nav a.active::before {
-    content: "";
-    position: absolute;
-    top: -6px;
-    width: 28px;
-    height: 3px;
-    border-radius: 0 0 3px 3px;
-    background: var(--accent);
-  }
-  .mobile-nav svg {
-    width: 21px;
-    height: 21px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.8;
-  }
-  .mobile-nav a:focus-visible,
-  .mobile-nav button:focus-visible {
-    outline: 2px solid var(--accent-border);
-    outline-offset: -2px;
   }
   .collection-grid {
     gap: 10px;
@@ -665,7 +664,7 @@ svg {
   }
   main {
     padding: 32px max(18px, env(safe-area-inset-right))
-      calc(96px + env(safe-area-inset-bottom))
+      calc(112px + env(safe-area-inset-bottom))
       max(18px, env(safe-area-inset-left));
   }
   .modal {
@@ -682,7 +681,7 @@ svg {
   }
   .toast {
     right: max(18px, env(safe-area-inset-right));
-    bottom: calc(76px + env(safe-area-inset-bottom));
+    bottom: calc(92px + env(safe-area-inset-bottom));
     left: max(18px, env(safe-area-inset-left));
     text-align: center;
   }
