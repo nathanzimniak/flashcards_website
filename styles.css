@@ -606,6 +606,7 @@ svg {
       calc(-1 * var(--main-gutter-end));
     padding-inline: calc(var(--main-gutter-start) + 3px)
       calc(var(--main-gutter-end) + 3px);
+    scroll-padding-inline-start: calc(var(--main-gutter-start) + 3px);
   }
   .collection-grid > .add-card {
     width: 65%;
