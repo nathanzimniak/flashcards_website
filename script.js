@@ -40,8 +40,8 @@ const editCollectionButton = select(".edit-detail-collection");
 const deleteCollectionButton = select(
   ".delete-detail-collection",
 );
-const importButton = select(".import-button");
-const exportButton = select(".export-button");
+const importButtons = document.querySelectorAll(".import-button");
+const exportButtons = document.querySelectorAll(".export-button");
 const importFileInput = select(".import-file-input");
 const storageKeys = {
   cards: "memento-custom-cards",
@@ -100,7 +100,7 @@ function adaptCardTextSize(element, text) {
 const libraryView = document.querySelector("#collections-view, #collections");
 const collectionView = document.querySelector("#collection-view");
 const statsView = document.querySelector("#stats");
-const navLinks = document.querySelectorAll(".desktop-nav [data-nav]");
+const navLinks = document.querySelectorAll("[data-nav]");
 let activeCollectionId = null;
 let studyCards = [];
 let studyIndex = 0;
@@ -953,8 +953,12 @@ renderCollectionCards();
 window.addEventListener("hashchange", renderRoute);
 renderRoute();
 
-exportButton.addEventListener("click", exportUserData);
-importButton.addEventListener("click", () => importFileInput.click());
+exportButtons.forEach((button) =>
+  button.addEventListener("click", exportUserData),
+);
+importButtons.forEach((button) =>
+  button.addEventListener("click", () => importFileInput.click()),
+);
 importFileInput.addEventListener("change", () => {
   const [file] = importFileInput.files;
   if (file) importUserData(file);
