@@ -548,7 +548,7 @@ svg {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     min-height: calc(54px + env(safe-area-inset-bottom));
-    padding: 6px 10px 0px 10px;
+    padding: 6px 10px 14px 10px;
     border-top: 1px solid var(--line);
     background: rgba(255, 255, 255, 0.96);
     box-shadow: 0 -6px 20px rgba(39, 36, 61, 0.08);
@@ -566,7 +566,7 @@ svg {
     gap: 2px;
     padding: 4px 2px;
     border: 0;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 10px;
     background: transparent;
     color: #858091;
     font: 600 10px "DM Sans";
