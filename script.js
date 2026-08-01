@@ -17,6 +17,7 @@ const cardModalTitle = select("#card-modal-title");
 const cardModalDescription = select(".card-modal-description");
 const cardModalSubmit = select(".card-modal-submit");
 const flashcardList = select(".flashcard-list");
+const collectionProgressList = select(".collection-progress-list");
 const toast = select(".toast");
 const studyCard = select(".study-card");
 const studyProgressText = select(".study-progress-text");
@@ -204,28 +205,6 @@ function validateImport(data) {
     difficultiesAreValid &&
     schedulesAreValid &&
     reviewActivity.every((timestamp) => Number.isFinite(timestamp))
-  );
-}
-
-function getExportedCollections() {
-  return Object.fromEntries(
-    Object.entries(collections).map(([id, collection]) => [
-      id,
-      {
-        title: collection.title,
-        category: collection.category,
-        image: collection.image,
-      },
-    ]),
-  );
-}
-
-function getExportedCards() {
-  return Object.fromEntries(
-    Object.entries(collections).map(([id, collection]) => [
-      id,
-      collection.cards,
-    ]),
   );
 }
 
@@ -513,18 +492,16 @@ function deleteCollection(id) {
   )
     return false;
   delete collections[id];
-  const savedCollections = readStorage(storageKeys.collections);
-  delete savedCollections[id];
-  writeStorage(storageKeys.collections, savedCollections);
-  const savedCards = readStorage(storageKeys.cards);
-  delete savedCards[id];
-  writeStorage(storageKeys.cards, savedCards);
-  const difficulties = readStorage(storageKeys.difficulties);
-  delete difficulties[id];
-  writeStorage(storageKeys.difficulties, difficulties);
-  const schedules = readStorage(storageKeys.schedules);
-  delete schedules[id];
-  writeStorage(storageKeys.schedules, schedules);
+  [
+    storageKeys.collections,
+    storageKeys.cards,
+    storageKeys.difficulties,
+    storageKeys.schedules,
+  ].forEach((storageKey) => {
+    const savedData = readStorage(storageKey);
+    delete savedData[id];
+    writeStorage(storageKey, savedData);
+  });
   renderCollectionCards();
   showToast("Collection supprimée");
   return true;
@@ -703,14 +680,13 @@ function renderStats() {
   Object.entries(stats).forEach(([name, value]) => {
     document.querySelector(`[data-stat="${name}"]`).textContent = value;
   });
-  const list = document.querySelector(".collection-progress-list");
   if (!collectionStats.length) {
     const empty = document.createElement("p");
     empty.className = "stats-empty";
     empty.textContent = "Créez une collection pour commencer à suivre votre progression.";
-    list.replaceChildren(empty);
+    collectionProgressList.replaceChildren(empty);
   } else {
-    list.replaceChildren(
+    collectionProgressList.replaceChildren(
       ...collectionStats.map(
         ({ collection, difficultyCounts }) => {
           const item = document.createElement("div");
@@ -771,6 +747,16 @@ function getCardsSortedByDifficulty(collection) {
         difficultySortOrder[first.difficulty] -
         difficultySortOrder[second.difficulty],
     );
+}
+
+function renameCardStorageKey(storageKey, collectionId, oldKey, newKey) {
+  const savedData = readStorage(storageKey);
+  const collectionData = savedData[collectionId];
+  if (!collectionData?.[oldKey]) return;
+
+  collectionData[newKey] = collectionData[oldKey];
+  delete collectionData[oldKey];
+  writeStorage(storageKey, savedData);
 }
 
 function renderFlashcards(collection) {
@@ -1055,23 +1041,16 @@ cardForm.addEventListener("submit", (event) => {
   const isEditing = editedCardIndex !== null;
   if (isEditing) {
     const previousCard = collections[activeCollectionId].cards[editedCardIndex];
-    const difficulties = getDifficulties();
-    const collectionDifficulties = difficulties[activeCollectionId];
     const previousKey = getCardKey(previousCard);
-    if (collectionDifficulties?.[previousKey]) {
-      collectionDifficulties[getCardKey(updatedCard)] =
-        collectionDifficulties[previousKey];
-      delete collectionDifficulties[previousKey];
-      writeStorage(storageKeys.difficulties, difficulties);
-    }
-    const schedules = getSchedules();
-    const collectionSchedules = schedules[activeCollectionId];
-    if (collectionSchedules?.[previousKey]) {
-      collectionSchedules[getCardKey(updatedCard)] =
-        collectionSchedules[previousKey];
-      delete collectionSchedules[previousKey];
-      writeStorage(storageKeys.schedules, schedules);
-    }
+    const updatedKey = getCardKey(updatedCard);
+    [storageKeys.difficulties, storageKeys.schedules].forEach((storageKey) =>
+      renameCardStorageKey(
+        storageKey,
+        activeCollectionId,
+        previousKey,
+        updatedKey,
+      ),
+    );
     collections[activeCollectionId].cards[editedCardIndex] = updatedCard;
   } else {
     collections[activeCollectionId].cards.push(updatedCard);
