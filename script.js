@@ -907,7 +907,7 @@ function renderRoute() {
   );
   if (isStatsRoute) {
     renderStats();
-    document.title = "Statistiques — Memento";
+    document.title = "Memento";
     window.scrollTo(0, 0);
     return;
   }
@@ -921,7 +921,7 @@ function renderRoute() {
         formatCardCount(count);
       updateCollectionCard(card, collectionId, cardCollection);
     });
-    document.title = "Memento — Mes flashcards";
+    document.title = "Memento";
     return;
   }
 
@@ -943,7 +943,7 @@ function renderRoute() {
   );
 
   renderFlashcards(collection);
-  document.title = `${collection.title} — Memento`;
+  document.title = "Memento";
   window.scrollTo(0, 0);
 }
 
