@@ -308,6 +308,9 @@ main {
   display: block;
   object-fit: contain;
 }
+.detail-icon .collection-image[hidden] {
+  visibility: hidden;
+}
 .card-top .collection-image {
   width: 100%;
 }
