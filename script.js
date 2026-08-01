@@ -207,6 +207,28 @@ function validateImport(data) {
   );
 }
 
+function getExportedCollections() {
+  return Object.fromEntries(
+    Object.entries(collections).map(([id, collection]) => [
+      id,
+      {
+        title: collection.title,
+        category: collection.category,
+        image: collection.image,
+      },
+    ]),
+  );
+}
+
+function getExportedCards() {
+  return Object.fromEntries(
+    Object.entries(collections).map(([id, collection]) => [
+      id,
+      collection.cards,
+    ]),
+  );
+}
+
 function exportUserData() {
   const reviewActivity = readStorage(storageKeys.reviewActivity);
   const payload = {
