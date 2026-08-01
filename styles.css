@@ -148,16 +148,6 @@ body {
 .desktop-nav a.active {
   color: var(--ink);
 }
-.desktop-nav a.active:after {
-  content: "";
-  height: 3px;
-  background: var(--accent);
-  border-radius: 3px 3px 0 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 .data-actions {
   margin-left: auto;
   display: flex;
@@ -592,15 +582,6 @@ svg {
   .mobile-nav a.active {
     color: var(--accent);
     background: var(--accent-surface);
-  }
-  .mobile-nav a.active::before {
-    content: "";
-    position: absolute;
-    top: -6px;
-    width: 28px;
-    height: 3px;
-    border-radius: 0 0 3px 3px;
-    background: var(--accent);
   }
   .mobile-nav svg {
     width: 21px;
