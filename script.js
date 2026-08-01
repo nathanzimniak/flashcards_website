@@ -336,7 +336,12 @@ function getCollectionImage(image, category, variant = "card") {
   // replaçant dans la bonne catégorie et le format demandé.
   const imageName = image?.split("/").pop();
   return (
-    categoryImages.find((candidate) => candidate.endsWith(`_${imageName}`)) ||
+    categoryImages.find((candidate) => {
+      const candidateName = candidate.split("/").pop();
+      return (
+        candidateName === imageName || candidateName.endsWith(`_${imageName}`)
+      );
+    }) ||
     categoryImages[0]
   );
 }
