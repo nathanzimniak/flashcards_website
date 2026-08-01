@@ -200,7 +200,7 @@ body {
 main {
   max-width: 1000px;
   margin: auto;
-  padding: 40px 0 80px;
+  padding: 30px 0 80px;
 }
 .section-label {
   color: var(--accent);
@@ -664,7 +664,7 @@ svg {
     text-align: center;
   }
   main {
-    padding: 32px max(18px, env(safe-area-inset-right))
+    padding: 20px max(18px, env(safe-area-inset-right))
       calc(96px + env(safe-area-inset-bottom))
       max(18px, env(safe-area-inset-left));
   }
