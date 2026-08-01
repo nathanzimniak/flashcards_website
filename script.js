@@ -362,6 +362,26 @@ function getCollectionImage(image, category, variant = "card") {
   );
 }
 
+function updateDetailImage(source) {
+  detailImage.hidden = true;
+
+  const revealCurrentImage = () => {
+    if (detailImage.getAttribute("src") !== source) return;
+    detailImage.hidden = false;
+  };
+
+  detailImage.onload = revealCurrentImage;
+  detailImage.onerror = () => {
+    if (detailImage.getAttribute("src") === source) detailImage.hidden = true;
+  };
+  detailImage.src = source;
+
+  // L'événement load a parfois déjà eu lieu lorsque l'image vient du cache.
+  if (detailImage.complete && detailImage.naturalWidth > 0) {
+    revealCurrentImage();
+  }
+}
+
 function renderCollectionImageOptions(category, selectedImage = null) {
   const imageOptions = collectionForm.querySelector(".image-options");
   const categoryImages = getCollectionImages(category);
@@ -917,10 +937,8 @@ function renderRoute() {
   );
   const cardCount = collection.cards.length;
   detailCount.textContent = formatCardCount(cardCount);
-  detailImage.src = getCollectionImage(
-    collection.image,
-    collection.category,
-    "header",
+  updateDetailImage(
+    getCollectionImage(collection.image, collection.category, "header"),
   );
 
   renderFlashcards(collection);
