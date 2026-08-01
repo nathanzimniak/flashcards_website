@@ -5,6 +5,10 @@ function createCapitalCards(continent, entries) {
   ]);
 }
 
+function createFrenchPresidentCards(entries) {
+  return entries.map(([president, term]) => [term, president]);
+}
+
 export const collections = {
   "anglais-quotidien": {
     title: "Anglais quotidien",
@@ -254,6 +258,20 @@ export const collections = {
       ]),
     ],
   },
+  "ve-republique": {
+    title: "Ve République",
+    category: "HISTOIRE",
+    cards: createFrenchPresidentCards([
+      ["Charles de Gaulle", "1959–1969"],
+      ["Georges Pompidou", "1969–1974"],
+      ["Valéry Giscard d’Estaing", "1974–1981"],
+      ["François Mitterrand", "1981–1995"],
+      ["Jacques Chirac", "1995–2007"],
+      ["Nicolas Sarkozy", "2007–2012"],
+      ["François Hollande", "2012–2017"],
+      ["Emmanuel Macron", "Depuis 2017"],
+    ]),
+  },
   "bases-javascript": {
     title: "Bases de JavaScript",
     category: "INFORMATIQUE",
@@ -353,4 +371,3 @@ collections["bases-javascript"].cards.push(
   ["Que fait une fonction async ?", "Elle retourne toujours une promesse."],
   ["Quel mot-clé attend la résolution d’une promesse ?", "await."],
 );
-
