@@ -593,10 +593,6 @@ svg {
   .collection-slider {
     grid-auto-columns: 65%;
     gap: 10px;
-    margin-right: calc(-1 * max(18px, env(safe-area-inset-right)));
-    margin-left: calc(-1 * max(18px, env(safe-area-inset-left)));
-    padding-right: max(3px, env(safe-area-inset-right));
-    padding-left: max(3px, env(safe-area-inset-left));
   }
   .collection-grid > .add-card {
     width: 65%;
