@@ -609,6 +609,9 @@ svg {
     stroke: currentColor;
     stroke-width: 1.8;
   }
+  .mobile-nav .stats-icon {
+    stroke-width: 2.2;
+  }
   .mobile-nav a:focus-visible,
   .mobile-nav button:focus-visible {
     outline: 2px solid var(--accent-border);
