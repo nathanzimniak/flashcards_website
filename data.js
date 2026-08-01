@@ -5,6 +5,13 @@ function createCapitalCards(continent, entries) {
   ]);
 }
 
+function createFrenchPresidentCards(entries) {
+  return entries.map(([president, term]) => [
+    `Quel président de la Ve République correspond à la période ${term} ?`,
+    president,
+  ]);
+}
+
 export const collections = {
   "anglais-quotidien": {
     title: "Anglais quotidien",
@@ -254,6 +261,20 @@ export const collections = {
       ]),
     ],
   },
+  "ve-republique": {
+    title: "Ve République",
+    category: "HISTOIRE",
+    cards: createFrenchPresidentCards([
+      ["Charles de Gaulle", "du 8 janvier 1959 au 28 avril 1969"],
+      ["Georges Pompidou", "du 20 juin 1969 au 2 avril 1974"],
+      ["Valéry Giscard d’Estaing", "du 27 mai 1974 au 21 mai 1981"],
+      ["François Mitterrand", "du 21 mai 1981 au 17 mai 1995"],
+      ["Jacques Chirac", "du 17 mai 1995 au 16 mai 2007"],
+      ["Nicolas Sarkozy", "du 16 mai 2007 au 15 mai 2012"],
+      ["François Hollande", "du 15 mai 2012 au 14 mai 2017"],
+      ["Emmanuel Macron", "depuis le 14 mai 2017"],
+    ]),
+  },
   "bases-javascript": {
     title: "Bases de JavaScript",
     category: "INFORMATIQUE",
@@ -353,4 +374,3 @@ collections["bases-javascript"].cards.push(
   ["Que fait une fonction async ?", "Elle retourne toujours une promesse."],
   ["Quel mot-clé attend la résolution d’une promesse ?", "await."],
 );
-
