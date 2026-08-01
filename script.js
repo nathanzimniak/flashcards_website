@@ -1,48 +1,54 @@
 import { collections } from "./data.js";
 
-const modal = document.querySelector(".modal");
-const form = document.querySelector("#collection-form");
-const cardModal = document.querySelector(".card-modal");
-const cardForm = document.querySelector("#card-form");
-const studyModal = document.querySelector(".study-modal");
-const collectionGrid = document.querySelector(".collection-grid");
-const collectionModalTitle = document.querySelector("#collection-modal-title");
-const collectionModalSubmit = document.querySelector(
+const select = (selector, parent = document) => parent.querySelector(selector);
+
+const collectionModal = select(".modal");
+const collectionForm = select("#collection-form");
+const cardModal = select(".card-modal");
+const cardForm = select("#card-form");
+const studyModal = select(".study-modal");
+const collectionGrid = select(".collection-grid");
+const collectionModalTitle = select("#collection-modal-title");
+const collectionModalSubmit = select(
   ".collection-modal-submit",
 );
-const cardModalTitle = document.querySelector("#card-modal-title");
-const cardModalDescription = document.querySelector(".card-modal-description");
-const cardModalSubmit = document.querySelector(".card-modal-submit");
-const flashcardList = document.querySelector(".flashcard-list");
-const toast = document.querySelector(".toast");
-const studyCard = document.querySelector(".study-card");
-const studyProgressText = document.querySelector(".study-progress-text");
-const studyProgress = document.querySelector(".study-progress");
-const studySide = document.querySelector(".study-side");
-const studyCardText = document.querySelector(".study-card-text");
-const studyFlipHelp = document.querySelector(".study-flip-help");
-const studyRating = document.querySelector(".study-rating");
-const collectionStudyButton = document.querySelector(
+const cardModalTitle = select("#card-modal-title");
+const cardModalDescription = select(".card-modal-description");
+const cardModalSubmit = select(".card-modal-submit");
+const flashcardList = select(".flashcard-list");
+const toast = select(".toast");
+const studyCard = select(".study-card");
+const studyProgressText = select(".study-progress-text");
+const studyProgress = select(".study-progress");
+const studyProgressBar = select("span", studyProgress);
+const studyTitle = select("#study-title");
+const studySide = select(".study-side");
+const studyCardText = select(".study-card-text");
+const studyFlipHelp = select(".study-flip-help");
+const studyRating = select(".study-rating");
+const collectionStudyButton = select(
   ".collection-study-button",
 );
-const detailTitle = document.querySelector(".detail-title");
-const detailCategory = document.querySelector(".detail-category");
-const detailCount = document.querySelector(".detail-count");
-const detailHeader = document.querySelector(".detail-header");
-const detailContent = document.querySelector(".detail-content");
-const detailImage = document.querySelector(".detail-icon .collection-image");
-const editCollectionButton = document.querySelector(".edit-detail-collection");
-const deleteCollectionButton = document.querySelector(
+const detailTitle = select(".detail-title");
+const detailCategory = select(".detail-category");
+const detailCount = select(".detail-count");
+const detailHeader = select(".detail-header");
+const detailContent = select(".detail-content");
+const detailImage = select(".detail-icon .collection-image");
+const editCollectionButton = select(".edit-detail-collection");
+const deleteCollectionButton = select(
   ".delete-detail-collection",
 );
-const importButton = document.querySelector(".import-button");
-const exportButton = document.querySelector(".export-button");
-const importFileInput = document.querySelector(".import-file-input");
-const storageKey = "memento-custom-cards";
-const collectionsStorageKey = "memento-custom-collections";
-const deletedCollectionsStorageKey = "memento-deleted-collections";
-const difficultyStorageKey = "memento-card-difficulties";
-const activityStorageKey = "memento-review-activity";
+const importButton = select(".import-button");
+const exportButton = select(".export-button");
+const importFileInput = select(".import-file-input");
+const storageKeys = {
+  cards: "memento-custom-cards",
+  collections: "memento-custom-collections",
+  deletedCollections: "memento-deleted-collections",
+  difficulties: "memento-card-difficulties",
+  reviewActivity: "memento-review-activity",
+};
 const exportFormat = "memento-user-data";
 const exportVersion = 1;
 const difficultyWeights = { hard: 3, medium: 2, easy: 1 };
@@ -190,19 +196,19 @@ function validateImport(data) {
 }
 
 function exportUserData() {
-  const deletedCollections = readStorage(deletedCollectionsStorageKey);
-  const reviewActivity = readStorage(activityStorageKey);
+  const deletedCollections = readStorage(storageKeys.deletedCollections);
+  const reviewActivity = readStorage(storageKeys.reviewActivity);
   const payload = {
     format: exportFormat,
     version: exportVersion,
     exportedAt: new Date().toISOString(),
     data: {
-      collections: readStorage(collectionsStorageKey),
-      cards: readStorage(storageKey),
+      collections: readStorage(storageKeys.collections),
+      cards: readStorage(storageKeys.cards),
       deletedCollections: Array.isArray(deletedCollections)
         ? deletedCollections
         : [],
-      difficulties: readStorage(difficultyStorageKey),
+      difficulties: readStorage(storageKeys.difficulties),
       reviewActivity: Array.isArray(reviewActivity) ? reviewActivity : [],
     },
   };
@@ -230,11 +236,11 @@ async function importUserData(file) {
     )
       return;
     const importedData = payload.data;
-    writeStorage(collectionsStorageKey, importedData.collections);
-    writeStorage(storageKey, importedData.cards);
-    writeStorage(deletedCollectionsStorageKey, importedData.deletedCollections);
-    writeStorage(difficultyStorageKey, importedData.difficulties);
-    writeStorage(activityStorageKey, importedData.reviewActivity);
+    writeStorage(storageKeys.collections, importedData.collections);
+    writeStorage(storageKeys.cards, importedData.cards);
+    writeStorage(storageKeys.deletedCollections, importedData.deletedCollections);
+    writeStorage(storageKeys.difficulties, importedData.difficulties);
+    writeStorage(storageKeys.reviewActivity, importedData.reviewActivity);
     window.location.reload();
   } catch {
     showToast("Fichier invalide : import impossible");
@@ -244,7 +250,7 @@ async function importUserData(file) {
 }
 
 function loadSavedCollections() {
-  const savedCollections = readStorage(collectionsStorageKey);
+  const savedCollections = readStorage(storageKeys.collections);
   Object.entries(savedCollections).forEach(([id, collection]) => {
     if (!collection || typeof collection.title !== "string") return;
     const category = renameLegacyCategory(collection.category);
@@ -258,13 +264,13 @@ function loadSavedCollections() {
 }
 
 function loadDeletedCollections() {
-  const deletedCollections = readStorage(deletedCollectionsStorageKey);
+  const deletedCollections = readStorage(storageKeys.deletedCollections);
   if (!Array.isArray(deletedCollections)) return;
   deletedCollections.forEach((id) => delete collections[id]);
 }
 
 function loadSavedCards() {
-  const savedCards = readStorage(storageKey);
+  const savedCards = readStorage(storageKeys.cards);
   Object.entries(savedCards).forEach(([collectionId, cards]) => {
     if (collections[collectionId] && Array.isArray(cards))
       collections[collectionId].cards = cards;
@@ -332,7 +338,7 @@ function getCollectionImage(image, category, variant = "card") {
 }
 
 function renderCollectionImageOptions(category, selectedImage = null) {
-  const imageOptions = form.querySelector(".image-options");
+  const imageOptions = collectionForm.querySelector(".image-options");
   const categoryImages = getCollectionImages(category);
   const image = getCollectionImage(selectedImage, category);
   imageOptions.replaceChildren(
@@ -382,14 +388,14 @@ function createCollectionCard(id, collection) {
 }
 
 function saveCollectionMetadata(id) {
-  const savedCollections = readStorage(collectionsStorageKey);
+  const savedCollections = readStorage(storageKeys.collections);
   const { title, category, image } = collections[id];
   savedCollections[id] = { title, category, image };
-  writeStorage(collectionsStorageKey, savedCollections);
-  const deletedCollections = readStorage(deletedCollectionsStorageKey);
+  writeStorage(storageKeys.collections, savedCollections);
+  const deletedCollections = readStorage(storageKeys.deletedCollections);
   if (Array.isArray(deletedCollections) && deletedCollections.includes(id)) {
     writeStorage(
-      deletedCollectionsStorageKey,
+      storageKeys.deletedCollections,
       deletedCollections.filter((deletedId) => deletedId !== id),
     );
   }
@@ -397,7 +403,7 @@ function saveCollectionMetadata(id) {
 
 function openCollectionModal(id = null) {
   editedCollectionId = id;
-  form.reset();
+  collectionForm.reset();
   const isEditing = Boolean(id && collections[id]);
   collectionModalTitle.textContent = isEditing
     ? "Modifier la collection"
@@ -406,15 +412,15 @@ function openCollectionModal(id = null) {
     ? "Enregistrer les modifications"
     : "Créer ma collection";
   if (isEditing) {
-    form.elements.name.value = collections[id].title;
-    form.elements.category.value = collections[id].category;
+    collectionForm.elements.name.value = collections[id].title;
+    collectionForm.elements.category.value = collections[id].category;
   }
   renderCollectionImageOptions(
-    form.elements.category.value,
+    collectionForm.elements.category.value,
     isEditing ? collections[id].image : null,
   );
-  modal.showModal();
-  setTimeout(() => form.elements.name.focus(), 50);
+  collectionModal.showModal();
+  setTimeout(() => collectionForm.elements.name.focus(), 50);
 }
 
 function openCardModal(index = null) {
@@ -450,21 +456,21 @@ function deleteCollection(id) {
   )
     return false;
   delete collections[id];
-  const savedCollections = readStorage(collectionsStorageKey);
+  const savedCollections = readStorage(storageKeys.collections);
   delete savedCollections[id];
-  writeStorage(collectionsStorageKey, savedCollections);
-  const savedCards = readStorage(storageKey);
+  writeStorage(storageKeys.collections, savedCollections);
+  const savedCards = readStorage(storageKeys.cards);
   delete savedCards[id];
-  writeStorage(storageKey, savedCards);
-  const difficulties = readStorage(difficultyStorageKey);
+  writeStorage(storageKeys.cards, savedCards);
+  const difficulties = readStorage(storageKeys.difficulties);
   delete difficulties[id];
-  writeStorage(difficultyStorageKey, difficulties);
-  const deletedCollections = readStorage(deletedCollectionsStorageKey);
+  writeStorage(storageKeys.difficulties, difficulties);
+  const deletedCollections = readStorage(storageKeys.deletedCollections);
   const deletedIds = Array.isArray(deletedCollections)
     ? deletedCollections
     : [];
   if (!deletedIds.includes(id)) deletedIds.push(id);
-  writeStorage(deletedCollectionsStorageKey, deletedIds);
+  writeStorage(storageKeys.deletedCollections, deletedIds);
   renderCollectionCards();
   showToast("Collection supprimée");
   return true;
@@ -520,7 +526,7 @@ function saveCards() {
       collection.cards,
     ]),
   );
-  writeStorage(storageKey, cards);
+  writeStorage(storageKeys.cards, cards);
 }
 
 function showToast(message) {
@@ -547,22 +553,22 @@ function getCardKey([question, answer]) {
 }
 
 function getDifficulties() {
-  return readStorage(difficultyStorageKey);
+  return readStorage(storageKeys.difficulties);
 }
 
 function saveDifficulty(cardKey, difficulty) {
   const difficulties = getDifficulties();
   difficulties[activeCollectionId] ||= {};
   difficulties[activeCollectionId][cardKey] = difficulty;
-  writeStorage(difficultyStorageKey, difficulties);
+  writeStorage(storageKeys.difficulties, difficulties);
 }
 
 function recordReview() {
-  const activity = readStorage(activityStorageKey);
+  const activity = readStorage(storageKeys.reviewActivity);
   const reviews = Array.isArray(activity) ? activity : [];
   reviews.push(Date.now());
   writeStorage(
-    activityStorageKey,
+    storageKeys.reviewActivity,
     reviews.filter((timestamp) => timestamp > Date.now() - 90 * 86400000),
   );
 }
@@ -702,7 +708,7 @@ function renderStudyCard() {
   studyProgressText.textContent = `Carte ${studyIndex + 1} / ${studyCards.length}`;
   studyProgress.setAttribute("aria-valuemax", String(studyCards.length));
   studyProgress.setAttribute("aria-valuenow", String(studyIndex + 1));
-  studyProgress.querySelector("span").style.width = `${progress}%`;
+  studyProgressBar.style.width = `${progress}%`;
   studySide.textContent = answerIsVisible ? "RÉPONSE" : "QUESTION";
   const visibleText = answerIsVisible ? answer : question;
   studyCardText.textContent = visibleText;
@@ -740,7 +746,7 @@ function startStudySession() {
   studyCards = shuffleCards(studyCards.map(({ card }) => card));
   studyIndex = 0;
   answerIsVisible = false;
-  document.querySelector("#study-title").textContent = collection.title;
+  studyTitle.textContent = collection.title;
   renderStudyCard();
   studyModal.showModal();
   studyCard.focus();
@@ -975,7 +981,7 @@ cardForm.addEventListener("submit", (event) => {
       collectionDifficulties[getCardKey(updatedCard)] =
         collectionDifficulties[previousKey];
       delete collectionDifficulties[previousKey];
-      writeStorage(difficultyStorageKey, difficulties);
+      writeStorage(storageKeys.difficulties, difficulties);
     }
     collections[activeCollectionId].cards[editedCardIndex] = updatedCard;
   } else {
@@ -997,16 +1003,16 @@ document
   .querySelector("[data-open-modal]")
   .addEventListener("click", () => openCollectionModal());
 
-form.elements.category.addEventListener("change", (event) => {
+collectionForm.elements.category.addEventListener("change", (event) => {
   renderCollectionImageOptions(event.target.value);
 });
 
-form.addEventListener("submit", (event) => {
+collectionForm.addEventListener("submit", (event) => {
   const submitter = event.submitter;
   if (submitter?.value === "cancel") return;
   event.preventDefault();
-  if (!form.reportValidity()) return;
-  const data = new FormData(form);
+  if (!collectionForm.reportValidity()) return;
+  const data = new FormData(collectionForm);
   const title = data.get("name").trim();
   const category = data.get("category");
   const requestedImage = data.get("image");
@@ -1029,8 +1035,8 @@ form.addEventListener("submit", (event) => {
   saveCards();
   renderCollectionCards();
   renderRoute();
-  modal.close();
-  form.reset();
+  collectionModal.close();
+  collectionForm.reset();
   editedCollectionId = null;
   showToast(
     isEditing
