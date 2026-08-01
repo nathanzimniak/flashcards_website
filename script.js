@@ -344,7 +344,7 @@ function getCollectionImages(category, variant = "card") {
     categorySettings[normalizeCategory(category || "LANGUES")]?.directory ||
     categorySettings.LANGUES.directory;
   return collectionImageNames.map(
-    (name) => `img/collection-${variant}/${directory}/${name}`,
+    (name) => `img/collection-${variant}/${directory}_${name}`,
   );
 }
 
@@ -353,11 +353,11 @@ function getCollectionImage(image, category, variant = "card") {
   if (categoryImages.includes(image)) return image;
 
   // Conserve le choix des utilisateurs ayant enregistré une ancienne URL
-  // (img/0.png ou l'autre format, par exemple) tout en la replaçant dans la
-  // bonne catégorie et le format demandé.
+  // (img/0.png ou l'ancien format avec sous-dossier, par exemple) tout en la
+  // replaçant dans la bonne catégorie et le format demandé.
   const imageName = image?.split("/").pop();
   return (
-    categoryImages.find((candidate) => candidate.endsWith(`/${imageName}`)) ||
+    categoryImages.find((candidate) => candidate.endsWith(`_${imageName}`)) ||
     categoryImages[0]
   );
 }
