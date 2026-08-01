@@ -1,9 +1,10 @@
-const CACHE_NAME = "memento-v8";
+const CACHE_NAME = "memento-v9";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./script.js",
+  "./scheduler.js",
   "./data.js",
   "./favicon.svg",
   "./manifest.webmanifest",
