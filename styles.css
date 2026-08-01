@@ -240,18 +240,10 @@ main {
   padding: 10px 3px 14px;
   margin: -10px -3px -3px;
   scroll-snap-type: inline proximity;
-  scrollbar-color: var(--accent-border) transparent;
-  scrollbar-width: thin;
+  scrollbar-width: none;
 }
 .collection-slider::-webkit-scrollbar {
-  height: 7px;
-}
-.collection-slider::-webkit-scrollbar-track {
-  background: transparent;
-}
-.collection-slider::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background: var(--accent-border);
+  display: none;
 }
 .collection-slider:focus-visible {
   border-radius: 5px;
