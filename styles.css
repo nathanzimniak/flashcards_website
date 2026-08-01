@@ -575,7 +575,6 @@ svg {
   }
   .mobile-nav a.active {
     color: var(--accent);
-    background: var(--accent-surface);
   }
   .mobile-nav svg {
     width: 21px;
