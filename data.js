@@ -6,10 +6,7 @@ function createCapitalCards(continent, entries) {
 }
 
 function createFrenchPresidentCards(entries) {
-  return entries.map(([president, term]) => [
-    `Quel président de la Ve République correspond à la période ${term} ?`,
-    president,
-  ]);
+  return entries.map(([president, term]) => [term, president]);
 }
 
 export const collections = {
@@ -265,14 +262,14 @@ export const collections = {
     title: "Ve République",
     category: "HISTOIRE",
     cards: createFrenchPresidentCards([
-      ["Charles de Gaulle", "du 8 janvier 1959 au 28 avril 1969"],
-      ["Georges Pompidou", "du 20 juin 1969 au 2 avril 1974"],
-      ["Valéry Giscard d’Estaing", "du 27 mai 1974 au 21 mai 1981"],
-      ["François Mitterrand", "du 21 mai 1981 au 17 mai 1995"],
-      ["Jacques Chirac", "du 17 mai 1995 au 16 mai 2007"],
-      ["Nicolas Sarkozy", "du 16 mai 2007 au 15 mai 2012"],
-      ["François Hollande", "du 15 mai 2012 au 14 mai 2017"],
-      ["Emmanuel Macron", "depuis le 14 mai 2017"],
+      ["Charles de Gaulle", "8 janvier 1959 – 28 avril 1969"],
+      ["Georges Pompidou", "20 juin 1969 – 2 avril 1974"],
+      ["Valéry Giscard d’Estaing", "27 mai 1974 – 21 mai 1981"],
+      ["François Mitterrand", "21 mai 1981 – 17 mai 1995"],
+      ["Jacques Chirac", "17 mai 1995 – 16 mai 2007"],
+      ["Nicolas Sarkozy", "16 mai 2007 – 15 mai 2012"],
+      ["François Hollande", "15 mai 2012 – 14 mai 2017"],
+      ["Emmanuel Macron", "Depuis le 14 mai 2017"],
     ]),
   },
   "bases-javascript": {
