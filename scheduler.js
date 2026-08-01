@@ -1,4 +1,5 @@
 const MINUTE_IN_MILLISECONDS = 60 * 1000;
+const HOUR_IN_MILLISECONDS = 60 * MINUTE_IN_MILLISECONDS;
 const DAY_IN_MILLISECONDS = 24 * 60 * MINUTE_IN_MILLISECONDS;
 
 export function calculateNextSchedule(
@@ -10,7 +11,7 @@ export function calculateNextSchedule(
 
   if (difficulty === "hard") {
     return {
-      dueAt: reviewedAt + 10 * MINUTE_IN_MILLISECONDS,
+      dueAt: reviewedAt + 6 * HOUR_IN_MILLISECONDS,
       intervalDays: 0,
       lastReviewedAt: reviewedAt,
     };
