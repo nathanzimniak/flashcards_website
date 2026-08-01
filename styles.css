@@ -805,16 +805,16 @@ svg {
   top: 10px;
   right: 10px;
   display: grid;
-  min-width: 24px;
+  min-width: 36px;
   height: 24px;
   padding: 0 7px;
   place-items: center;
   border: 2px solid #fff;
   border-radius: 999px;
   background: var(--card-accent, var(--accent));
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.5);
   color: #fff;
-  font: 800 10px Manrope, sans-serif;
+  font: 600 10px Manrope, sans-serif;
   line-height: 1;
 }
 .review-notification[hidden] {
