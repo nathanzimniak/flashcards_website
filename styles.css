@@ -211,13 +211,13 @@ main {
   color: #fff;
   padding: 15px 22px;
   font: 700 14px "DM Sans";
-  box-shadow: 0 8px 20px var(--accent-shadow);
   cursor: pointer;
   transition: 0.2s;
 }
 .primary-button:hover {
   background: var(--accent-strong);
   transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 .modal h2 {
   font: 800 28px Manrope;
