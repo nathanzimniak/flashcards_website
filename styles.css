@@ -73,9 +73,6 @@ html {
   text-size-adjust: 100%;
 }
 @media (display-mode: standalone) {
-  html {
-    scrollbar-width: none;
-  }
   html::-webkit-scrollbar,
   body::-webkit-scrollbar {
     display: none;
@@ -92,7 +89,6 @@ body {
   height: 70px;
   border-bottom: 1px solid var(--line);
   background: #fff;
-  backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -860,7 +856,6 @@ svg {
   --detail-column: 118px;
   --detail-gap: 20px;
   --detail-radius: 20px;
-  --detail-icon-width: 160px;
   --detail-icon-font-size: 44px;
   --detail-title-size: 24px;
   --detail-title-spacing: -1.2px;
@@ -1060,7 +1055,6 @@ svg {
   .detail-header {
     --detail-gap: 17px;
     --detail-radius: 17px;
-    --detail-icon-width: 136px;
     --detail-icon-font-size: 37.4px;
     --detail-title-size: 21.25px;
     --detail-title-spacing: -1.02px;
@@ -1083,7 +1077,6 @@ svg {
   .detail-header {
     --detail-gap: 17px;
     --detail-radius: 17px;
-    --detail-icon-width: 136px;
     --detail-icon-font-size: 37.4px;
     --detail-title-size: 20px;
     --detail-title-spacing: -1.02px;
