@@ -394,7 +394,7 @@ function createCollectionCard(id, collection) {
     ],
   );
   card.innerHTML =
-    '<div class="card-top"><img class="collection-image" alt=""></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
+    '<div class="card-top"><img class="collection-image" alt=""><span class="review-notification" aria-hidden="true"></span></div><div class="card-content"><span class="tag"></span><h3></h3><div class="card-footer"><span></span></div></div>';
   card.querySelector(".tag").textContent = collection.category;
   card.querySelector(".collection-image").src = getCollectionImage(
     collection.image,
@@ -404,7 +404,26 @@ function createCollectionCard(id, collection) {
   card.querySelector(".card-footer span").textContent = formatCardCount(
     collection.cards.length,
   );
+  updateCollectionCard(card, id, collection);
   return card;
+}
+
+function updateCollectionCard(card, id, collection) {
+  const dueCount = getDueCards(collection, Date.now(), id).length;
+  const notification = card.querySelector(".review-notification");
+  notification.hidden = dueCount === 0;
+  notification.textContent = dueCount > 99 ? "99+" : String(dueCount);
+  notification.title = `${dueCount} ${
+    dueCount === 1 ? "carte disponible" : "cartes disponibles"
+  } à la révision`;
+  card.setAttribute(
+    "aria-label",
+    `Ouvrir la collection ${collection.title}${
+      dueCount
+        ? `, ${dueCount} ${dueCount === 1 ? "carte disponible" : "cartes disponibles"} à la révision`
+        : ""
+    }`,
+  );
 }
 
 function saveCollectionMetadata(id) {
@@ -595,8 +614,12 @@ function saveSchedule(cardKey, difficulty, reviewedAt = Date.now()) {
   writeStorage(storageKeys.schedules, schedules);
 }
 
-function getDueCards(collection, now = Date.now()) {
-  const savedSchedules = getSchedules()[activeCollectionId] || {};
+function getDueCards(
+  collection,
+  now = Date.now(),
+  collectionId = activeCollectionId,
+) {
+  const savedSchedules = getSchedules()[collectionId] || {};
   return collection.cards.filter((card) => {
     const schedule = savedSchedules[getCardKey(card)];
     return isCardDue(schedule, now);
@@ -879,10 +902,12 @@ function renderRoute() {
   if (!collection) {
     document.querySelectorAll(".collection-card").forEach((card) => {
       const collectionId = card.dataset.collectionId;
-      const count = collections[collectionId]?.cards.length;
+      const cardCollection = collections[collectionId];
+      const count = cardCollection?.cards.length;
       if (count === undefined) return;
       card.querySelector(".card-footer span").textContent =
         formatCardCount(count);
+      updateCollectionCard(card, collectionId, cardCollection);
     });
     document.title = "Memento — Mes flashcards";
     return;
