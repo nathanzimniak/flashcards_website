@@ -86,7 +86,7 @@ body {
   font-family: "DM Sans", sans-serif;
 }
 .topbar {
-  height: 70px;
+  height: 60px;
   border-bottom: 1px solid var(--line);
   background: #fff;
   position: sticky;
@@ -167,7 +167,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  min-height: 38px;
+  min-height: 36px;
   padding: 0 12px;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -535,7 +535,7 @@ svg {
 }
 @media (max-width: 600px) {
   .topbar {
-    height: calc(70px + env(safe-area-inset-top));
+    height: calc(60px + env(safe-area-inset-top));
     padding-top: env(safe-area-inset-top);
   }
   .topbar-content {
