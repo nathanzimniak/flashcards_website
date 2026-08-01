@@ -15,7 +15,7 @@ Ouvrez ensuite `http://localhost:8000` dans votre navigateur.
 Une session contient uniquement les cartes arrivées à échéance. Après chaque
 réponse, les trois évaluations planifient la prochaine révision :
 
-- **Difficile** : dans 10 minutes ;
+- **Difficile** : dans 6 heures ;
 - **Moyen** : dans 1 jour, puis l'intervalle est doublé ;
 - **Facile** : dans 4 jours, puis l'intervalle est triplé.
 
